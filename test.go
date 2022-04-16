@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	db()
 	fmt.Println("hello world")
 	router := gin.Default()
 	router.GET("/ping", func(c *gin.Context) {
