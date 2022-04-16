@@ -13,10 +13,15 @@ func main() {
 			"message": "pong",
 		})
 	})
-	router.GET("/abc", getting)
+	router.GET("/abc", abc)
+	router.GET("/", index)
 	router.Run()
 }
 
-func getting(c *gin.Context) {
+func abc(c *gin.Context) {
 	c.String(200, "hello world")
+}
+
+func index(c *gin.Context) {
+	c.String(200, "你好")
 }
