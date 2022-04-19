@@ -1,3 +1,4 @@
 *.txt
 text/
 __debug*
+.vscode/

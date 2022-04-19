@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/huichen/sego"
 	"io/ioutil"
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -22,6 +23,26 @@ func main() {
 	chartext := strings.Split(string(f), "")
 	char := wordCount(chartext)
 	ioutil.WriteFile("../text/freqchar.txt", char, 0644)
+
+	f2, _ := ioutil.ReadFile("../text/booken.txt")
+	entext := splitWord(string(f2))
+
+	en := wordCount(entext)
+	ioutil.WriteFile("../text/freqen.txt", en, 0644)
+}
+
+func splitWord(text string) []string {
+	text = strings.ReplaceAll(text, "’", "'")
+	text = strings.ReplaceAll(text, "—", "-")
+	arr := regexp.MustCompile(`[^a-zA-Z'-]+`).Split(text, -1)
+	res := []string{}
+	for _, v := range arr {
+		if v != "" && !strings.ContainsAny(v, "'-ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+			res = append(res, v)
+		}
+	}
+
+	return res
 }
 
 func delChar(text []string) []string {
@@ -62,10 +83,11 @@ func wordCount(text []string) []byte {
 	acc := 0
 	for _, v := range a {
 		acc += v.Count
-		rate := float64(acc) / float64(total) * 100
+		// rate := float64(acc) / float64(total) * 100
 		//if v.Count >= 1 && rate <= 99 && line <= 20000 {
 		if line < 20000 {
-			res += fmt.Sprintf("%s %d %f\n", v.Word, v.Count, rate)
+			res += fmt.Sprintf("%s %d\n", v.Word, v.Count)
+			//  res += fmt.Sprintf("%s %d %f\n", v.Word, v.Count, rate)
 			line++
 		}
 	}
