@@ -20,15 +20,56 @@ func main() {
 	word := wordCount(delChar(wordtext))
 	ioutil.WriteFile("../text/freqword.txt", word, 0644)
 
-	chartext := strings.Split(string(f), "")
-	char := wordCount(chartext)
-	ioutil.WriteFile("../text/freqchar.txt", char, 0644)
+	charText := charCount(string(f))
+	charOut := sortChar(charText)
+	ioutil.WriteFile("../text/freqchar.txt", []byte(charOut), 0644)
 
 	f2, _ := ioutil.ReadFile("../text/booken.txt")
 	entext := splitWord(string(f2))
 
 	en := wordCount(entext)
 	ioutil.WriteFile("../text/freqen.txt", en, 0644)
+}
+
+func charCount(text string) map[rune]int {
+	wc := map[rune]int{}
+	for _, v := range text {
+		wc[v]++
+	}
+
+	f, _ := ioutil.ReadFile("../text/8105.txt")
+	keys := regexp.MustCompile(`[\r\n]`).ReplaceAllString(string(f), "")
+	for k := range wc {
+		if !strings.ContainsRune(keys, k) {
+			delete(wc, k)
+		}
+	}
+	return wc
+}
+
+func sortChar(wc map[rune]int) (res string) {
+	type WordCount struct {
+		Word  rune
+		Count int
+	}
+
+	ttl := 0
+	a := []WordCount{}
+	for k, v := range wc {
+		a = append(a, WordCount{k, v})
+		ttl += v
+	}
+	sort.Slice(a, func(i, j int) bool {
+		return a[i].Count > a[j].Count
+	})
+
+	acc := 0
+	for _, v := range a {
+		acc += v.Count
+		rate := float64(acc) / float64(ttl) * 100
+		res += fmt.Sprintf("%s\t%d\t%f\n", string(v.Word), v.Count, rate)
+	}
+	return
 }
 
 func splitWord(text string) []string {
@@ -41,7 +82,6 @@ func splitWord(text string) []string {
 			res = append(res, v)
 		}
 	}
-
 	return res
 }
 
@@ -83,11 +123,9 @@ func wordCount(text []string) []byte {
 	acc := 0
 	for _, v := range a {
 		acc += v.Count
-		// rate := float64(acc) / float64(total) * 100
-		//if v.Count >= 1 && rate <= 99 && line <= 20000 {
+		rate := float64(acc) / float64(total) * 100
 		if line < 20000 {
-			res += fmt.Sprintf("%s %d\n", v.Word, v.Count)
-			//  res += fmt.Sprintf("%s %d %f\n", v.Word, v.Count, rate)
+			res += fmt.Sprintf("%s %d %f\n", v.Word, v.Count, rate)
 			line++
 		}
 	}
