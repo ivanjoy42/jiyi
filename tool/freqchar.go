@@ -9,22 +9,80 @@ import (
 	"strings"
 )
 
+type WordCount struct {
+	Word   rune
+	Count  int
+	StdDev float64
+	Order  int
+}
+
 func freqChar() {
-	f, _ := ioutil.ReadFile("../text/zrx.txt")
-	
+	f, _ := ioutil.ReadFile("../text/fin.txt")
+
 	f2, _ := ioutil.ReadFile("../text/8105.txt")
 	standard := regexp.MustCompile(`[\r\n]`).ReplaceAllString(string(f2), "")
 
-	charText := charCount(string(f), standard)
-	charOut := sortChar(charText)
-	ioutil.WriteFile("../text/freqchar.txt", []byte(charOut), 0644)
-
-	d := dispersion(string(f), standard)
-	dOut := sortChar2(d)
-	ioutil.WriteFile("../text/freqchar2.txt", []byte(dOut), 0644)
+	data := []WordCount{}
+	xMain(data, string(f), standard)
 }
 
-func dispersion(text, standard string) map[rune]float64 {
+func xMain(data []WordCount, text, standard string) []WordCount {
+	wc := xCount(text)
+	wc = xFilter(wc, standard)
+	sd := xDispersion(text)
+	sd = xFilter(sd, standard)
+
+	for k, v := range wc {
+		data = append(data, WordCount{k, v, sd[k], 0})
+	}
+
+	data = xSort(data, 1)
+	for i := range data {
+		data[i].Order += i
+	}
+
+	data = xSort(data, 2)
+	for i := range data {
+		data[i].Order += i
+	}
+
+	data = xSort(data, 3)
+
+	xOut(data)
+
+	return data
+}
+
+func xOut(data []WordCount) {
+	res := ""
+	for _, v := range data {
+		res += fmt.Sprintf("%s\t%d\t%.0f\t%d\n", string(v.Word), v.Count, v.StdDev, v.Order)
+	}
+	ioutil.WriteFile("../text/freqchar.txt", []byte(res), 0644)
+}
+
+func xSort(data []WordCount, col int) []WordCount {
+	sort.Slice(data, func(i, j int) bool {
+		if col == 1 {
+			return data[i].Count > data[j].Count
+		} else if col == 2 {
+			return int(data[i].StdDev) < int(data[j].StdDev)
+		} else {
+			return int(data[i].Order) < int(data[j].Order)
+		}
+	})
+	return data
+}
+
+func xCount(text string) map[rune]int {
+	wc := map[rune]int{}
+	for _, v := range text {
+		wc[v]++
+	}
+	return wc
+}
+
+func xDispersion(text string) map[rune]float64 {
 	last := map[rune]int{}
 	pos := map[rune][]float64{}
 	cnt := map[rune]int{}
@@ -45,78 +103,14 @@ func dispersion(text, standard string) map[rune]float64 {
 	for k, v := range pos {
 		res[k] = stat.StdDev(v, nil)
 	}
-
-	for k := range res {
-		if !strings.ContainsRune(standard, k) {
-			delete(res, k)
-		}
-	}
-
 	return res
 }
 
-func charCount(text, standard string) map[rune]int {
-	wc := map[rune]int{}
-	for _, v := range text {
-		wc[v]++
-	}
-
+func xFilter[T any](wc map[rune]T, standard string) map[rune]T {
 	for k := range wc {
 		if !strings.ContainsRune(standard, k) {
 			delete(wc, k)
 		}
 	}
 	return wc
-}
-
-func sortChar(wc map[rune]int) (res string) {
-	type WordCount struct {
-		Word  rune
-		Count int
-	}
-
-	ttl := 0
-	a := []WordCount{}
-	for k, v := range wc {
-		a = append(a, WordCount{k, v})
-		ttl += v
-	}
-	sort.Slice(a, func(i, j int) bool {
-		return a[i].Count > a[j].Count
-	})
-
-	acc := 0
-	for _, v := range a {
-		acc += v.Count
-		// rate := float64(acc) / float64(ttl) * 100
-		res += fmt.Sprintf("%s\t%d\n", string(v.Word), v.Count)
-		// res += fmt.Sprintf("%s\t%d\t%f\n", string(v.Word), v.Count, rate)
-	}
-	return
-}
-
-func sortChar2(wc map[rune]float64) (res string) {
-	type WordCount struct {
-		Word  rune
-		Count float64
-	}
-
-	ttl := 0.0
-	a := []WordCount{}
-	for k, v := range wc {
-		a = append(a, WordCount{k, v})
-		ttl += v
-	}
-	sort.Slice(a, func(i, j int) bool {
-		return a[i].Count < a[j].Count
-	})
-
-	acc := 0.0
-	for _, v := range a {
-		acc += v.Count
-		// rate := float64(acc) / float64(ttl) * 100
-		res += fmt.Sprintf("%s\t%f\n", string(v.Word), v.Count)
-		// res += fmt.Sprintf("%s\t%f\t%f\n", string(v.Word), v.Count, rate)
-	}
-	return
 }
