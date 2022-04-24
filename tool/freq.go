@@ -2,91 +2,39 @@ package main
 
 import (
 	"fmt"
-	// "github.com/huichen/sego"
-	// "io/ioutil"
-	"regexp"
-	"sort"
-	"strings"
+	"io/ioutil"
 )
 
+type WordCount struct {
+	Word   string
+	Count  int
+	StdDev float64
+	Order  int
+}
+
 func main() {
-	freqChar()
+	f, _ := ioutil.ReadFile("../text/book.txt")
+	freqChar(f)
+	freqWord(f)
 
-	/*
-		f, _ := ioutil.ReadFile("../text/book.txt")
-
-		var segmenter sego.Segmenter
-		segmenter.LoadDictionary("../text/dict.txt")
-
-		se := segmenter.Segment(f)
-		wordtext := sego.SegmentsToSlice(se, false)
-		word := wordCount(delChar(wordtext))
-		ioutil.WriteFile("../text/freqword.txt", word, 0644)
-
-		f2, _ := ioutil.ReadFile("../text/booken.txt")
-		entext := splitWord(string(f2))
-
-		en := wordCount(entext)
-		ioutil.WriteFile("../text/freqen.txt", en, 0644)
-	*/
+	f2, _ := ioutil.ReadFile("../text/booken.txt")
+	freqEnglish(f2)
 }
 
-func splitWord(text string) []string {
-	text = strings.ReplaceAll(text, "’", "'")
-	text = strings.ReplaceAll(text, "—", "-")
-	arr := regexp.MustCompile(`[^a-zA-Z'-]+`).Split(text, -1)
-	res := []string{}
-	for _, v := range arr {
-		if v != "" && !strings.ContainsAny(v, "'-ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
-			res = append(res, v)
-		}
+func output(data []WordCount, fileName string) {
+	ttl := 0
+	for _, v := range data {
+		ttl += v.Count
 	}
-	return res
-}
 
-func delChar(text []string) []string {
-	res := []string{}
-	for _, v := range text {
-		if len(v) >= 6 {
-			res = append(res, v)
-		}
-	}
-	return res
-}
-
-func wordCount(text []string) []byte {
 	res := ""
-	total := 0
-	wc := map[string]int{}
-	for _, v := range text {
-		if v != "\r" && v != "\n" {
-			wc[v]++
-			total++
-		}
-	}
-
-	type WordCount struct {
-		Word  string
-		Count int
-	}
-
-	a := []WordCount{}
-	for k, v := range wc {
-		a = append(a, WordCount{k, v})
-	}
-	sort.Slice(a, func(i, j int) bool {
-		return a[i].Count > a[j].Count
-	})
-
-	line := 0
 	acc := 0
-	for _, v := range a {
+	for i, v := range data {
 		acc += v.Count
-		rate := float64(acc) / float64(total) * 100
-		if line < 20000 {
-			res += fmt.Sprintf("%s %d %f\n", v.Word, v.Count, rate)
-			line++
+		rate := float64(acc) / float64(ttl) * 100
+		if i < 20000 {
+			res += fmt.Sprintf("%s\t%d\t%.2f%%\t%.0f\n", v.Word, v.Count, rate, v.StdDev)
 		}
 	}
-	return []byte(res)
+	ioutil.WriteFile(fileName, []byte(res), 0644)
 }

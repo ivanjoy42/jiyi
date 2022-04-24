@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"gonum.org/v1/gonum/stat"
 	"io/ioutil"
 	"regexp"
@@ -9,59 +8,39 @@ import (
 	"strings"
 )
 
-type WordCount struct {
-	Word   rune
-	Count  int
-	StdDev float64
-	Order  int
-}
-
-func freqChar() {
-	f, _ := ioutil.ReadFile("../text/fin.txt")
-
+func freqChar(f []byte) {
 	f2, _ := ioutil.ReadFile("../text/8105.txt")
 	standard := regexp.MustCompile(`[\r\n]`).ReplaceAllString(string(f2), "")
-
 	data := []WordCount{}
-	xMain(data, string(f), standard)
-}
-
-func xMain(data []WordCount, text, standard string) []WordCount {
+	text := string(f)
 	wc := xCount(text)
-	wc = xFilter(wc, standard)
-	sd := xDispersion(text)
-	sd = xFilter(sd, standard)
+	wc = filter(wc, standard)
+	sd := dispersion(text)
+	sd = filter(sd, standard)
 
 	for k, v := range wc {
-		data = append(data, WordCount{k, v, sd[k], 0})
+		data = append(data, WordCount{string(k), v, sd[k], 0})
 	}
+	data = combine(data)
+	output(data, "../text/freqChar.txt")
+}
 
-	data = xSort(data, 1)
+func combine(data []WordCount) []WordCount {
+	data = sortWord(data, 1)
 	for i := range data {
 		data[i].Order += i
 	}
 
-	data = xSort(data, 2)
+	data = sortWord(data, 2)
 	for i := range data {
 		data[i].Order += i
 	}
 
-	data = xSort(data, 3)
-
-	xOut(data)
-
+	data = sortWord(data, 3)
 	return data
 }
 
-func xOut(data []WordCount) {
-	res := ""
-	for _, v := range data {
-		res += fmt.Sprintf("%s\t%d\t%.0f\t%d\n", string(v.Word), v.Count, v.StdDev, v.Order)
-	}
-	ioutil.WriteFile("../text/freqchar.txt", []byte(res), 0644)
-}
-
-func xSort(data []WordCount, col int) []WordCount {
+func sortWord(data []WordCount, col int) []WordCount {
 	sort.Slice(data, func(i, j int) bool {
 		if col == 1 {
 			return data[i].Count > data[j].Count
@@ -82,7 +61,7 @@ func xCount(text string) map[rune]int {
 	return wc
 }
 
-func xDispersion(text string) map[rune]float64 {
+func dispersion(text string) map[rune]float64 {
 	last := map[rune]int{}
 	pos := map[rune][]float64{}
 	cnt := map[rune]int{}
@@ -106,7 +85,7 @@ func xDispersion(text string) map[rune]float64 {
 	return res
 }
 
-func xFilter[T any](wc map[rune]T, standard string) map[rune]T {
+func filter[T any](wc map[rune]T, standard string) map[rune]T {
 	for k := range wc {
 		if !strings.ContainsRune(standard, k) {
 			delete(wc, k)
