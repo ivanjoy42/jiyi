@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"regexp"
+	"sort"
 )
 
 type WordCount struct {
@@ -13,9 +15,12 @@ type WordCount struct {
 }
 
 func main() {
-	f, _ := ioutil.ReadFile("../text/book.txt")
-	freqChar(f)
-	freqWord(f)
+	f, _ := ioutil.ReadFile("../text/8105.txt")
+	std := regexp.MustCompile(`[\r\n]`).ReplaceAllString(string(f), "")
+
+	f1, _ := ioutil.ReadFile("../text/book.txt")
+	freqChar(f1, std)
+	freqWord(f1, std)
 
 	f2, _ := ioutil.ReadFile("../text/booken.txt")
 	freqEnglish(f2)
@@ -37,4 +42,17 @@ func output(data []WordCount, fileName string) {
 		}
 	}
 	ioutil.WriteFile(fileName, []byte(res), 0644)
+}
+
+func sortWord(data []WordCount, col int) []WordCount {
+	sort.Slice(data, func(i, j int) bool {
+		if col == 1 {
+			return data[i].Count > data[j].Count
+		} else if col == 2 {
+			return int(data[i].StdDev) < int(data[j].StdDev)
+		} else {
+			return int(data[i].Order) < int(data[j].Order)
+		}
+	})
+	return data
 }

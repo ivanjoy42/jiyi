@@ -7,7 +7,13 @@ import (
 
 func freqEnglish(f []byte) {
 	text := splitWord(string(f))
-	data := wordCount(text)
+	wc := wordCount(text)
+	data := []WordCount{}
+	for k, v := range wc {
+		data = append(data, WordCount{k, v, 0, 0})
+	}
+	data = sortWord(data, 1)
+
 	output(data, "../text/freqEnglish.txt")
 }
 
