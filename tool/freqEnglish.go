@@ -7,7 +7,7 @@ import (
 
 func freqEnglish(f []byte) {
 	text := splitWord(string(f))
-	wc := wordCount(text)
+	wc := count(text)
 	data := []WordCount{}
 	for k, v := range wc {
 		data = append(data, WordCount{k, v, 0, 0})

@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"regexp"
 	"sort"
+	"strings"
 )
 
 type WordCount struct {
@@ -55,4 +56,21 @@ func sortWord(data []WordCount, col int) []WordCount {
 		}
 	})
 	return data
+}
+
+func count[S rune | string](text []S) map[S]int {
+	wc := map[S]int{}
+	for _, v := range text {
+		wc[v]++
+	}
+	return wc
+}
+
+func filter[N any, S rune | string](wc map[S]N, std string) map[S]N {
+	for k := range wc {
+		if !strings.ContainsAny(string(k), std) {
+			delete(wc, k)
+		}
+	}
+	return wc
 }

@@ -2,19 +2,18 @@ package main
 
 import (
 	"gonum.org/v1/gonum/stat"
-	"strings"
 )
 
 func freqChar(f []byte, std string) {
-	data := []WordCount{}
-	text := string(f)
+	text := []rune(string(f))
 
 	wc := count(text)
-	wc = charFilter(wc, std)
+	wc = filter(wc, std)
 
 	sd := dispersion(text)
-	sd = charFilter(sd, std)
+	sd = filter(sd, std)
 
+	data := []WordCount{}
 	for k, v := range wc {
 		data = append(data, WordCount{string(k), v, sd[k], 0})
 	}
@@ -37,21 +36,12 @@ func combine(data []WordCount) []WordCount {
 	return data
 }
 
-func count(text string) map[string]int {
-	wc := map[string]int{}
-	for _, v := range text {
-		wc[string(v)]++
-	}
-	return wc
-}
+func dispersion(text []rune) map[rune]float64 {
+	last := map[rune]int{}
+	pos := map[rune][]float64{}
+	cnt := map[rune]int{}
 
-func dispersion(text string) map[string]float64 {
-	last := map[string]int{}
-	pos := map[string][]float64{}
-	cnt := map[string]int{}
-
-	for p, val := range text {
-		v := string(val)
+	for p, v := range text {
 		pos[v] = append(pos[v], float64(p-last[v]))
 		last[v] = p
 		cnt[v]++
@@ -63,19 +53,9 @@ func dispersion(text string) map[string]float64 {
 		pos[k] = append(pos[k], float64(ttl/(cnt[k])))
 	}
 
-	res := map[string]float64{}
+	res := map[rune]float64{}
 	for k, v := range pos {
 		res[k] = stat.StdDev(v, nil)
 	}
 	return res
-}
-
-func charFilter[T any](wc map[string]T, std string) map[string]T {
-	for k := range wc {
-		if !strings.ContainsAny(string(k), std) {
-			// if !strings.ContainsRune(std, k) {
-			delete(wc, k)
-		}
-	}
-	return wc
 }

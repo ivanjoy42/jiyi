@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/huichen/sego"
-	"strings"
 )
 
 func freqWord(f []byte, std string) {
@@ -10,10 +9,11 @@ func freqWord(f []byte, std string) {
 	segmenter.LoadDictionary("../text/dict.txt")
 	se := segmenter.Segment(f)
 	sego.SegmentsToSlice(se, false)
-	wordtext := sego.SegmentsToSlice(se, false)
-	wordtext = delChar(wordtext)
-	wc := wordCount(wordtext)
-	wc = wordFilter(wc, std)
+	text := sego.SegmentsToSlice(se, false)
+
+	text = delChar(text)
+	wc := count(text)
+	wc = filter(wc, std)
 
 	data := []WordCount{}
 	for k, v := range wc {
@@ -21,14 +21,6 @@ func freqWord(f []byte, std string) {
 	}
 	data = sortWord(data, 1)
 	output(data, "../text/freqWord.txt")
-}
-
-func wordCount(text []string) map[string]int {
-	wc := map[string]int{}
-	for _, v := range text {
-		wc[v]++
-	}
-	return wc
 }
 
 func delChar(text []string) []string {
@@ -39,13 +31,4 @@ func delChar(text []string) []string {
 		}
 	}
 	return res
-}
-
-func wordFilter(wc map[string]int, std string) map[string]int {
-	for k := range wc {
-		if !strings.ContainsAny(string(k), std) {
-			delete(wc, k)
-		}
-	}
-	return wc
 }
