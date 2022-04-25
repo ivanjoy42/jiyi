@@ -38,7 +38,7 @@ func output(data []WordCount, fileName string) {
 	for i, v := range data {
 		acc += v.Count
 		rate := float64(acc) / float64(ttl) * 100
-		if i < 20000 {
+		if v.Count > 5 && i < 20000 {
 			res += fmt.Sprintf("%s\t%d\t%.2f%%\t%.0f\n", v.Word, v.Count, rate, v.StdDev)
 		}
 	}
