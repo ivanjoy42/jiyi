@@ -2,16 +2,17 @@ package main
 
 import (
 	"gonum.org/v1/gonum/stat"
+	"strings"
 )
 
 func freqChar(f, std []byte) {
 	text := []rune(string(f))
-
 	wc := count(text)
-	wc = filter(wc, std)
+	standard := []rune(strings.ReplaceAll(string(std), "\n", ""))
+	wc = filter(wc, standard)
 
 	sd := dispersion(text)
-	sd = filter(sd, std)
+	sd = filter(sd, standard)
 
 	data := []WordCount{}
 	for k, v := range wc {

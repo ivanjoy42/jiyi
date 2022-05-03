@@ -8,7 +8,8 @@ import (
 func freqEnglish(f, std []byte) {
 	text := splitWord(string(f))
 	wc := count(text)
-	wc = filterEn(wc, std)
+	standard := strings.Split(string(std), "\n")
+	wc = filter(wc, standard)
 
 	data := []WordCount{}
 	for k, v := range wc {

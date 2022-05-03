@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/huichen/sego"
+	"strings"
 )
 
 func freqWord(f, std []byte) {
@@ -9,11 +10,11 @@ func freqWord(f, std []byte) {
 	segmenter.LoadDictionary("../text/dict.txt")
 	se := segmenter.Segment(f)
 	sego.SegmentsToSlice(se, false)
-	text := sego.SegmentsToSlice(se, false)
 
-	text = delChar(text)
+	text := sego.SegmentsToSlice(se, false)
 	wc := count(text)
-	wc = filter(wc, std)
+	standard := strings.Split(string(std), "\n")
+	wc = filter(wc, standard)
 
 	data := []WordCount{}
 	for k, v := range wc {
@@ -21,14 +22,4 @@ func freqWord(f, std []byte) {
 	}
 	data = sortWord(data, 1)
 	output(data, "../text/freqWord.txt")
-}
-
-func delChar(text []string) []string {
-	res := []string{}
-	for _, v := range text {
-		if len(v) >= 6 {
-			res = append(res, v)
-		}
-	}
-	return res
 }

@@ -3,9 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"regexp"
 	"sort"
-	"strings"
 )
 
 type WordCount struct {
@@ -17,13 +15,15 @@ type WordCount struct {
 
 func main() {
 	bookCn, _ := ioutil.ReadFile("../text/book.txt")
-	stdCn, _ := ioutil.ReadFile("../text/8105.txt")
-	freqChar(bookCn, stdCn)
-	freqWord(bookCn, stdCn)
+	stdChar, _ := ioutil.ReadFile("../text/8105.txt")
+	freqChar(bookCn, stdChar)
+
+	stdWord, _ := ioutil.ReadFile("../text/13436.txt")
+	freqWord(bookCn, stdWord)
 
 	bookEn, _ := ioutil.ReadFile("../text/booken.txt")
-	stdEn, _ := ioutil.ReadFile("../text/17634.txt")
-	freqEnglish(bookEn, stdEn)
+	stdEnglish, _ := ioutil.ReadFile("../text/17634.txt")
+	freqEnglish(bookEn, stdEnglish)
 }
 
 func output(data []WordCount, fileName string) {
@@ -65,21 +65,9 @@ func count[S rune | string](text []S) map[S]int {
 	return wc
 }
 
-func filter[N any, S rune | string](wc map[S]N, std []byte) map[S]N {
-	stander := regexp.MustCompile(`[\r\n]`).ReplaceAllString(string(std), "")
-
-	for k := range wc {
-		if !strings.ContainsAny(string(k), stander) {
-			delete(wc, k)
-		}
-	}
-	return wc
-}
-
-func filterEn(wc map[string]int, std []byte) map[string]int {
-	stander := regexp.MustCompile(`[\r\n]`).Split(string(std), -1)
-	intersect := map[string]int{}
-	for _, v := range stander {
+func filter[N int | float64, S rune | string](wc map[S]N, std []S) map[S]N {
+	intersect := map[S]int{}
+	for _, v := range std {
 		intersect[v]++
 	}
 	for k := range wc {
