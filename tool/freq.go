@@ -16,15 +16,14 @@ type WordCount struct {
 }
 
 func main() {
-	f, _ := ioutil.ReadFile("../text/8105.txt")
-	std := regexp.MustCompile(`[\r\n]`).ReplaceAllString(string(f), "")
+	bookCn, _ := ioutil.ReadFile("../text/book.txt")
+	stdCn, _ := ioutil.ReadFile("../text/8105.txt")
+	freqChar(bookCn, stdCn)
+	freqWord(bookCn, stdCn)
 
-	f1, _ := ioutil.ReadFile("../text/book.txt")
-	freqChar(f1, std)
-	freqWord(f1, std)
-
-	f2, _ := ioutil.ReadFile("../text/booken.txt")
-	freqEnglish(f2)
+	bookEn, _ := ioutil.ReadFile("../text/booken.txt")
+	stdEn, _ := ioutil.ReadFile("../text/17634.txt")
+	freqEnglish(bookEn, stdEn)
 }
 
 func output(data []WordCount, fileName string) {
@@ -66,9 +65,28 @@ func count[S rune | string](text []S) map[S]int {
 	return wc
 }
 
-func filter[N any, S rune | string](wc map[S]N, std string) map[S]N {
+func filter[N any, S rune | string](wc map[S]N, std []byte) map[S]N {
+	stander := regexp.MustCompile(`[\r\n]`).ReplaceAllString(string(std), "")
+
 	for k := range wc {
-		if !strings.ContainsAny(string(k), std) {
+		if !strings.ContainsAny(string(k), stander) {
+			delete(wc, k)
+		}
+	}
+	return wc
+}
+
+func filterEn(wc map[string]int, std []byte) map[string]int {
+	stander := regexp.MustCompile(`[\r\n]`).Split(string(std), -1)
+	intersect := map[string]int{}
+	for _, v := range stander {
+		intersect[v]++
+	}
+	for k := range wc {
+		intersect[k]++
+	}
+	for k, v := range intersect {
+		if v != 2 {
 			delete(wc, k)
 		}
 	}

@@ -5,9 +5,11 @@ import (
 	"strings"
 )
 
-func freqEnglish(f []byte) {
+func freqEnglish(f, std []byte) {
 	text := splitWord(string(f))
 	wc := count(text)
+	wc = filterEn(wc, std)
+
 	data := []WordCount{}
 	for k, v := range wc {
 		data = append(data, WordCount{k, v, 0, 0})

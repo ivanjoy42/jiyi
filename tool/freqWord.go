@@ -4,7 +4,7 @@ import (
 	"github.com/huichen/sego"
 )
 
-func freqWord(f []byte, std string) {
+func freqWord(f, std []byte) {
 	var segmenter sego.Segmenter
 	segmenter.LoadDictionary("../text/dict.txt")
 	se := segmenter.Segment(f)

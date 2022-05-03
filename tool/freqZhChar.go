@@ -4,7 +4,7 @@ import (
 	"gonum.org/v1/gonum/stat"
 )
 
-func freqChar(f []byte, std string) {
+func freqChar(f, std []byte) {
 	text := []rune(string(f))
 
 	wc := count(text)
