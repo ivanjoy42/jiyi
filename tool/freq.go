@@ -22,7 +22,7 @@ func main() {
 	freqWord(bookCn, stdWord)
 
 	bookEn, _ := ioutil.ReadFile("../text/booken.txt")
-	stdEnglish, _ := ioutil.ReadFile("../text/17634.txt")
+	stdEnglish, _ := ioutil.ReadFile("../text/20000.txt")
 	freqEnglish(bookEn, stdEnglish)
 }
 
@@ -37,7 +37,7 @@ func output(data []WordCount, fileName string) {
 	for i, v := range data {
 		acc += v.Count
 		rate := float64(acc) / float64(ttl) * 100
-		if v.Count > 5 && i < 20000 {
+		if v.Count >= 5 && i < 20000 {
 			res += fmt.Sprintf("%s\t%d\t%.2f%%\t%.0f\n", v.Word, v.Count, rate, v.StdDev)
 		}
 	}

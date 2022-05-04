@@ -1,12 +1,17 @@
 package main
 
 import (
+	"io/ioutil"
 	"regexp"
 	"strings"
 )
 
 func freqEnglish(f, std []byte) {
 	text := splitWord(string(f))
+
+	lemma, _ := ioutil.ReadFile("../text/lemmatization.txt")
+	text = lemmatize(text, lemma)
+
 	wc := count(text)
 	standard := strings.Split(string(std), "\n")
 	wc = filter(wc, standard)
@@ -18,6 +23,21 @@ func freqEnglish(f, std []byte) {
 	data = sortWord(data, 1)
 
 	output(data, "../text/freqEnglish.txt")
+}
+
+func lemmatize(text []string, f []byte) []string {
+	arr := strings.Split(string(f), "\n")
+	lemma := map[string]string{}
+	for _, v := range arr {
+		tmp := strings.Split(v, "\t")
+		lemma[tmp[1]] = tmp[0]
+	}
+	for i, v := range text {
+		if _, ok := lemma[v]; ok {
+			text[i] = lemma[v]
+		}
+	}
+	return text
 }
 
 func splitWord(text string) []string {
