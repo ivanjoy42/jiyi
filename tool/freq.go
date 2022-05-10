@@ -74,7 +74,7 @@ func filter[N int | float64, S rune | string](wc map[S]N, std []S) map[S]N {
 		intersect[k]++
 	}
 	for k, v := range intersect {
-		if v != 2 {
+		if v < 2 {
 			delete(wc, k)
 		}
 	}
