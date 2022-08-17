@@ -1,23 +1,25 @@
 package main
 
 import (
+	"io/ioutil"
 	"regexp"
 	"strings"
 )
 
-func freqEnglish(f, std []byte) (wf []WordFreq) {
+func freqEnglish(f, scope []byte) (wf []WordFreq) {
+	lemma, _ := ioutil.ReadFile(lemmaFile)
 	text := splitWord(string(f))
-
 	text = lemmatize(text, lemma)
 
 	wc := count(text)
-	standard := strings.Split(string(std), "\n")
+	standard := strings.Split(string(scope), "\n")
 	wc = filter(wc, standard)
 
 	for k, v := range wc {
 		wf = append(wf, WordFreq{k, v, 0, 0, 0, 0})
 	}
 	wf = rank(wf)
+	wf = freq(wf)
 
 	return wf
 }

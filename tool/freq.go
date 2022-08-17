@@ -18,15 +18,14 @@ type WordFreq struct {
 }
 
 const (
-	textPath = "../text/"
+	textPath  = "../text/"
+	lemmaFile = textPath + "lemmatization.txt"
 )
 
-var lemma, _ = ioutil.ReadFile(textPath + "lemmatization.txt")
 var segmenter sego.Segmenter
 
 func main() {
 	batch("cn", "freqChar")
-	segmenter.LoadDictionary(textPath + "segment.txt")
 	batch("cn", "freqWord")
 	batch("en", "freqEnglish")
 }
@@ -40,27 +39,35 @@ func loadScope() map[string][]byte {
 }
 
 func batch(bookPath, proc string) {
+	if proc == "freqWord" {
+		segmenter.LoadDictionary(textPath + "segment.txt")
+	}
 	scope := loadScope()
 	bookPath = textPath + bookPath + "/"
 	files, _ := ioutil.ReadDir(bookPath)
+	call := map[string]func(f, scope []byte) []WordFreq{"freqChar": freqChar, "freqWord": freqWord, "freqEnglish": freqEnglish}
 
-	call := map[string]func(a, b []byte) []WordFreq{"freqChar": freqChar, "freqWord": freqWord, "freqEnglish": freqEnglish}
-
+	countMap := map[string]int{}
+	freqMap := map[string]float64{}
 	scoreMap := map[string]float64{}
 	for i, file := range files {
 		println(proc, i, file.Name())
 		book, _ := ioutil.ReadFile(bookPath + file.Name())
-
 		wf := call[proc](book, scope[proc])
 
 		for _, v := range wf {
+			countMap[v.Word] += v.Count
+			freqMap[v.Word] += v.Freq
 			scoreMap[v.Word] += v.Score
 		}
 	}
 
+	ttl := len(files)
 	score := []WordFreq{}
 	for k, v := range scoreMap {
-		score = append(score, WordFreq{k, 0, 0, 0, 0, v})
+		count := countMap[k]
+		freq := freqMap[k] / float64(ttl)
+		score = append(score, WordFreq{k, count, freq, 0, 0, v})
 	}
 	score = sortWord(score, 5, "desc")
 
@@ -134,4 +141,36 @@ func filter[N int | float64, S rune | string](wc map[S]N, std []S) map[S]N {
 		}
 	}
 	return wc
+}
+
+func rank(wf []WordFreq) []WordFreq {
+	wf = sortWord(wf, 1, "desc")
+	last := 0
+	for i := range wf {
+		if i > 0 && wf[i].Count == wf[i-1].Count {
+			wf[i].Rank = last
+		} else {
+			wf[i].Rank = i
+			last = i
+		}
+	}
+
+	for i := range wf {
+		wf[i].Score = 1 - float64(wf[i].Rank)/float64(last+1)
+	}
+
+	wf = sortWord(wf, 4, "asc")
+	return wf
+}
+
+func freq(wf []WordFreq) []WordFreq {
+	ttl := 0
+	for _, v := range wf {
+		ttl += v.Count
+	}
+
+	for i, v := range wf {
+		wf[i].Freq = float64(v.Count) / float64(ttl)
+	}
+	return wf
 }

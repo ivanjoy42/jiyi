@@ -6,11 +6,11 @@ import (
 	"gonum.org/v1/gonum/stat"
 )
 
-func freqChar(f, std []byte) (wf []WordFreq) {
+func freqChar(f, scope []byte) (wf []WordFreq) {
 	text := []rune(string(f))
 
 	wc := count(text)
-	standard := []rune(strings.ReplaceAll(string(std), "\n", ""))
+	standard := []rune(strings.ReplaceAll(string(scope), "\n", ""))
 	wc = filter(wc, standard)
 
 	sd := dispersion(text)
@@ -22,38 +22,6 @@ func freqChar(f, std []byte) (wf []WordFreq) {
 	wf = rank(wf)
 	wf = freq(wf)
 
-	return wf
-}
-
-func freq(wf []WordFreq) []WordFreq {
-	ttl := 0
-	for _, v := range wf {
-		ttl += v.Count
-	}
-
-	for i, v := range wf {
-		wf[i].Freq = float64(v.Count) / float64(ttl)
-	}
-	return wf
-}
-
-func rank(wf []WordFreq) []WordFreq {
-	wf = sortWord(wf, 1, "desc")
-	last := 0
-	for i := range wf {
-		if i > 0 && wf[i].Count == wf[i-1].Count {
-			wf[i].Rank = last
-		} else {
-			wf[i].Rank = i
-			last = i
-		}
-	}
-
-	for i := range wf {
-		wf[i].Score = 1 - float64(wf[i].Rank)/float64(last+1)
-	}
-
-	wf = sortWord(wf, 4, "asc")
 	return wf
 }
 
