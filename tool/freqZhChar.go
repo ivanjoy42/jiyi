@@ -78,7 +78,7 @@ func dispersion(text []rune) map[rune]float64 {
 	ttl := len(text)
 	for k := range pos {
 		pos[k] = append(pos[k], float64(ttl-last[k]))
-		pos[k] = append(pos[k], float64(ttl/(cnt[k])))
+		pos[k] = append(pos[k], float64(ttl/cnt[k]))
 	}
 
 	res := map[rune]float64{}
