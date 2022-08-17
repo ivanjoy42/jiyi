@@ -4,57 +4,113 @@ import (
 	"fmt"
 	"io/ioutil"
 	"sort"
+
+	"github.com/huichen/sego"
 )
 
-type WordCount struct {
-	Word   string
-	Count  int
-	StdDev float64
-	Order  int
+type WordFreq struct {
+	Word     string
+	Count    int
+	Freq     float64
+	Disperse float64
+	Rank     int
+	Score    float64
 }
+
+const (
+	textDir = "../text/"
+)
 
 func main() {
-	bookCn, _ := ioutil.ReadFile("../text/book.txt")
-	stdChar, _ := ioutil.ReadFile("../text/8105.txt")
-	freqChar(bookCn, stdChar)
+	std := loadStd()
 
-	stdWord, _ := ioutil.ReadFile("../text/13436.txt")
-	freqWord(bookCn, stdWord)
-
-	bookEn, _ := ioutil.ReadFile("../text/booken.txt")
-	stdEnglish, _ := ioutil.ReadFile("../text/20000.txt")
-	freqEnglish(bookEn, stdEnglish)
+	batch(std, "char")
+	batch(std, "word")
+	batch(std, "english")
 }
 
-func output(data []WordCount, fileName string) {
-	ttl := 0
-	for _, v := range data {
-		ttl += v.Count
+func loadStd() map[string][]byte {
+	std := map[string][]byte{}
+	std["char"], _ = ioutil.ReadFile(textDir + "8105.txt")
+	std["word"], _ = ioutil.ReadFile(textDir + "13436.txt")
+	std["english"], _ = ioutil.ReadFile(textDir + "20000.txt")
+	return std
+}
+
+func batch(std map[string][]byte, stdType string) {
+	stdDir := textDir + stdType + "/"
+	files, _ := ioutil.ReadDir(stdDir)
+
+	var segmenter sego.Segmenter
+	if stdType == "word" {
+		segmenter.LoadDictionary(textDir + "dict.txt")
 	}
 
-	res := ""
-	acc := 0
-	for i, v := range data {
-		acc += v.Count
-		rate := float64(acc) / float64(ttl) * 100
-		if v.Count >= 0 && i < 20000 {
-			res += fmt.Sprintf("%s\t%d\t%.2f%%\t%.0f\n", v.Word, v.Count, rate, v.StdDev)
+	scoreMap := map[string]float64{}
+	for i, file := range files {
+		println(stdType, i, file.Name())
+		bookCn, _ := ioutil.ReadFile(stdDir + file.Name())
+
+		wf := []WordFreq{}
+		if stdType == "char" {
+			wf = freqChar(bookCn, std[stdType])
+		} else if stdType == "word" {
+			wf = freqWord(bookCn, std[stdType], segmenter)
+		} else if stdType == "english" {
+			wf = freqEnglish(bookCn, std[stdType])
 		}
+
+		for _, v := range wf {
+			scoreMap[v.Word] += v.Score
+		}
+	}
+
+	score := []WordFreq{}
+	for k, v := range scoreMap {
+		score = append(score, WordFreq{k, 0, 0, 0, 0, v})
+	}
+	score = sortWord(score, 4, "desc")
+
+	output(score, textDir+"freq"+stdType+".txt")
+}
+
+func output(wf []WordFreq, fileName string) {
+	res := ""
+	for _, v := range wf {
+		res += fmt.Sprintf("%s\t%d\t%f\t%f\t%d\t%f\n", v.Word, v.Count, v.Freq, v.Disperse, v.Rank, v.Score)
 	}
 	ioutil.WriteFile(fileName, []byte(res), 0644)
 }
 
-func sortWord(data []WordCount, col int) []WordCount {
-	sort.Slice(data, func(i, j int) bool {
+func sortWord(wf []WordFreq, col int, order string) []WordFreq {
+	sort.Slice(wf, func(i, j int) bool {
 		if col == 1 {
-			return data[i].Count > data[j].Count
+			if order == "desc" {
+				return wf[i].Count > wf[j].Count
+			} else {
+				return wf[i].Count < wf[j].Count
+			}
 		} else if col == 2 {
-			return int(data[i].StdDev) < int(data[j].StdDev)
+			if order == "desc" {
+				return wf[i].Disperse > wf[j].Disperse
+			} else {
+				return wf[i].Disperse < wf[j].Disperse
+			}
+		} else if col == 3 {
+			if order == "desc" {
+				return wf[i].Rank > wf[j].Rank
+			} else {
+				return wf[i].Rank < wf[j].Rank
+			}
 		} else {
-			return int(data[i].Order) < int(data[j].Order)
+			if order == "desc" {
+				return wf[i].Score > wf[j].Score
+			} else {
+				return wf[i].Score < wf[j].Score
+			}
 		}
 	})
-	return data
+	return wf
 }
 
 func count[S rune | string](text []S) map[S]int {

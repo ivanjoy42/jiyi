@@ -1,12 +1,14 @@
 package main
 
 import (
-	"gonum.org/v1/gonum/stat"
 	"strings"
+
+	"gonum.org/v1/gonum/stat"
 )
 
-func freqChar(f, std []byte) {
+func freqChar(f, std []byte) (wf []WordFreq) {
 	text := []rune(string(f))
+
 	wc := count(text)
 	standard := []rune(strings.ReplaceAll(string(std), "\n", ""))
 	wc = filter(wc, standard)
@@ -14,27 +16,52 @@ func freqChar(f, std []byte) {
 	sd := dispersion(text)
 	sd = filter(sd, standard)
 
-	data := []WordCount{}
 	for k, v := range wc {
-		data = append(data, WordCount{string(k), v, sd[k], 0})
+		wf = append(wf, WordFreq{string(k), v, 0, sd[k], 0, 0})
 	}
-	data = combine(data)
-	output(data, "../text/freqChar.txt")
+	wf = rank(wf)
+	wf = freq(wf)
+
+	return wf
 }
 
-func combine(data []WordCount) []WordCount {
-	data = sortWord(data, 1)
-	for i := range data {
-		data[i].Order += i
+func freq(wf []WordFreq) []WordFreq {
+	ttl := 0
+	for _, v := range wf {
+		ttl += v.Count
 	}
 
-	data = sortWord(data, 2)
-	for i := range data {
-		data[i].Order += i
+	for i, v := range wf {
+		wf[i].Freq = float64(v.Count) / float64(ttl)
+	}
+	return wf
+}
+
+func rank(wf []WordFreq) []WordFreq {
+	wf = sortWord(wf, 1, "desc")
+	last := 0
+	for i := range wf {
+		if i > 0 && wf[i].Count == wf[i-1].Count {
+			wf[i].Rank = last
+		} else {
+			wf[i].Rank = i
+			last = i
+		}
 	}
 
-	data = sortWord(data, 3)
-	return data
+	for i := range wf {
+		wf[i].Score = 1 - float64(wf[i].Rank)/float64(last+1)
+	}
+
+	/*
+		wf = sortWord(wf, 2)
+		for i := range wf {
+			wf[i].Order += i
+		}
+	*/
+
+	wf = sortWord(wf, 3, "asc")
+	return wf
 }
 
 func dispersion(text []rune) map[rune]float64 {

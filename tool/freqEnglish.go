@@ -6,23 +6,22 @@ import (
 	"strings"
 )
 
-func freqEnglish(f, std []byte) {
+func freqEnglish(f, std []byte) (wf []WordFreq) {
 	text := splitWord(string(f))
 
-	lemma, _ := ioutil.ReadFile("../text/lemmatization.txt")
+	lemma, _ := ioutil.ReadFile(textDir + "lemmatization.txt")
 	text = lemmatize(text, lemma)
 
 	wc := count(text)
 	standard := strings.Split(string(std), "\n")
 	wc = filter(wc, standard)
 
-	data := []WordCount{}
 	for k, v := range wc {
-		data = append(data, WordCount{k, v, 0, 0})
+		wf = append(wf, WordFreq{k, v, 0, 0, 0, 0})
 	}
-	data = sortWord(data, 1)
+	wf = rank(wf)
 
-	output(data, "../text/freqEnglish.txt")
+	return wf
 }
 
 func lemmatize(text []string, f []byte) []string {
