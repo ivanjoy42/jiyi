@@ -53,14 +53,7 @@ func rank(wf []WordFreq) []WordFreq {
 		wf[i].Score = 1 - float64(wf[i].Rank)/float64(last+1)
 	}
 
-	/*
-		wf = sortWord(wf, 2)
-		for i := range wf {
-			wf[i].Order += i
-		}
-	*/
-
-	wf = sortWord(wf, 3, "asc")
+	wf = sortWord(wf, 4, "asc")
 	return wf
 }
 

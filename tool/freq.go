@@ -69,7 +69,7 @@ func batch(std map[string][]byte, stdType string) {
 	for k, v := range scoreMap {
 		score = append(score, WordFreq{k, 0, 0, 0, 0, v})
 	}
-	score = sortWord(score, 4, "desc")
+	score = sortWord(score, 5, "desc")
 
 	output(score, textDir+"freq"+stdType+".txt")
 }
@@ -92,11 +92,17 @@ func sortWord(wf []WordFreq, col int, order string) []WordFreq {
 			}
 		} else if col == 2 {
 			if order == "desc" {
+				return wf[i].Freq > wf[j].Freq
+			} else {
+				return wf[i].Freq < wf[j].Freq
+			}
+		} else if col == 3 {
+			if order == "desc" {
 				return wf[i].Disperse > wf[j].Disperse
 			} else {
 				return wf[i].Disperse < wf[j].Disperse
 			}
-		} else if col == 3 {
+		} else if col == 4 {
 			if order == "desc" {
 				return wf[i].Rank > wf[j].Rank
 			} else {
