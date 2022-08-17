@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func freqEnglish(f, std, lemma []byte) (wf []WordFreq) {
+func freqEnglish(f, std []byte) (wf []WordFreq) {
 	text := splitWord(string(f))
 
 	text = lemmatize(text, lemma)

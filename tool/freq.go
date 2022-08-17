@@ -21,17 +21,21 @@ const (
 	textPath = "../text/"
 )
 
+var lemma, _ = ioutil.ReadFile(textPath + "lemmatization.txt")
+var segmenter sego.Segmenter
+
 func main() {
-	batch("cn", "char")
-	batch("cn", "word")
-	batch("en", "english")
+	batch("cn", "freqChar")
+	segmenter.LoadDictionary(textPath + "segment.txt")
+	batch("cn", "freqWord")
+	batch("en", "freqEnglish")
 }
 
 func loadScope() map[string][]byte {
 	scope := map[string][]byte{}
-	scope["char"], _ = ioutil.ReadFile(textPath + "8105.txt")
-	scope["word"], _ = ioutil.ReadFile(textPath + "13436.txt")
-	scope["english"], _ = ioutil.ReadFile(textPath + "20000.txt")
+	scope["freqChar"], _ = ioutil.ReadFile(textPath + "8105.txt")
+	scope["freqWord"], _ = ioutil.ReadFile(textPath + "13436.txt")
+	scope["freqEnglish"], _ = ioutil.ReadFile(textPath + "20000.txt")
 	return scope
 }
 
@@ -40,27 +44,14 @@ func batch(bookPath, proc string) {
 	bookPath = textPath + bookPath + "/"
 	files, _ := ioutil.ReadDir(bookPath)
 
-	lemma := []byte{}
-	var segmenter sego.Segmenter
-	if proc == "word" {
-		segmenter.LoadDictionary(textPath + "segment.txt")
-	} else if proc == "english" {
-		lemma, _ = ioutil.ReadFile(textPath + "lemmatization.txt")
-	}
+	call := map[string]func(a, b []byte) []WordFreq{"freqChar": freqChar, "freqWord": freqWord, "freqEnglish": freqEnglish}
 
 	scoreMap := map[string]float64{}
 	for i, file := range files {
 		println(proc, i, file.Name())
 		book, _ := ioutil.ReadFile(bookPath + file.Name())
 
-		wf := []WordFreq{}
-		if proc == "char" {
-			wf = freqChar(book, scope[proc])
-		} else if proc == "word" {
-			wf = freqWord(book, scope[proc], segmenter)
-		} else if proc == "english" {
-			wf = freqEnglish(book, scope[proc], lemma)
-		}
+		wf := call[proc](book, scope[proc])
 
 		for _, v := range wf {
 			scoreMap[v.Word] += v.Score
@@ -73,7 +64,7 @@ func batch(bookPath, proc string) {
 	}
 	score = sortWord(score, 5, "desc")
 
-	output(score, textPath+"freq"+proc+".txt")
+	output(score, textPath+proc+".txt")
 }
 
 func output(wf []WordFreq, fileName string) {

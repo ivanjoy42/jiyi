@@ -6,7 +6,7 @@ import (
 	"github.com/huichen/sego"
 )
 
-func freqWord(f, std []byte, segmenter sego.Segmenter) (wf []WordFreq) {
+func freqWord(f, std []byte) (wf []WordFreq) {
 	se := segmenter.Segment(f)
 	sego.SegmentsToSlice(se, false)
 	text := sego.SegmentsToSlice(se, false)
