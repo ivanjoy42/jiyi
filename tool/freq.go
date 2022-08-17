@@ -18,46 +18,48 @@ type WordFreq struct {
 }
 
 const (
-	textDir = "../text/"
+	textPath = "../text/"
 )
 
 func main() {
-	std := loadStd()
-
-	batch(std, "char")
-	batch(std, "word")
-	batch(std, "english")
+	batch("cn", "char")
+	batch("cn", "word")
+	batch("en", "english")
 }
 
-func loadStd() map[string][]byte {
-	std := map[string][]byte{}
-	std["char"], _ = ioutil.ReadFile(textDir + "8105.txt")
-	std["word"], _ = ioutil.ReadFile(textDir + "13436.txt")
-	std["english"], _ = ioutil.ReadFile(textDir + "20000.txt")
-	return std
+func loadScope() map[string][]byte {
+	scope := map[string][]byte{}
+	scope["char"], _ = ioutil.ReadFile(textPath + "8105.txt")
+	scope["word"], _ = ioutil.ReadFile(textPath + "13436.txt")
+	scope["english"], _ = ioutil.ReadFile(textPath + "20000.txt")
+	return scope
 }
 
-func batch(std map[string][]byte, stdType string) {
-	stdDir := textDir + stdType + "/"
-	files, _ := ioutil.ReadDir(stdDir)
+func batch(bookPath, proc string) {
+	scope := loadScope()
+	bookPath = textPath + bookPath + "/"
+	files, _ := ioutil.ReadDir(bookPath)
 
+	lemma := []byte{}
 	var segmenter sego.Segmenter
-	if stdType == "word" {
-		segmenter.LoadDictionary(textDir + "dict.txt")
+	if proc == "word" {
+		segmenter.LoadDictionary(textPath + "segment.txt")
+	} else if proc == "english" {
+		lemma, _ = ioutil.ReadFile(textPath + "lemmatization.txt")
 	}
 
 	scoreMap := map[string]float64{}
 	for i, file := range files {
-		println(stdType, i, file.Name())
-		bookCn, _ := ioutil.ReadFile(stdDir + file.Name())
+		println(proc, i, file.Name())
+		book, _ := ioutil.ReadFile(bookPath + file.Name())
 
 		wf := []WordFreq{}
-		if stdType == "char" {
-			wf = freqChar(bookCn, std[stdType])
-		} else if stdType == "word" {
-			wf = freqWord(bookCn, std[stdType], segmenter)
-		} else if stdType == "english" {
-			wf = freqEnglish(bookCn, std[stdType])
+		if proc == "char" {
+			wf = freqChar(book, scope[proc])
+		} else if proc == "word" {
+			wf = freqWord(book, scope[proc], segmenter)
+		} else if proc == "english" {
+			wf = freqEnglish(book, scope[proc], lemma)
 		}
 
 		for _, v := range wf {
@@ -71,7 +73,7 @@ func batch(std map[string][]byte, stdType string) {
 	}
 	score = sortWord(score, 5, "desc")
 
-	output(score, textDir+"freq"+stdType+".txt")
+	output(score, textPath+"freq"+proc+".txt")
 }
 
 func output(wf []WordFreq, fileName string) {

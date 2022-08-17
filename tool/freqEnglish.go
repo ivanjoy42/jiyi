@@ -1,15 +1,13 @@
 package main
 
 import (
-	"io/ioutil"
 	"regexp"
 	"strings"
 )
 
-func freqEnglish(f, std []byte) (wf []WordFreq) {
+func freqEnglish(f, std, lemma []byte) (wf []WordFreq) {
 	text := splitWord(string(f))
 
-	lemma, _ := ioutil.ReadFile(textDir + "lemmatization.txt")
 	text = lemmatize(text, lemma)
 
 	wc := count(text)
