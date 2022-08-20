@@ -62,11 +62,15 @@ func batch(bookPath, proc string) {
 		}
 	}
 
-	ttl := len(files)
+	ttl := 0
+	for _, v := range countMap {
+		ttl += v
+	}
+
 	score := []WordFreq{}
 	for k, v := range scoreMap {
 		count := countMap[k]
-		freq := freqMap[k] / float64(ttl)
+		freq := float64(count) / float64(ttl)
 		score = append(score, WordFreq{k, count, freq, 0, 0, v})
 	}
 	score = sortWord(score, 5, "desc")
