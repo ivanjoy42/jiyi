@@ -18,7 +18,7 @@ func freqEnglish(f, scope []byte) (wf []WordFreq) {
 	for k, v := range wc {
 		wf = append(wf, WordFreq{k, v, 0, 0, 0, 0})
 	}
-	wf = rank(wf)
+	wf = rank(wf, len(standard))
 	wf = freq(wf)
 
 	return wf

@@ -50,6 +50,7 @@ func batch(bookPath, proc string) {
 	countMap := map[string]int{}
 	freqMap := map[string]float64{}
 	scoreMap := map[string]float64{}
+	disperseMap := map[string]float64{}
 	for i, file := range files {
 		println(proc, i, file.Name())
 		book, _ := ioutil.ReadFile(bookPath + file.Name())
@@ -59,9 +60,11 @@ func batch(bookPath, proc string) {
 			countMap[v.Word] += v.Count
 			freqMap[v.Word] += v.Freq
 			scoreMap[v.Word] += v.Score
+			disperseMap[v.Word] += 1
 		}
 	}
 
+	num := len(files)
 	ttl := 0
 	for _, v := range countMap {
 		ttl += v
@@ -71,7 +74,8 @@ func batch(bookPath, proc string) {
 	for k, v := range scoreMap {
 		count := countMap[k]
 		freq := float64(count) / float64(ttl)
-		score = append(score, WordFreq{k, count, freq, 0, 0, v})
+		disperse := disperseMap[k] / float64(num)
+		score = append(score, WordFreq{k, count, freq, disperse, 0, v})
 	}
 	score = sortWord(score, 5, "desc")
 
@@ -147,7 +151,7 @@ func filter[N int | float64, S rune | string](wc map[S]N, std []S) map[S]N {
 	return wc
 }
 
-func rank(wf []WordFreq) []WordFreq {
+func rank(wf []WordFreq, scopeLen int) []WordFreq {
 	wf = sortWord(wf, 1, "desc")
 	last := 0
 	for i := range wf {
@@ -160,7 +164,7 @@ func rank(wf []WordFreq) []WordFreq {
 	}
 
 	for i := range wf {
-		wf[i].Score = 1 - float64(wf[i].Rank)/float64(last+1)
+		wf[i].Score = float64(scopeLen - wf[i].Rank)
 	}
 
 	wf = sortWord(wf, 4, "asc")
