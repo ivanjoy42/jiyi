@@ -3,11 +3,12 @@ package main
 import (
 	"database/sql"
 	"fmt"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func db() {
-	db, err := sql.Open("mysql", "root@/jiyi")
+	db, err := sql.Open("mysql", "root:123456@/jiyi")
 	if err != nil {
 		panic(err.Error())
 	}
