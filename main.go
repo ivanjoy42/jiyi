@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-	db()
 	router := gin.Default()
 	router.LoadHTMLGlob("tpl/*")
 
@@ -32,7 +31,7 @@ func cardCreate(c *gin.Context) {
 			"title": "添加卡片",
 		})
 	} else {
+		cardInsert(front, back)
 		c.String(http.StatusOK, "添加卡片：%s %s\n写入数据库...", front, back)
 	}
-
 }
