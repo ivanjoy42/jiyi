@@ -12,6 +12,7 @@ func main() {
 
 	router.GET("/", index)
 	router.GET("/cardCreate", cardCreate)
+	router.GET("/cardList", cardList)
 
 	router.Run()
 }
@@ -34,4 +35,9 @@ func cardCreate(c *gin.Context) {
 		cardInsert(front, back)
 		c.String(http.StatusOK, "添加卡片：%s %s\n写入数据库...", front, back)
 	}
+}
+
+func cardList(c *gin.Context) {
+	card := cardSelect()
+	c.HTML(http.StatusOK, "cardList.html", gin.H{"card": card})
 }

@@ -1,0 +1,17 @@
+<html>
+<h1>
+  卡片列表
+</h1>
+
+{{range .card}}
+<li>
+  {{.CardId}}
+  {{.Front}}
+  {{.Back}}
+  {{.Category}}
+</li>
+{{end}}
+
+<a href="cardCreate">添加卡片</a>
+
+</html>
