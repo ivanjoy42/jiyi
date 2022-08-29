@@ -33,18 +33,18 @@ func cardCreate(c *gin.Context) {
 			"title": "添加卡片",
 		})
 	} else {
-		cardInsert(front, back)
+		insertCard(front, back)
 		c.String(http.StatusOK, "添加卡片：%s %s\n写入数据库...", front, back)
 	}
 }
 
 func cardList(c *gin.Context) {
-	card := getCard()
+	card := selectCard()
 	c.HTML(http.StatusOK, "cardList.html", gin.H{"card": card})
 }
 
 func cardDetail(c *gin.Context) {
 	cardId := c.Query("cardId")
-	card := getCardById(cardId)
+	card := getCard(cardId)
 	c.HTML(http.StatusOK, "cardDetail.html", gin.H{"card": card})
 }

@@ -1,15 +1,17 @@
 package main
 
 import (
-	"database/sql"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 )
 
-var db *sql.DB
+var db *sqlx.DB
 
 func init() {
-	db, _ = sql.Open("mysql", "root:123456@/jiyi")
+	db, _ = sqlx.Connect("mysql", "root:123456@/jiyi")
+	db.MapperFunc(strings.TrimSpace)
 }
 
 type Card struct {
@@ -19,26 +21,19 @@ type Card struct {
 	Category int
 }
 
-func cardInsert(front, back string) {
+func insertCard(front, back string) {
 	sql := "INSERT INTO card(front, back, category) VALUES(? ,? ,1)"
 	db.Exec(sql, front, back)
 }
 
-func getCard() []Card {
+func selectCard() (res []Card) {
 	sql := "SELECT * FROM card"
-	query, _ := db.Query(sql)
-	var res []Card
-	var row Card
-	for query.Next() {
-		query.Scan(&row.CardId, &row.Front, &row.Back, &row.Category)
-		res = append(res, row)
-	}
-	return res
+	db.Select(&res, sql)
+	return
 }
 
-func getCardById(cardId string) Card {
+func getCard(cardId string) (res Card) {
 	sql := "SELECT * FROM card WHERE cardId=?"
-	var row Card
-	db.QueryRow(sql, cardId).Scan(&row.CardId, &row.Front, &row.Back, &row.Category)
-	return row
+	db.Get(&res, sql, cardId)
+	return
 }
