@@ -13,6 +13,7 @@ func main() {
 	router.GET("/", index)
 	router.GET("/cardCreate", cardCreate)
 	router.GET("/cardList", cardList)
+	router.GET("/cardDetail", cardDetail)
 
 	router.Run()
 }
@@ -38,6 +39,12 @@ func cardCreate(c *gin.Context) {
 }
 
 func cardList(c *gin.Context) {
-	card := cardSelect()
+	card := getCard()
 	c.HTML(http.StatusOK, "cardList.html", gin.H{"card": card})
+}
+
+func cardDetail(c *gin.Context) {
+	cardId := c.Query("cardId")
+	card := getCardById(cardId)
+	c.HTML(http.StatusOK, "cardDetail.html", gin.H{"card": card})
 }

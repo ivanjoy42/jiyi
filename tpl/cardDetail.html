@@ -1,0 +1,15 @@
+<html>
+<h1>
+  卡片详情
+</h1>
+
+{{with .card}}
+card：{{.CardId}}<br />
+正面：{{.Front}}<br />
+反面：{{.Back}}<br />
+类别：{{.Category}}<br />
+{{end}}
+
+<a href="#">删除卡片</a>
+
+</html>

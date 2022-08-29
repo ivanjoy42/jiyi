@@ -24,7 +24,7 @@ func cardInsert(front, back string) {
 	db.Exec(sql, front, back)
 }
 
-func cardSelect() []Card {
+func getCard() []Card {
 	sql := "SELECT * FROM card"
 	query, _ := db.Query(sql)
 	var res []Card
@@ -34,4 +34,11 @@ func cardSelect() []Card {
 		res = append(res, row)
 	}
 	return res
+}
+
+func getCardById(cardId string) Card {
+	sql := "SELECT * FROM card WHERE cardId=?"
+	var row Card
+	db.QueryRow(sql, cardId).Scan(&row.CardId, &row.Front, &row.Back, &row.Category)
+	return row
 }

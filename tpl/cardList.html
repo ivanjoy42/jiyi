@@ -5,10 +5,12 @@
 
 {{range .card}}
 <li>
-  {{.CardId}}
-  {{.Front}}
-  {{.Back}}
-  {{.Category}}
+  <a href="cardDetail?cardId={{.CardId}}">
+    {{.CardId}}
+    {{.Front}}
+    {{.Back}}
+    {{.Category}}
+  </a>
 </li>
 {{end}}
 
