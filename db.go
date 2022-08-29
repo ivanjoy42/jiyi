@@ -11,7 +11,8 @@ var db *sqlx.DB
 
 func init() {
 	db, _ = sqlx.Connect("mysql", "root:123456@/jiyi")
-	db.MapperFunc(strings.TrimSpace)
+	// db.MapperFunc(func(s string) string { return s })
+	db.MapperFunc(camelCase)
 }
 
 type Card struct {
@@ -19,6 +20,10 @@ type Card struct {
 	Front    string
 	Back     string
 	Category int
+}
+
+func camelCase(s string) string {
+	return strings.ToLower(s[:1]) + s[1:]
 }
 
 func insertCard(front, back string) {
