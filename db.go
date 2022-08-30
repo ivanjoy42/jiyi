@@ -46,3 +46,8 @@ func delCard(cardId string) {
 	sql := "DELETE FROM card WHERE cardId=?"
 	db.Exec(sql, cardId)
 }
+
+func updateCard(cardId, front, back string) {
+	sql := "UPDATE card SET front=?,back=? WHERE cardId=?"
+	db.Exec(sql, front, back, cardId)
+}

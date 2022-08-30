@@ -1,0 +1,14 @@
+<html>
+<h1>
+  {{ .title }}
+</h1>
+<form>
+  {{with .card}}
+  card：<input name="cardId" value="{{.CardId}}"><br />
+  正面：<textarea name="front">{{.Front}}</textarea><br />
+  反面：<textarea name="back">{{.Back}}</textarea><br />
+  <input type="submit" value="提交修改" />
+  {{end}}
+</form>
+
+</html>
