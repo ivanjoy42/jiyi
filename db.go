@@ -11,7 +11,6 @@ var db *sqlx.DB
 
 func init() {
 	db, _ = sqlx.Connect("mysql", "root:123456@/jiyi")
-	// db.MapperFunc(func(s string) string { return s })
 	db.MapperFunc(camelCase)
 }
 
@@ -41,4 +40,9 @@ func getCard(cardId string) (res Card) {
 	sql := "SELECT * FROM card WHERE cardId=?"
 	db.Get(&res, sql, cardId)
 	return
+}
+
+func delCard(cardId string) {
+	sql := "DELETE FROM card WHERE cardId=?"
+	db.Exec(sql, cardId)
 }

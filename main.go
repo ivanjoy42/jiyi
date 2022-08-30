@@ -14,6 +14,8 @@ func main() {
 	router.GET("/cardCreate", cardCreate)
 	router.GET("/cardList", cardList)
 	router.GET("/cardDetail", cardDetail)
+	router.GET("/cardDelete", cardDelete)
+	router.GET("/cardUpdate", cardUpdate)
 
 	router.Run()
 }
@@ -47,4 +49,14 @@ func cardDetail(c *gin.Context) {
 	cardId := c.Query("cardId")
 	card := getCard(cardId)
 	c.HTML(http.StatusOK, "cardDetail.html", gin.H{"card": card})
+}
+
+func cardDelete(c *gin.Context) {
+	cardId := c.Query("cardId")
+	delCard(cardId)
+	c.String(http.StatusOK, "删除卡片：%s\n...", cardId)
+}
+
+func cardUpdate(c *gin.Context) {
+
 }
