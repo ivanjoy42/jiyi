@@ -5,37 +5,24 @@ import (
 )
 
 func main() {
-	router := gin.Default()
-	router.LoadHTMLGlob("tpl/*")
+	r := gin.Default()
+	r.LoadHTMLGlob("tpl/*")
 
-	router.GET("/", index)
-	router.GET("/cardCreate", cardCreate)
-	router.GET("/cardList", cardList)
-	router.GET("/cardDetail", cardDetail)
-	router.GET("/cardDelete", cardDelete)
-	router.GET("/cardUpdate", cardUpdate)
+	r.GET("/", index)
 
-	router.Run()
+	r.GET("cardList", cardList)
+	r.GET("cardDetail", cardDetail)
+	r.GET("cardCreate", cardCreate)
+	r.GET("cardUpdate", cardUpdate)
+	r.GET("cardDelete", cardDelete)
+
+	tag(r.Group("tag"))
+
+	r.Run()
 }
 
 func index(c *gin.Context) {
 	c.HTML(200, "index.html", gin.H{})
-}
-
-//todo: restful模式
-func cardCreate(c *gin.Context) {
-	front := c.Query("front")
-	back := c.Query("back")
-
-	//无数据，显示模板；有数据，写入数据库
-	if front == "" && back == "" {
-		c.HTML(200, "cardCreate.html", gin.H{
-			"title": "添加卡片",
-		})
-	} else {
-		insertCard(front, back)
-		c.String(200, "添加卡片：%s %s\n写入数据库...", front, back)
-	}
 }
 
 func cardList(c *gin.Context) {
@@ -49,10 +36,17 @@ func cardDetail(c *gin.Context) {
 	c.HTML(200, "cardDetail.html", gin.H{"card": card})
 }
 
-func cardDelete(c *gin.Context) {
-	cardId := c.Query("cardId")
-	delCard(cardId)
-	c.String(200, "删除卡片：%s\n...", cardId)
+func cardCreate(c *gin.Context) {
+	front := c.Query("front")
+	back := c.Query("back")
+
+	//无数据，显示模板；有数据，写入数据库
+	if front == "" && back == "" {
+		c.HTML(200, "cardCreate.html", gin.H{"title": "添加卡片"})
+	} else {
+		insertCard(front, back)
+		c.String(200, "添加卡片：%s %s\n写入数据库...", front, back)
+	}
 }
 
 func cardUpdate(c *gin.Context) {
@@ -71,4 +65,28 @@ func cardUpdate(c *gin.Context) {
 		updateCard(cardId, front, back)
 		c.String(200, "修改卡片：%s %s\n写入数据库...", front, back)
 	}
+}
+
+func cardDelete(c *gin.Context) {
+	cardId := c.Query("cardId")
+	delCard(cardId)
+	c.String(200, "删除卡片：%s\n...", cardId)
+}
+
+func tag(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		c.String(200, "list tag...")
+	})
+	r.GET("detail", func(c *gin.Context) {
+		c.String(200, "detail tag...")
+	})
+	r.GET("create", func(c *gin.Context) {
+		c.String(200, "create tag...")
+	})
+	r.GET("update", func(c *gin.Context) {
+		c.String(200, "update tag...")
+	})
+	r.GET("delete", func(c *gin.Context) {
+		c.String(200, "delete tag...")
+	})
 }
