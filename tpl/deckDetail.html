@@ -1,0 +1,24 @@
+<html>
+<h1>
+  卡组详情
+</h1>
+
+{{with .deck}}
+deck：{{.DeckId}}<br />
+包名：{{.DeckName}}<br />
+<a href="deckUpdate?deckId={{.DeckId}}">修改卡片</a><br />
+<a href="deckDelete?deckId={{.DeckId}}">删除卡片</a><br />
+{{end}}
+
+{{range .card}}
+<li>
+  <a href="/cardDetail?cardId={{.CardId}}">
+    {{.CardId}}
+    {{.Front}}
+    {{.Back}}
+    {{.Kind}}
+  </a>
+</li>
+{{end}}
+
+</html>

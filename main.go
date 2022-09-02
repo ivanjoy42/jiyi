@@ -16,7 +16,7 @@ func main() {
 	r.GET("cardUpdate", cardUpdate)
 	r.GET("cardDelete", cardDelete)
 
-	tag(r.Group("tag"))
+	deck(r.Group("deck"))
 
 	r.Run()
 }
@@ -73,20 +73,37 @@ func cardDelete(c *gin.Context) {
 	c.String(200, "删除卡片：%s\n...", cardId)
 }
 
-func tag(r *gin.RouterGroup) {
+func deck(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
-		c.String(200, "list tag...")
+		deck := selectDeck()
+		c.HTML(200, "deckList.html", gin.H{"deck": deck})
 	})
+
 	r.GET("detail", func(c *gin.Context) {
-		c.String(200, "detail tag...")
+		deckId := c.Query("deckId")
+		deck := getDeck(deckId)
+		card := selectCardByDeckId(deckId)
+		c.HTML(200, "deckDetail.html", gin.H{
+			"deck": deck,
+			"card": card,
+		})
 	})
+
 	r.GET("create", func(c *gin.Context) {
-		c.String(200, "create tag...")
+		deck := c.Query("deck")
+		if deck == "" {
+			c.HTML(200, "deckCreate.html", gin.H{"title": "添加卡组"})
+		} else {
+			insertDeck(deck)
+			c.String(200, "添加卡组%s\n写入数据库...", deck)
+		}
 	})
+
 	r.GET("update", func(c *gin.Context) {
-		c.String(200, "update tag...")
+		c.String(200, "update deck...")
 	})
+
 	r.GET("delete", func(c *gin.Context) {
-		c.String(200, "delete tag...")
+		c.String(200, "delete deck...")
 	})
 }

@@ -1,0 +1,17 @@
+<html>
+<h1>
+  卡组列表
+</h1>
+
+{{range .deck}}
+<li>
+  <a href="detail?deckId={{.DeckId}}">
+    {{.DeckId}}
+    {{.DeckName}}
+  </a>
+</li>
+{{end}}
+
+<a href="create">添加卡组</a>
+
+</html>
