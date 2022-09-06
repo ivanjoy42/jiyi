@@ -3,22 +3,19 @@
   卡组详情
 </h1>
 
-{{with .deck}}
-deck：{{.DeckId}}<br />
-包名：{{.DeckName}}<br />
-<a href="deckUpdate?deckId={{.DeckId}}">修改卡片</a><br />
-<a href="deckDelete?deckId={{.DeckId}}">删除卡片</a><br />
-{{end}}
+<form action="update">
+  {{with .deck}}
+  卡组ID：<input name="deckId" value="{{.DeckId}}" /><br />
+  卡组名：<input name="deckName" value="{{.DeckName}}" /><br />
+  类型：<input name="kind" value="{{.Kind}}" /><br />
+  {{end}}
+  卡片：<textarea name="cards">{{range .card}}{{.Front}}
+{{end}}</textarea><br />
+  <input type="submit" value="保存" />
+</form>
 
-{{range .card}}
-<li>
-  <a href="/cardDetail?cardId={{.CardId}}">
-    {{.CardId}}
-    {{.Front}}
-    {{.Back}}
-    {{.Kind}}
-  </a>
-</li>
+{{with .deck}}
+<a href="delete?deckId={{.DeckId}}">删除卡组</a><br />
 {{end}}
 
 </html>

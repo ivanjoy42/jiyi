@@ -18,13 +18,14 @@ func main() {
 
 	deck(r.Group("deck"))
 
-	r.Run()
+	r.Run(":8080")
 }
 
 func index(c *gin.Context) {
 	c.HTML(200, "index.html", gin.H{})
 }
 
+//todo：搜索卡片、分组浏览
 func cardList(c *gin.Context) {
 	card := selectCard()
 	c.HTML(200, "cardList.html", gin.H{"card": card})
@@ -100,6 +101,12 @@ func deck(r *gin.RouterGroup) {
 	})
 
 	r.GET("update", func(c *gin.Context) {
+		deckId := c.Query("deckId")
+		deckName := c.Query("deckName")
+		kind := c.Query("kind")
+		cards := c.Query("cards")
+		updateDeck(deckId, deckName)
+		updateCardDeck(deckId, kind, cards)
 		c.String(200, "update deck...")
 	})
 

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `card_deck` (
 DROP TABLE IF EXISTS `deck`;
 CREATE TABLE IF NOT EXISTS `deck` (
   `deck_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `kind` tinyint(4) NOT NULL,
   `deck_name` varchar(100) NOT NULL,
   PRIMARY KEY (`deck_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
