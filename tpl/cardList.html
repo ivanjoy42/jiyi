@@ -5,7 +5,7 @@
 
 {{range .card}}
 <li>
-  <a href="cardDetail?cardId={{.CardId}}">
+  <a href="modify?cardId={{.CardId}}">
     {{.CardId}}
     {{.Front}}
     {{.Back}}
@@ -14,6 +14,6 @@
 </li>
 {{end}}
 
-<a href="cardCreate">添加卡片</a>
+<a href="create">添加卡片</a>
 
 </html>

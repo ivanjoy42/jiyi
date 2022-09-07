@@ -9,13 +9,7 @@ func main() {
 	r.LoadHTMLGlob("tpl/*")
 
 	r.GET("/", index)
-
-	r.GET("cardList", cardList)
-	r.GET("cardDetail", cardDetail)
-	r.GET("cardCreate", cardCreate)
-	r.GET("cardUpdate", cardUpdate)
-	r.GET("cardDelete", cardDelete)
-
+	card(r.Group("card"))
 	deck(r.Group("deck"))
 
 	r.Run(":8080")
@@ -25,53 +19,47 @@ func index(c *gin.Context) {
 	c.HTML(200, "index.html", gin.H{})
 }
 
-//todo：搜索卡片、分组浏览
-func cardList(c *gin.Context) {
-	card := selectCard()
-	c.HTML(200, "cardList.html", gin.H{"card": card})
-}
+// 卡片操作
+//
+// list列表页面；
+// modify修改页面，update更新记录；
+// create新建页面，insert插入记录；
+// delete删除记录。
+//
+// todo：搜索卡片、分组浏览
+func card(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		card := selectCard()
+		c.HTML(200, "cardList.html", gin.H{"card": card})
+	})
 
-func cardDetail(c *gin.Context) {
-	cardId := c.Query("cardId")
-	card := getCard(cardId)
-	c.HTML(200, "cardDetail.html", gin.H{"card": card})
-}
-
-func cardCreate(c *gin.Context) {
-	front := c.Query("front")
-	back := c.Query("back")
-
-	//无数据，显示模板；有数据，写入数据库
-	if front == "" && back == "" {
-		c.HTML(200, "cardCreate.html", gin.H{"title": "添加卡片"})
-	} else {
-		insertCard(front, back)
-		c.String(200, "添加卡片：%s %s\n写入数据库...", front, back)
-	}
-}
-
-func cardUpdate(c *gin.Context) {
-	cardId := c.Query("cardId")
-	front := c.Query("front")
-	back := c.Query("back")
-
-	//无数据，显示模板；有数据，写入数据库
-	if front == "" && back == "" {
+	r.GET("modify", func(c *gin.Context) {
+		cardId := c.Query("cardId")
 		card := getCard(cardId)
-		c.HTML(200, "cardUpdate.html", gin.H{
-			"title": "修改卡片",
-			"card":  card,
-		})
-	} else {
-		updateCard(cardId, front, back)
-		c.String(200, "修改卡片：%s %s\n写入数据库...", front, back)
-	}
-}
+		c.HTML(200, "cardModify.html", gin.H{"card": card})
+	})
 
-func cardDelete(c *gin.Context) {
-	cardId := c.Query("cardId")
-	delCard(cardId)
-	c.String(200, "删除卡片：%s\n...", cardId)
+	r.GET("update", func(c *gin.Context) {
+		cardId := c.Query("cardId")
+		front := c.Query("front")
+		back := c.Query("back")
+		updateCard(cardId, front, back)
+	})
+
+	r.GET("create", func(c *gin.Context) {
+		c.HTML(200, "cardCreate.html", gin.H{})
+	})
+
+	r.GET("insert", func(c *gin.Context) {
+		front := c.Query("front")
+		back := c.Query("back")
+		insertCard(front, back)
+	})
+
+	r.GET("delete", func(c *gin.Context) {
+		cardId := c.Query("cardId")
+		deleteCard(cardId)
+	})
 }
 
 // 卡组操作
@@ -80,6 +68,8 @@ func cardDelete(c *gin.Context) {
 // modify修改页面，update更新记录；
 // create新建页面，insert插入记录；
 // delete删除记录。
+//
+// todo：改为post
 func deck(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		deck := selectDeck()
@@ -90,10 +80,7 @@ func deck(r *gin.RouterGroup) {
 		deckId := c.Query("deckId")
 		deck := getDeck(deckId)
 		card := selectCardByDeckId(deckId)
-		c.HTML(200, "deckModify.html", gin.H{
-			"deck": deck,
-			"card": card,
-		})
+		c.HTML(200, "deckModify.html", gin.H{"deck": deck, "card": card})
 	})
 
 	r.GET("update", func(c *gin.Context) {
@@ -106,12 +93,12 @@ func deck(r *gin.RouterGroup) {
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		c.HTML(200, "deckCreate.html", gin.H{"title": "添加卡组"})
+		c.HTML(200, "deckCreate.html", gin.H{})
 	})
 
 	r.GET("insert", func(c *gin.Context) {
-		deck := c.Query("deck")
-		insertDeck(deck)
+		deckName := c.Query("deckName")
+		insertDeck(deckName)
 	})
 
 	r.GET("delete", func(c *gin.Context) {

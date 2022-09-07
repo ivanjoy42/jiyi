@@ -1,14 +1,17 @@
 <html>
 <h1>
-  {{ .title }}
+  修改卡片
 </h1>
-<form>
-  {{with .card}}
+
+{{with .card}}
+<form action="update">
   card：<input name="cardId" value="{{.CardId}}"><br />
   正面：<textarea name="front">{{.Front}}</textarea><br />
   反面：<textarea name="back">{{.Back}}</textarea><br />
   <input type="submit" value="提交修改" />
-  {{end}}
 </form>
+
+<a href="delete?cardId={{.CardId}}">删除卡片</a><br />
+{{end}}
 
 </html>

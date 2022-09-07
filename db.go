@@ -39,7 +39,7 @@ func getCard(cardId string) (res Card) {
 	return
 }
 
-func delCard(cardId string) {
+func deleteCard(cardId string) {
 	sql := `DELETE FROM card WHERE card_id=?`
 	db.Exec(sql, cardId)
 }
@@ -61,9 +61,9 @@ func selectDeck() (res []Deck) {
 	return
 }
 
-func insertDeck(deck string) {
+func insertDeck(deckName string) {
 	sql := `INSERT INTO deck(kind, deck_name) VALUES(1, ?)`
-	db.Exec(sql, deck)
+	db.Exec(sql, deckName)
 }
 
 func getDeck(DeckId string) (res Deck) {
