@@ -74,30 +74,26 @@ func cardDelete(c *gin.Context) {
 	c.String(200, "删除卡片：%s\n...", cardId)
 }
 
+// 卡组操作
+//
+// list列表页面；
+// modify修改页面，update更新记录；
+// create新建页面，insert插入记录；
+// delete删除记录。
 func deck(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		deck := selectDeck()
 		c.HTML(200, "deckList.html", gin.H{"deck": deck})
 	})
 
-	r.GET("detail", func(c *gin.Context) {
+	r.GET("modify", func(c *gin.Context) {
 		deckId := c.Query("deckId")
 		deck := getDeck(deckId)
 		card := selectCardByDeckId(deckId)
-		c.HTML(200, "deckDetail.html", gin.H{
+		c.HTML(200, "deckModify.html", gin.H{
 			"deck": deck,
 			"card": card,
 		})
-	})
-
-	r.GET("create", func(c *gin.Context) {
-		deck := c.Query("deck")
-		if deck == "" {
-			c.HTML(200, "deckCreate.html", gin.H{"title": "添加卡组"})
-		} else {
-			insertDeck(deck)
-			c.String(200, "添加卡组%s\n写入数据库...", deck)
-		}
 	})
 
 	r.GET("update", func(c *gin.Context) {
@@ -107,10 +103,19 @@ func deck(r *gin.RouterGroup) {
 		cards := c.Query("cards")
 		updateDeck(deckId, deckName)
 		updateCardDeck(deckId, kind, cards)
-		c.String(200, "update deck...")
+	})
+
+	r.GET("create", func(c *gin.Context) {
+		c.HTML(200, "deckCreate.html", gin.H{"title": "添加卡组"})
+	})
+
+	r.GET("insert", func(c *gin.Context) {
+		deck := c.Query("deck")
+		insertDeck(deck)
 	})
 
 	r.GET("delete", func(c *gin.Context) {
-		c.String(200, "delete deck...")
+		deckId := c.Query("deckId")
+		deleteDeck(deckId)
 	})
 }

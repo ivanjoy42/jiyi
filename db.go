@@ -73,10 +73,10 @@ func getDeck(DeckId string) (res Deck) {
 }
 
 func selectCardByDeckId(DeckId string) (res []Card) {
-	sql := `SELECT card.* FROM card, deck, card_deck WHERE 
-		deck.deck_id=? AND 
-		card.card_id=card_deck.card_id AND 
-		deck.deck_id=card_deck.deck_id`
+	sql := `SELECT card.* FROM card, deck, card_deck 
+			WHERE deck.deck_id=? 
+			AND card.card_id=card_deck.card_id 
+			AND deck.deck_id=card_deck.deck_id`
 	db.Select(&res, sql, DeckId)
 	return
 }
@@ -91,13 +91,10 @@ func updateDeck(deckId, deckName string) {
 // 1.删除旧的关联；
 // 2.根据卡片的front获取卡片ID；
 // 3.添加新的关联。
-func updateCardDeck(deckId, kind, str string) {
+func updateCardDeck(deckId, kind, sFront string) {
 	deleteCardDeckByDeckId(deckId)
 
-	str = strings.TrimSpace(str)
-	str = strings.ReplaceAll(str, "\r", "\n")
-	str = strings.ReplaceAll(str, " ", "\n")
-	front := strings.Split(str, "\n")
+	front := splitSpace(sFront)
 	cards := []Card{}
 	sql := `SELECT * FROM card WHERE kind=? AND front IN(?)`
 	sql, args, _ := sqlx.In(sql, kind, front)
@@ -118,6 +115,23 @@ func insertCardDeck(cards []Card, deckId string) {
 		row := map[string]interface{}{"cardId": cardId, "deckId": deckId}
 		cardDeck = append(cardDeck, row)
 	}
-	db.NamedExec(`INSERT INTO card_deck (card_id, deck_id) 
-		VALUES (:cardId, :deckId)`, cardDeck)
+
+	sql := `INSERT INTO card_deck (card_id, deck_id) 
+			VALUES (:cardId, :deckId)`
+	db.NamedExec(sql, cardDeck)
+}
+
+func deleteDeck(deckId string) {
+	sql := `DELETE FROM deck WHERE deck_id=?`
+	db.Exec(sql, deckId)
+
+	deleteCardDeckByDeckId(deckId)
+}
+
+func splitSpace(s string) (res []string) {
+	s = strings.TrimSpace(s)
+	s = strings.ReplaceAll(s, "\r", " ")
+	s = strings.ReplaceAll(s, "\n", " ")
+	res = strings.Fields(s)
+	return
 }
