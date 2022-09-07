@@ -1,10 +1,8 @@
-<html>
 <h1>
-  添加卡组
+  新建卡组
 </h1>
-<form action="insert">
-  组名 <textarea name="deckName"></textarea><br />
-  <input type="submit" value="添加" />
-</form>
 
-</html>
+<form onsubmit="return AjaxSubmit('deck/insert', -1)">
+  卡组名 <textarea name="deckName"></textarea><br />
+  <input type="submit" value="保存" />
+</form>

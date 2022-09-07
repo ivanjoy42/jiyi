@@ -1,17 +1,14 @@
-<html>
 <h1>
   卡组列表
 </h1>
 
+<a href="javascript:Href('deck/create', 1)">新建卡组</a>
+
 {{range .deck}}
 <li>
-  <a href="modify?deckId={{.DeckId}}">
+  <a href="javascript:Href('deck/modify?deckId={{.DeckId}}', 1)">
     {{.DeckId}}
     {{.DeckName}}
   </a>
 </li>
 {{end}}
-
-<a href="create">添加卡组</a>
-
-</html>

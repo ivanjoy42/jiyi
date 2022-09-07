@@ -1,0 +1,14 @@
+<h1>
+  删除卡组
+</h1>
+
+{{with .deck}}
+<form onsubmit="return AjaxSubmit('deck/delete', -2)">
+  卡组ID：<input name="deckId" value="{{.DeckId}}" /><br />
+  卡组名：{{.DeckName}}<br />
+  类型：{{.Kind}}<br />
+  {{end}}
+  卡片：{{range .card}}{{.Front}}
+  {{end}}<br />
+  <input type="submit" value="确认删除" />
+</form>

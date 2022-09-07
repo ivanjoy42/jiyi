@@ -1,0 +1,12 @@
+<h1>
+  删除卡片
+</h1>
+
+{{with .card}}
+<form onsubmit="return AjaxSubmit('card/delete', -2)">
+  card：<input name="cardId" value="{{.CardId}}"><br />
+  正面：{{.Front}}<br />
+  反面：{{.Back}}<br />
+  <input type="submit" value="确认删除" />
+</form>
+{{end}}

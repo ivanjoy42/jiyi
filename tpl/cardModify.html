@@ -1,17 +1,14 @@
-<html>
 <h1>
   修改卡片
 </h1>
 
 {{with .card}}
-<form action="update">
+<a href="javascript:Href('card/remove?cardId={{.CardId}}', 1)">删除卡片</a>
+
+<form onsubmit="return AjaxSubmit('card/update', -1)">
   card：<input name="cardId" value="{{.CardId}}"><br />
   正面：<textarea name="front">{{.Front}}</textarea><br />
   反面：<textarea name="back">{{.Back}}</textarea><br />
-  <input type="submit" value="提交修改" />
+  <input type="submit" value="保存" />
 </form>
-
-<a href="delete?cardId={{.CardId}}">删除卡片</a><br />
 {{end}}
-
-</html>

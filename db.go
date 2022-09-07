@@ -15,6 +15,7 @@ func init() {
 	db.MapperFunc(strcase.ToSnake)
 }
 
+// 卡片数据结构
 type Card struct {
 	CardId int
 	Kind   int
@@ -49,6 +50,7 @@ func updateCard(cardId, front, back string) {
 	db.Exec(sql, front, back, cardId)
 }
 
+// 卡组数据结构
 type Deck struct {
 	DeckId   int
 	Kind     int

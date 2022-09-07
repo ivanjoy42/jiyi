@@ -1,10 +1,11 @@
-<html>
 <h1>
   修改卡组
 </h1>
 
-<form action="update">
-  {{with .deck}}
+{{with .deck}}
+<a href="javascript:Href('deck/remove?deckId={{.DeckId}}', 1)">删除卡组</a>
+
+<form onsubmit="return AjaxSubmit('deck/update', -1)">
   卡组ID：<input name="deckId" value="{{.DeckId}}" /><br />
   卡组名：<input name="deckName" value="{{.DeckName}}" /><br />
   类型：<input name="kind" value="{{.Kind}}" /><br />
@@ -13,9 +14,3 @@
 {{end}}</textarea><br />
   <input type="submit" value="保存" />
 </form>
-
-{{with .deck}}
-<a href="delete?deckId={{.DeckId}}">删除卡组</a><br />
-{{end}}
-
-</html>
