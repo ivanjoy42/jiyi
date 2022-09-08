@@ -54,6 +54,12 @@ func card(r *gin.RouterGroup) {
 		c.HTML(200, "cardRemove.html", gin.H{"card": card})
 	})
 
+	r.GET("search", func(c *gin.Context) {
+		front := c.Query("front")
+		card := searchCard(front)
+		c.HTML(200, "cardSearch.html", gin.H{"card": card, "front": front})
+	})
+
 	r.POST("insert", func(c *gin.Context) {
 		front := c.PostForm("front")
 		back := c.PostForm("back")

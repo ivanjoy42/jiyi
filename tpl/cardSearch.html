@@ -1,0 +1,21 @@
+<header>
+  <a href="javascript:history.back()">＜</a>搜索卡片
+</header>
+
+<main>
+  {{range .card}}
+  <a href="javascript:Href('card/modify?cardId={{.CardId}}', 1)" class="setting">
+    {{.CardId}}
+    {{.Front}}
+    {{.Kind}}
+    <span>＞</span>
+  </a>
+  {{end}}
+</main>
+
+<form onsubmit="javascript:Href('card/search?front='+this.front.value, 0); return false">
+  <footer>
+    <input name="front" value="{{.front}}" style="margin-right:1rem; width:calc(100% - 9rem)"><button
+      type="submit">搜索</button>
+  </footer>
+</form>

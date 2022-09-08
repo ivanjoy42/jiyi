@@ -28,8 +28,9 @@ func insertCard(front, back string) {
 	db.Exec(sql, front, back)
 }
 
+// todo：分页
 func selectCard() (res []Card) {
-	sql := `SELECT * FROM card`
+	sql := `SELECT * FROM card LIMIT 1000`
 	db.Select(&res, sql)
 	return
 }
@@ -48,6 +49,14 @@ func deleteCard(cardId string) {
 func updateCard(cardId, front, back string) {
 	sql := `UPDATE card SET front=?,back=? WHERE card_id=?`
 	db.Exec(sql, front, back, cardId)
+}
+
+func searchCard(sFront string) (res []Card) {
+	front := splitSpace(sFront)
+	sql := `SELECT * FROM card WHERE front IN(?)`
+	sql, args, _ := sqlx.In(sql, front)
+	db.Select(&res, sql, args...)
+	return
 }
 
 // 卡组数据结构
