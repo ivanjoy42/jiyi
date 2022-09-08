@@ -30,7 +30,7 @@ func insertCard(front, back string) {
 
 // todo：分页
 func selectCard() (res []Card) {
-	sql := `SELECT * FROM card LIMIT 1000`
+	sql := `SELECT * FROM card LIMIT 100`
 	db.Select(&res, sql)
 	return
 }

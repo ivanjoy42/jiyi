@@ -31,7 +31,7 @@ func home(c *gin.Context) {
 // create新建页面，modify修改页面，remove删除页面；
 // insert插入记录，update更新记录，delete删除记录。
 //
-// todo：搜索卡片、分组浏览
+// todo：分组浏览
 func card(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		card := selectCard()
