@@ -78,7 +78,8 @@ func selectCardByDeckId(DeckId string) (res []Card) {
 	sql := `SELECT card.* FROM card, deck, card_deck 
 			WHERE deck.deck_id=? 
 			AND card.card_id=card_deck.card_id 
-			AND deck.deck_id=card_deck.deck_id`
+			AND deck.deck_id=card_deck.deck_id
+			ORDER BY card_deck_id`
 	db.Select(&res, sql, DeckId)
 	return
 }
@@ -98,8 +99,8 @@ func updateCardDeck(deckId, kind, sFront string) {
 
 	front := splitSpace(sFront)
 	cards := []Card{}
-	sql := `SELECT * FROM card WHERE kind=? AND front IN(?)`
-	sql, args, _ := sqlx.In(sql, kind, front)
+	sql := `SELECT * FROM card WHERE kind=? AND front IN(?) ORDER BY FIELD(front, ?)`
+	sql, args, _ := sqlx.In(sql, kind, front, front)
 	db.Select(&cards, sql, args...)
 
 	insertCardDeck(cards, deckId)
@@ -117,9 +118,7 @@ func insertCardDeck(cards []Card, deckId string) {
 		row := map[string]interface{}{"cardId": cardId, "deckId": deckId}
 		cardDeck = append(cardDeck, row)
 	}
-
-	sql := `INSERT INTO card_deck (card_id, deck_id) 
-			VALUES (:cardId, :deckId)`
+	sql := `INSERT INTO card_deck (card_id, deck_id) VALUES (:cardId, :deckId)`
 	db.NamedExec(sql, cardDeck)
 }
 

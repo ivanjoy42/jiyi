@@ -10,9 +10,11 @@ CREATE TABLE IF NOT EXISTS `card` (
 
 DROP TABLE IF EXISTS `card_deck`;
 CREATE TABLE IF NOT EXISTS `card_deck` (
+  `card_deck_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `card_id` int(10) unsigned NOT NULL,
   `deck_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`card_id`,`deck_id`) USING BTREE
+  PRIMARY KEY (`card_deck_id`) USING BTREE,
+  UNIQUE KEY `card_id_deck_id` (`card_id`,`deck_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `deck`;
