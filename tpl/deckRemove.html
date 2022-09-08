@@ -1,14 +1,19 @@
-<h1>
-  删除卡组
-</h1>
+<header>
+  <a href="javascript:history.back()">＜</a>删除卡组
+</header>
 
-{{with .deck}}
-<form onsubmit="return AjaxSubmit('deck/delete', -2)">
-  卡组ID：<input name="deckId" value="{{.DeckId}}" /><br />
-  卡组名：{{.DeckName}}<br />
-  类型：{{.Kind}}<br />
-  {{end}}
-  卡片：{{range .card}}{{.Front}}
-  {{end}}<br />
-  <input type="submit" value="确认删除" />
+<form onsubmit="return Submit('deck/delete', -2)">
+  <main style="padding:4rem 1.5rem 9rem 1.5rem; height:100%;">
+    {{with .deck}}
+    <input name="deckId" value="{{.DeckId}}" type="hidden" />
+    <input name="kind" value="{{.Kind}}" type="hidden" />
+    <input name="deckName" value="{{.DeckName}}" placeholder="卡组名称" style="width:100%; margin-bottom:1rem;" disabled />
+    {{end}}
+    <textarea name="cards" placeholder="卡片" disabled>{{range .card}}{{.Front}}
+{{end}}</textarea>
+  </main>
+
+  <footer>
+    <button type="submit" style="width:calc(100% - 3rem);">删除</button>
+  </footer>
 </form>

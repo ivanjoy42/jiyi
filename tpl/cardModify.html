@@ -1,14 +1,19 @@
-<h1>
-  修改卡片
-</h1>
-
 {{with .card}}
-<a href="javascript:Href('card/remove?cardId={{.CardId}}', 1)">删除卡片</a>
+<header>
+  <a href="javascript:history.back()">＜</a>修改卡片
+  <button onclick="javascript:Href('card/remove?cardId={{.CardId}}', 1)" class="small"
+    style=" position:fixed; right:0.75rem; top:0.75rem;">删除</button>
+</header>
 
-<form onsubmit="return AjaxSubmit('card/update', -1)">
-  card：<input name="cardId" value="{{.CardId}}"><br />
-  正面：<textarea name="front">{{.Front}}</textarea><br />
-  反面：<textarea name="back">{{.Back}}</textarea><br />
-  <input type="submit" value="保存" />
+<form onsubmit="return Submit('card/update', -1)">
+  <main style="padding:4rem 1.5rem 6.5rem 1.5rem; height:100%;">
+    <input name="cardId" value="{{.CardId}}" type="hidden">
+    <textarea name="front" placeholder="正面" style="height:40%">{{.Front}}</textarea><br />
+    <textarea name="back" placeholder="背面" style="height:60%">{{.Back}}</textarea><br />
+  </main>
+
+  <footer>
+    <button type="submit" style="width:calc(100% - 3rem);">保存</button>
+  </footer>
 </form>
 {{end}}

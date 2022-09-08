@@ -1,16 +1,21 @@
-<h1>
-  修改卡组
-</h1>
+<header>
+  <a href="javascript:history.back()">＜</a>修改卡组
+  <button onclick="javascript:Href('deck/remove?deckId={{.deck.DeckId}}', 1)" class="small"
+    style=" position:fixed; right:0.75rem; top:0.75rem;">删除</button>
+</header>
 
-{{with .deck}}
-<a href="javascript:Href('deck/remove?deckId={{.DeckId}}', 1)">删除卡组</a>
-
-<form onsubmit="return AjaxSubmit('deck/update', -1)">
-  卡组ID：<input name="deckId" value="{{.DeckId}}" /><br />
-  卡组名：<input name="deckName" value="{{.DeckName}}" /><br />
-  类型：<input name="kind" value="{{.Kind}}" /><br />
-  {{end}}
-  卡片：<textarea name="cards">{{range .card}}{{.Front}}
+<form onsubmit="return Submit('deck/update', -1)">
+  <main style="padding:4rem 1.5rem 9rem 1.5rem; height:100%;">
+    {{with .deck}}
+    <input name="deckId" value="{{.DeckId}}" type="hidden" />
+    <input name="kind" value="{{.Kind}}" type="hidden" />
+    <input name="deckName" value="{{.DeckName}}" placeholder="卡组名称" style="width:100%; margin-bottom:1rem;" />
+    {{end}}
+    <textarea name="cards" placeholder="卡片">{{range .card}}{{.Front}}
 {{end}}</textarea><br />
-  <input type="submit" value="保存" />
+  </main>
+
+  <footer>
+    <button type="submit" style="width:calc(100% - 3rem);">保存</button>
+  </footer>
 </form>

@@ -1,8 +1,13 @@
-<h1>
-  新建卡组
-</h1>
+<header>
+  <a href="javascript:history.back()">＜</a>新建卡组
+</header>
 
-<form onsubmit="return AjaxSubmit('deck/insert', -1)">
-  卡组名 <textarea name="deckName"></textarea><br />
-  <input type="submit" value="保存" />
+<form onsubmit="return Submit('deck/insert', -1)">
+  <main style="padding: 4rem 0 0 0">
+    <input name="deckName" placeholder="卡组名称" class="sole" style="margin-left:1.5rem" />
+  </main>
+
+  <footer>
+    <button type="submit" style="width:calc(100% - 3rem);">保存</button>
+  </footer>
 </form>

@@ -1,12 +1,17 @@
-<h1>
-  删除卡片
-</h1>
+<header>
+  <a href="javascript:history.back()">＜</a>删除卡片
+</header>
 
 {{with .card}}
-<form onsubmit="return AjaxSubmit('card/delete', -2)">
-  card：<input name="cardId" value="{{.CardId}}"><br />
-  正面：{{.Front}}<br />
-  反面：{{.Back}}<br />
-  <input type="submit" value="确认删除" />
+<form onsubmit="return Submit('card/delete', -2)">
+  <main style="padding:4rem 1.5rem 6.5rem 1.5rem; height:100%;">
+    <input name="cardId" value="{{.CardId}}" type="hidden">
+    <textarea name="front" placeholder="正面" style="height:40%" disabled>{{.Front}}</textarea><br />
+    <textarea name="back" placeholder="背面" style="height:60%" disabled>{{.Back}}</textarea><br />
+  </main>
+
+  <footer>
+    <button type="submit" style="width:calc(100% - 3rem);">删除</button>
+  </footer>
 </form>
 {{end}}

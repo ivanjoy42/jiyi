@@ -1,9 +1,14 @@
-<h1>
-  新建卡片
-</h1>
+<header>
+  <a href="javascript:history.back()">＜</a>新建卡片
+</header>
 
-<form onsubmit="return AjaxSubmit('card/insert', -1)">
-  正面 <textarea name="front"></textarea><br />
-  反面 <textarea name="back"></textarea><br />
-  <input type="submit" value="保存" />
+<form onsubmit="return Submit('card/insert', -1)">
+  <main style="padding:4rem 1.5rem 6.5rem 1.5rem; height:100%;">
+    <textarea name="front" placeholder="正面" style="height:40%"></textarea><br />
+    <textarea name="back" placeholder="背面" style="height:60%"></textarea><br />
+  </main>
+
+  <footer>
+    <button type="submit" style="width:calc(100% - 3rem);">保存</button>
+  </footer>
 </form>

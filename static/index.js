@@ -85,7 +85,7 @@ onpopstate = function (event) {
     Href(url, 0);
 };
 
-function AjaxSubmit(url, direct) {
+function Submit(url, direct) {
     var data = {};
     $.each($("form").serializeArray(), function () {
         data[this.name] = this.value;
