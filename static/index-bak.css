@@ -25,9 +25,7 @@ a {
     box-shadow: 0rem 0rem 0.25rem #eaeaea;
 }
 
-table,
-td,
-th {
+table, td, th {
     border: 1px solid gray;
     word-break: break-all;
     text-align: center;
@@ -77,22 +75,29 @@ p {
 
 input {
     -webkit-appearance: none;
+    /*background: #ffffff;*/
     border: 0;
     border-radius: 1.5rem;
+    /*color: #41b382;*/
     height: 2.5rem;
-    padding: 1rem;
+    /*margin: 0 0.5rem;*/
+    padding: 0 1.5rem;
     vertical-align: top;
+    /*border-bottom: 1px solid #ddd;*/
+    /*box-shadow: -0.25rem -0.25rem 0.5rem #fff, 0.25rem 0.25rem 0.5rem #bbb;*/
+    /*box-shadow: 0rem 0.25rem 0.75rem #eaeaea;*/
     box-shadow: 0rem 0rem 0.5rem #eaeaea;
-    margin: 0rem 1rem 1rem 0rem;
 }
 
-input[type=submit],
-input[type=button] {
+input[type=submit], input[type=button] {
     border: 0;
-    padding: 0 1.5rem;
+    /*background: #41b382;*/
+    /*color: #ffffff;*/
+    /*box-shadow: -0.25rem -0.25rem 0.5rem #fff, 0.25rem 0.25rem 0.5rem #bbb;*/
 }
 
 input[type=range] {
+    /*width: 90%;*/
     background: #aaa;
     height: 1px;
     padding: 0;
@@ -112,12 +117,10 @@ textarea {
     border: 0;
     border-radius: 1.5rem;
     height: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 0.75rem;
     width: 100%;
     display: block;
     box-shadow: 0rem 0rem 0.5rem #eaeaea;
-    margin: 0rem 1rem 1rem 0rem;
-
 }
 
 progress {
@@ -139,18 +142,19 @@ progress::-webkit-progress-bar {
 
 .setting {
     background: #ffffff;
-    line-height: 4rem;
+    line-height: 3.5rem;
     display: block;
-    padding-left: 2rem;
+    padding-left: 1rem;
     position: relative;
 }
 
 .setting span {
-    padding-right: 2rem;
+    padding-right: 1rem;
     color: #aaaaaa;
     text-align: right;
+    border-bottom: 1px solid #fafafa;
     display: block;
-    width: calc(100% - 2rem);
+    width: calc(100% - 1rem);
     position: absolute;
     bottom: 0;
 }
@@ -238,7 +242,8 @@ progress::-webkit-progress-bar {
 }
 
 .gray {
-    background: #e8e8e8;
+    background: #f6f6f6;
+    /*background: #e8e8e8;*/
     color: #41b382;
 }
 
@@ -248,12 +253,12 @@ progress::-webkit-progress-bar {
 
 .orange {
     background: #ed9266;
-    color: #ffffff;
 }
 
 .small {
     height: 2rem;
     line-height: 2rem;
+    margin: 0 0.25rem;
     padding: 0 1rem;
 }
 
@@ -273,7 +278,7 @@ progress::-webkit-progress-bar {
 }
 
 .sole {
-    width: 100%;
+    width: calc(100% - 3rem);
 }
 
 section {
@@ -284,19 +289,18 @@ section {
     margin: 1.5rem;
 }
 
-button,
-label,
-.button {
+button, .abc {
     background: #41b382;
     border: 0;
     border-radius: 1.5rem;
+    /*box-shadow: -0.25rem -0.25rem 0.5rem #fff, 0.25rem 0.25rem 0.5rem #bbb;*/
+    /*box-shadow: 0rem 0.125rem 0.5rem #eaeaea;*/
+    /*box-shadow: 0rem 0.25rem 0.75rem #eaeaea;*/
     color: #ffffff;
     height: 2.5rem;
     line-height: 2.5rem;
     padding: 0 1.5rem;
     vertical-align: top;
-    display: inline-block;
-    margin: 0rem 1rem 1rem 0rem;
 }
 
 .large {

@@ -7,11 +7,16 @@
 </header>
 
 <main>
-  {{range .card}}
+  <div style="padding:1rem 0rem 0rem 1rem; background: #ffffff">
+    <button onclick="javascript:Href('card/list?kind=0', 0)"
+      class='small {{if ne .Kind "0"}}gray{{end}}'>通用</button><button onclick="javascript:Href('card/list?kind=1', 0)"
+      class='small {{if ne .Kind "1"}}gray{{end}}'>字词</button>
+  </div>
+
+  {{range .Card}}
   <a href="javascript:Href('card/modify?cardId={{.CardId}}', 1)" class="setting">
     {{.CardId}}
     {{.Front}}
-    {{.Kind}}
     <span>＞</span>
   </a>
   {{end}}

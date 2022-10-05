@@ -25,9 +25,9 @@ const (
 var segmenter sego.Segmenter
 
 func main() {
-	batch("cn", "freqChar")
-	batch("cn", "freqWord")
-	batch("en", "freqEnglish")
+	batch("xx", "freqChar")
+	// batch("xx", "freqWord")
+	// batch("en", "freqEnglish")
 }
 
 func loadScope() map[string][]byte {

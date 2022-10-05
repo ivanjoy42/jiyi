@@ -3,12 +3,30 @@
 </header>
 
 <form onsubmit="return Submit('card/insert', -1)">
-  <main style="padding:4rem 1.5rem 6.5rem 1.5rem; height:100%;">
-    <textarea name="front" placeholder="正面" style="height:40%"></textarea><br />
-    <textarea name="back" placeholder="背面" style="height:60%"></textarea><br />
-  </main>
+  <main style="padding:4rem 1.5rem 7.5rem 1.5rem; height:100%;">
+    <input name="kind" value="0" id="r0" type="radio" style="display:none" checked />
+    <input name="kind" value="1" id="r1" type="radio" style="display:none" />
+    <label for="r0" class="green small" onclick="selectRadio(this)">通用</label><label for="r1" class="gray small"
+      onclick="selectRadio(this)">字词</label>
 
-  <footer>
-    <button type="submit" style="width:calc(100% - 3rem);">保存</button>
-  </footer>
+    <input name="front" placeholder="正面" class="sole" />
+    <input type="hidden" name="pinyin" placeholder="拼音" class="sole" />
+    <textarea name="back" placeholder="背面" style="height:10rem"></textarea>
+    <textarea name="helper" placeholder="助记" style="height:5rem"></textarea>
+
+    <button type="submit" class="sole">保存</button>
+  </main>
 </form>
+
+<script>
+  function selectRadio(e) {
+    $("label").attr("class", "gray small")
+    $(e).attr("class", "green small")
+
+    if ($(e).attr("for") == "r1") {
+      $("input[name='pinyin']").attr("type", "input")
+    } else {
+      $("input[name='pinyin']").attr("type", "hidden")
+    }
+  }
+</script>

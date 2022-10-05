@@ -1,10 +1,12 @@
 DROP TABLE IF EXISTS `card`;
 CREATE TABLE IF NOT EXISTS `card` (
   `card_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `kind` tinyint(4) NOT NULL,
+  `kind` int(10) unsigned NOT NULL,
   `front` varchar(100) NOT NULL,
   `back` varchar(100) NOT NULL,
-  PRIMARY KEY (`card_id`) USING BTREE,
+  `helper` varchar(100) NOT NULL,
+  `pinyin` varchar(100) NOT NULL,
+  PRIMARY KEY (`card_id`),
   UNIQUE KEY `kind_front` (`kind`,`front`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -13,14 +15,25 @@ CREATE TABLE IF NOT EXISTS `card_deck` (
   `card_deck_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `card_id` int(10) unsigned NOT NULL,
   `deck_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`card_deck_id`) USING BTREE,
+  PRIMARY KEY (`card_deck_id`),
   UNIQUE KEY `card_id_deck_id` (`card_id`,`deck_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `deck`;
 CREATE TABLE IF NOT EXISTS `deck` (
   `deck_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `kind` tinyint(4) NOT NULL,
+  `kind` int(10) unsigned NOT NULL,
   `deck_name` varchar(100) NOT NULL,
-  PRIMARY KEY (`deck_id`) USING BTREE
+  PRIMARY KEY (`deck_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `learn`;
+CREATE TABLE IF NOT EXISTS `learn` (
+  `learn_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `card_id` int(10) unsigned NOT NULL,
+  `rank` tinyint(4) NOT NULL,
+  `skip` tinyint(4) NOT NULL,
+  `update_ts` datetime NOT NULL,
+  `next_ts` datetime NOT NULL,
+  PRIMARY KEY (`learn_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

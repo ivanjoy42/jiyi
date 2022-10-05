@@ -2,12 +2,13 @@
   <a href="javascript:history.back()">＜</a>删除卡片
 </header>
 
-{{with .card}}
+{{with .Card}}
 <form onsubmit="return Submit('card/delete', -2)">
-  <main style="padding:4rem 1.5rem 6.5rem 1.5rem; height:100%;">
+  <main style="padding:4rem 1.5rem 7.5rem 1.5rem; height:100%;">
     <input name="cardId" value="{{.CardId}}" type="hidden">
-    <textarea name="front" placeholder="正面" style="height:40%" disabled>{{.Front}}</textarea><br />
-    <textarea name="back" placeholder="背面" style="height:60%" disabled>{{.Back}}</textarea><br />
+    <textarea name="front" placeholder="正面" style="height:20%" disabled>{{.Front}}</textarea><br />
+    <textarea name="back" placeholder="背面" style="height:40%" disabled>{{.Back}}</textarea><br />
+    <textarea name="helper" placeholder="助记" style="height:40%" disabled>{{.Helper}}</textarea><br />
   </main>
 
   <footer>

@@ -21,17 +21,19 @@ type Card struct {
 	Kind   int
 	Front  string
 	Back   string
+	Helper string
+	Pinyin string
 }
 
-func insertCard(front, back string) {
-	sql := `INSERT INTO card(front, back, kind) VALUES(? ,? ,1)`
-	db.Exec(sql, front, back)
+func insertCard(kind, front, back, helper, pinyin string) {
+	sql := `INSERT INTO card(kind, front, back, helper, pinyin) VALUES(? ,? ,?, ?, ?)`
+	db.Exec(sql, kind, front, back, helper, pinyin)
 }
 
 // todo：分页
-func selectCard() (res []Card) {
-	sql := `SELECT * FROM card LIMIT 100`
-	db.Select(&res, sql)
+func selectCard(kind string) (res []Card) {
+	sql := `SELECT * FROM card WHERE kind=? LIMIT 100`
+	db.Select(&res, sql, kind)
 	return
 }
 
@@ -46,15 +48,15 @@ func deleteCard(cardId string) {
 	db.Exec(sql, cardId)
 }
 
-func updateCard(cardId, front, back string) {
-	sql := `UPDATE card SET front=?,back=? WHERE card_id=?`
-	db.Exec(sql, front, back, cardId)
+func updateCard(cardId, cardName, back, helper string) {
+	sql := `UPDATE card SET front=?, back=?, helper=? WHERE card_id=?`
+	db.Exec(sql, cardName, back, helper, cardId)
 }
 
-func searchCard(sFront string) (res []Card) {
-	front := splitSpace(sFront)
+func searchCard(sCardName string) (res []Card) {
+	cardName := splitSpace(sCardName)
 	sql := `SELECT * FROM card WHERE front IN(?)`
-	sql, args, _ := sqlx.In(sql, front)
+	sql, args, _ := sqlx.In(sql, cardName)
 	db.Select(&res, sql, args...)
 	return
 }
@@ -66,15 +68,15 @@ type Deck struct {
 	DeckName string
 }
 
-func selectDeck() (res []Deck) {
-	sql := `SELECT * FROM deck`
-	db.Select(&res, sql)
+func selectDeck(kind string) (res []Deck) {
+	sql := `SELECT * FROM deck WHERE kind=? LIMIT 100`
+	db.Select(&res, sql, kind)
 	return
 }
 
-func insertDeck(deckName string) {
-	sql := `INSERT INTO deck(kind, deck_name) VALUES(1, ?)`
-	db.Exec(sql, deckName)
+func insertDeck(deckName, kind string) {
+	sql := `INSERT INTO deck(deck_name, kind) VALUES(?, ?)`
+	db.Exec(sql, deckName, kind)
 }
 
 func getDeck(DeckId string) (res Deck) {

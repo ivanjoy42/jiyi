@@ -1,17 +1,17 @@
 <header>
   <a href="javascript:history.back()">＜</a>修改卡组
-  <button onclick="javascript:Href('deck/remove?deckId={{.deck.DeckId}}', 1)" class="small"
+  <button onclick="javascript:Href('deck/remove?deckId={{.Deck.DeckId}}', 1)" class="small"
     style=" position:fixed; right:0.75rem; top:0.75rem;">删除</button>
 </header>
 
 <form onsubmit="return Submit('deck/update', -1)">
   <main style="padding:4rem 1.5rem 9rem 1.5rem; height:100%;">
-    {{with .deck}}
+    {{with .Deck}}
     <input name="deckId" value="{{.DeckId}}" type="hidden" />
     <input name="kind" value="{{.Kind}}" type="hidden" />
     <input name="deckName" value="{{.DeckName}}" placeholder="卡组名称" style="width:100%; margin-bottom:1rem;" />
     {{end}}
-    <textarea name="cards" placeholder="卡片">{{range .card}}{{.Front}}
+    <textarea name="cards" placeholder="卡片">{{range .Card}}{{.Front}}
 {{end}}</textarea><br />
   </main>
 

@@ -3,11 +3,23 @@
 </header>
 
 <form onsubmit="return Submit('deck/insert', -1)">
-  <main style="padding: 4rem 0 0 0">
-    <input name="deckName" placeholder="卡组名称" class="sole" style="margin-left:1.5rem" />
+  <main style="padding:4rem 1.5rem 5.5rem 1.5rem; height:100%;">
+    <input name="kind" value="0" id="r0" type="radio" style="display:none" checked />
+    <input name="kind" value="1" id="r1" type="radio" style="display:none" />
+    <label for="r0" class="green small" onclick="selectRadio(this)">通用</label><label for="r1" class="gray small"
+      onclick="selectRadio(this)">字词</label>
+
+    <input name="deckName" placeholder="卡组名称" class="sole" />
   </main>
 
-  <footer>
-    <button type="submit" style="width:calc(100% - 3rem);">保存</button>
+  <footer style="padding:0 1.5rem">
+    <button type="submit" class="sole">保存</button>
   </footer>
 </form>
+
+<script>
+  function selectRadio(e) {
+    $("label").attr("class", "gray small")
+    $(e).attr("class", "green small")
+  }
+</script>
