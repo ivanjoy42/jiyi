@@ -1,16 +1,10 @@
 <header>
-  <a href="javascript:history.back()">＜</a>卡组
+  <a href="javascript:history.back()">＜</a>{{.KindName}}卡组
   <button onclick="javascript:Href('deck/create', 1)" class="small"
-    style=" position:fixed; right:0.75rem; top:0.75rem;">新建</button>
+    style=" position:fixed; right:0.5rem; top:1rem;">新建</button>
 </header>
 
 <main>
-  <div style="padding:1rem 0rem 0rem 1rem; background: #ffffff">
-    <button onclick="javascript:Href('deck/list?kind=0', 0)"
-      class='small {{if ne .Kind "0"}}gray{{end}}'>通用</button><button onclick="javascript:Href('deck/list?kind=1', 0)"
-      class='small {{if ne .Kind "1"}}gray{{end}}'>字词</button>
-  </div>
-
   {{range .Deck}}
   <a href="javascript:Href('deck/modify?deckId={{.DeckId}}', 1)" class="setting">
     {{.DeckId}}

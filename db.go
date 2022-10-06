@@ -147,3 +147,13 @@ func splitSpace(s string) (res []string) {
 	res = strings.Fields(s)
 	return
 }
+
+func getKindName(kind string) (res string) {
+	switch kind {
+	case "1":
+		res = "通用"
+	case "2":
+		res = "字词"
+	}
+	return
+}

@@ -1,18 +1,12 @@
 <header>
-  <a href="javascript:history.back()">＜</a>卡片
+  <a href="javascript:history.back()">＜</a>{{.KindName}}卡片
   <button onclick="javascript:Href('card/search', 1)" class="small"
-    style=" position:fixed; right:6rem; top:0.75rem;">搜索</button>
+    style=" position:fixed; right:6rem; top:1rem;">搜索</button>
   <button onclick="javascript:Href('card/create', 1)" class="small"
-    style=" position:fixed; right:0.75rem; top:0.75rem;">新建</button>
+    style=" position:fixed; right:0.5rem; top:1rem;">新建</button>
 </header>
 
 <main>
-  <div style="padding:1rem 0rem 0rem 1rem; background: #ffffff">
-    <button onclick="javascript:Href('card/list?kind=0', 0)"
-      class='small {{if ne .Kind "0"}}gray{{end}}'>通用</button><button onclick="javascript:Href('card/list?kind=1', 0)"
-      class='small {{if ne .Kind "1"}}gray{{end}}'>字词</button>
-  </div>
-
   {{range .Card}}
   <a href="javascript:Href('card/modify?cardId={{.CardId}}', 1)" class="setting">
     {{.CardId}}

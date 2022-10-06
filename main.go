@@ -35,11 +35,8 @@ func home(c *gin.Context) {
 func card(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kind := c.Query("kind")
-		if kind == "" {
-			kind = "0"
-		}
 		card := selectCard(kind)
-		c.HTML(200, "cardList.html", gin.H{"Card": card, "Kind": kind})
+		c.HTML(200, "cardList.html", gin.H{"Card": card, "KindName": getKindName(kind)})
 	})
 
 	r.GET("create", func(c *gin.Context) {
@@ -95,11 +92,8 @@ func card(r *gin.RouterGroup) {
 func deck(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kind := c.Query("kind")
-		if kind == "" {
-			kind = "0"
-		}
 		deck := selectDeck(kind)
-		c.HTML(200, "deckList.html", gin.H{"Deck": deck, "Kind": kind})
+		c.HTML(200, "deckList.html", gin.H{"Deck": deck, "KindName": getKindName(kind)})
 	})
 
 	r.GET("create", func(c *gin.Context) {
