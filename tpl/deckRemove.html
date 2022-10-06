@@ -3,7 +3,7 @@
 </header>
 
 <form onsubmit="return Submit('deck/delete', -2)">
-  <main style="padding:4rem 1.5rem 9rem 1.5rem; height:100%;">
+  <main style="padding:4rem 2rem 9rem 2rem; height:100%;">
     {{with .Deck}}
     <input name="deckId" value="{{.DeckId}}" type="hidden" />
     <input name="kind" value="{{.Kind}}" type="hidden" />
@@ -13,7 +13,9 @@
 {{end}}</textarea>
   </main>
 
-  <footer>
+  <footer style="padding:0 2rem;">
+    <button type="button" class="dual" onclick="javascript:history.back()">取消</button>
+    <button type="submit" class="dual orange" style="margin-right: 0">删除</button>
     <button type="submit" style="width:calc(100% - 3rem);">删除</button>
   </footer>
 </form>

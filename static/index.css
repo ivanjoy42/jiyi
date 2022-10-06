@@ -10,7 +10,7 @@
 mark {
     color: #da251c;
     font-weight: bold;
-    background: #fff;
+    background: #ffffff;
 }
 
 a {
@@ -41,7 +41,7 @@ header {
 }
 
 header a {
-    padding: 0 1rem;
+    padding: 0 1rem 0 2rem;
     float: left;
 }
 
@@ -78,6 +78,12 @@ input {
     margin: 0rem 1rem 1rem 0rem;
 }
 
+input[type=search] {
+    height: 2.5rem;
+    padding: 1.25rem;
+    margin: 0.75rem 0;
+}
+
 input[type=submit],
 input[type=button] {
     border: 0;
@@ -85,7 +91,7 @@ input[type=button] {
 }
 
 input[type=range] {
-    background: #aaa;
+    background: #aaaaaa;
     height: 1px;
     padding: 0;
     vertical-align: middle;
@@ -95,7 +101,7 @@ input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: #ffffff;
     border-radius: 1.5rem;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc;
     width: 1.5rem;
     height: 1.5rem;
 }
@@ -131,6 +137,7 @@ progress::-webkit-progress-bar {
     max-width: 100%;
     display: block;
     margin: 0 auto;
+    text-align: center;
 }
 
 .setting {
@@ -157,7 +164,7 @@ progress::-webkit-progress-bar {
 }
 
 .hr span {
-    border-top: 1px solid #eee;
+    border-top: 1px solid #eeeeee;
     display: block;
 }
 
@@ -175,7 +182,7 @@ progress::-webkit-progress-bar {
 .bar {
     height: 3.5rem;
     line-height: 3.5rem;
-    background: #fff;
+    background: #ffffff;
     text-align: center;
     display: block;
     margin-top: 0.5rem;
@@ -244,8 +251,8 @@ progress::-webkit-progress-bar {
 }
 
 .gray {
-    background: #e8e8e8;
-    color: #41b382;
+    background: #eeeeee;
+    color: #000000;
 }
 
 .white {
@@ -269,9 +276,8 @@ progress::-webkit-progress-bar {
 }
 
 .dual {
-    width: calc(50% - 2.25rem);
+    width: calc(50% - 0.5rem);
     float: left;
-    margin-left: 1.5rem;
 }
 
 .sole {
@@ -279,7 +285,7 @@ progress::-webkit-progress-bar {
 }
 
 section {
-    background: #fff;
+    background: #ffffff;
     border-radius: 1.5rem;
     padding: 1.5rem;
     margin: 1.5rem;

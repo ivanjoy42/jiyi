@@ -1,15 +1,16 @@
 <header>
+  <a href="javascript:history.back()">＜</a>
   <form onsubmit="javascript:Href('card/search?front='+this.front.value, 0); return false">
-    <input name="front" value="{{.Front}}" style="margin:0.5rem 1rem; width:calc(100% - 6rem);" type="search" autofocus>
-    <a href="javascript:history.back()" style="float:right">取消</a>
+    <input name="front" value="{{.Front}}"
+      style="height: 2.5rem; padding: 1.25rem; margin: 0.75rem 0; width:calc(100% - 6rem);" type="search" autofocus>
   </form>
 </header>
 
 <main>
   {{range .Card}}
   <a href="javascript:Href('card/modify?cardId={{.CardId}}', 1)" class="setting">
-    {{.CardId}}
     {{.Front}}
+    {{.CardId}}
     <span>＞</span>
   </a>
   {{end}}

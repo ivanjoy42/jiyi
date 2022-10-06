@@ -4,15 +4,16 @@
 
 {{with .Card}}
 <form onsubmit="return Submit('card/delete', -2)">
-  <main style="padding:4rem 1.5rem 7.5rem 1.5rem; height:100%;">
+  <main style="padding:4rem 2rem">
     <input name="cardId" value="{{.CardId}}" type="hidden">
-    <textarea name="front" placeholder="正面" style="height:20%" disabled>{{.Front}}</textarea><br />
-    <textarea name="back" placeholder="背面" style="height:40%" disabled>{{.Back}}</textarea><br />
-    <textarea name="helper" placeholder="助记" style="height:40%" disabled>{{.Helper}}</textarea><br />
-  </main>
+    <input name="front" placeholder="正面" class="sole" value="{{.Front}}" disabled />
+    <input name="pinyin" placeholder="拼音" class="sole" value="{{.Pinyin}}" {{if ne .Kind 2 }}type="hidden" {{end}}
+      disabled />
+    <textarea name="back" placeholder="背面" style="height:10rem" disabled>{{.Back}}</textarea>
+    <input name="helper" placeholder="助记" class="sole" value="{{.Helper}}" disabled />
 
-  <footer>
-    <button type="submit" style="width:calc(100% - 3rem);">删除</button>
-  </footer>
+    <button type="button" class="dual" onclick="javascript:history.back()">取消</button>
+    <button type="submit" class="dual orange" style="margin-right: 0">删除</button>
+  </main>
 </form>
 {{end}}
