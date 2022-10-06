@@ -2,19 +2,17 @@
 <header>
   <a href="javascript:history.back()">＜</a>修改卡片
   <button onclick="javascript:Href('card/remove?cardId={{.CardId}}', 1)" class="small"
-    style=" position:fixed; right:0.75rem; top:0.75rem;">删除</button>
+    style=" position:fixed; right:0.5rem; top:1rem;">删除</button>
 </header>
 
 <form onsubmit="return Submit('card/update', -1)">
-  <main style="padding:4rem 1.5rem 7.5rem 1.5rem; height:100%;">
+  <main style="padding:4rem 2rem">
     <input name="cardId" value="{{.CardId}}" type="hidden">
-    <textarea name="front" placeholder="正面" style="height:20%">{{.Front}}</textarea><br />
-    <textarea name="back" placeholder="背面" style="height:40%">{{.Back}}</textarea><br />
-    <textarea name="helper" placeholder="助记" style="height:40%">{{.Helper}}</textarea><br />
+    <input name="front" placeholder="正面" class="sole" value="{{.Front}}" />
+    <input name="pinyin" placeholder="拼音" class="sole" value="{{.Pinyin}}" {{if ne .Kind 2 }}type="hidden" {{end}} />
+    <textarea name="back" placeholder="背面" style="height:10rem">{{.Back}}</textarea>
+    <input name="helper" placeholder="助记" class="sole" value="{{.Helper}}" />
+    <button type="submit" class="sole">保存</button>
   </main>
-
-  <footer>
-    <button type="submit" style="width:calc(100% - 3rem);">保存</button>
-  </footer>
 </form>
 {{end}}

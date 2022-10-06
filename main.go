@@ -36,11 +36,12 @@ func card(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kind := c.Query("kind")
 		card := selectCard(kind)
-		c.HTML(200, "cardList.html", gin.H{"Card": card, "KindName": getKindName(kind)})
+		c.HTML(200, "cardList.html", gin.H{"Card": card, "Kind": kind, "KindName": getKindName(kind)})
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		c.HTML(200, "cardCreate.html", gin.H{})
+		kind := c.Query("kind")
+		c.HTML(200, "cardCreate.html", gin.H{"Kind": kind, "KindName": getKindName(kind)})
 	})
 
 	r.GET("modify", func(c *gin.Context) {
@@ -62,7 +63,7 @@ func card(r *gin.RouterGroup) {
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		kind := c.PostForm("kind")
+		kind := c.Query("kind")
 		front := c.PostForm("front")
 		back := c.PostForm("back")
 		helper := c.PostForm("helper")
@@ -75,7 +76,8 @@ func card(r *gin.RouterGroup) {
 		front := c.PostForm("front")
 		back := c.PostForm("back")
 		helper := c.PostForm("helper")
-		updateCard(cardId, front, back, helper)
+		pinyin := c.PostForm("pinyin")
+		updateCard(cardId, front, back, helper, pinyin)
 	})
 
 	r.POST("delete", func(c *gin.Context) {

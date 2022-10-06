@@ -48,9 +48,9 @@ func deleteCard(cardId string) {
 	db.Exec(sql, cardId)
 }
 
-func updateCard(cardId, cardName, back, helper string) {
-	sql := `UPDATE card SET front=?, back=?, helper=? WHERE card_id=?`
-	db.Exec(sql, cardName, back, helper, cardId)
+func updateCard(cardId, cardName, back, helper, pinyin string) {
+	sql := `UPDATE card SET front=?, back=?, helper=?, pinyin=? WHERE card_id=?`
+	db.Exec(sql, cardName, back, helper, pinyin, cardId)
 }
 
 func searchCard(sCardName string) (res []Card) {
