@@ -1,7 +1,6 @@
 <header>
-  <a href="javascript:history.back()">＜</a>{{.KindName}}卡组
-  <button onclick="javascript:Href('deck/create?kind={{.Kind}}', 1)" class="small gray"
-    style=" position:fixed; right:1rem; top:1rem;">＋新建</button>
+  <a href="javascript:history.back()" class="back">＜</a>{{.KindName}}卡组
+  <a href="javascript:Href('deck/create?kind={{.Kind}}', 1)" class="tool"><img src="../static/add.svg" /></a>
 </header>
 
 <main>

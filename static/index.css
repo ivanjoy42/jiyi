@@ -28,21 +28,32 @@ th {
 }
 
 body {
-    background: #fafafa;
+    background: #ffffff;
+}
+
+.back {
+    padding: 0 1rem 0 2rem;
+    float: left;
+}
+
+.tool {
+    float: right;
+    padding: 0 0.75rem;
+}
+
+img {
+    height: 1.25rem;
+    vertical-align: middle;
 }
 
 header {
+    background: #ffffff;
     height: 4rem;
     line-height: 4rem;
+    padding: 0 1.25rem 0 0;
     position: fixed;
     width: 100%;
     z-index: 1;
-    background: #fafafa;
-}
-
-header a {
-    padding: 0 1rem 0 2rem;
-    float: left;
 }
 
 header i {
@@ -68,14 +79,26 @@ p {
     margin: 1rem 0;
 }
 
+textarea {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: inset 0rem 0rem 0rem 1px #eeeeee;
+    height: 100%;
+    margin: 0rem 1rem 1rem 0rem;
+    padding: 1rem;
+    width: 100%;
+    display: block;
+}
+
 input {
     -webkit-appearance: none;
     border: 0;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: inset 0rem 0rem 0rem 1px #eeeeee;
     height: 3rem;
-    padding: 1.5rem;
-    vertical-align: top;
     margin: 0rem 1rem 1rem 0rem;
+    padding: 1rem;
+    vertical-align: top;
 }
 
 input[type=search] {
@@ -104,16 +127,6 @@ input[type=range]::-webkit-slider-thumb {
     border: 1px solid #cccccc;
     width: 1.5rem;
     height: 1.5rem;
-}
-
-textarea {
-    border: 0;
-    border-radius: 1.5rem;
-    height: 100%;
-    padding: 1rem 1.5rem;
-    width: 100%;
-    display: block;
-    margin: 0rem 1rem 1rem 0rem;
 }
 
 progress {
