@@ -36,7 +36,11 @@ func card(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kind := c.Query("kind")
 		card := selectCard(kind)
-		c.HTML(200, "cardList.html", gin.H{"Card": card, "Kind": kind, "KindName": getKindName(kind)})
+		c.HTML(200, "cardList.html", gin.H{
+			"Card":     card,
+			"Kind":     kind,
+			"KindName": getKindName(kind),
+		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
@@ -95,11 +99,16 @@ func deck(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kind := c.Query("kind")
 		deck := selectDeck(kind)
-		c.HTML(200, "deckList.html", gin.H{"Deck": deck, "KindName": getKindName(kind)})
+		c.HTML(200, "deckList.html", gin.H{
+			"Deck":     deck,
+			"Kind":     kind,
+			"KindName": getKindName(kind),
+		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		c.HTML(200, "deckCreate.html", gin.H{})
+		kind := c.Query("kind")
+		c.HTML(200, "deckCreate.html", gin.H{"Kind": kind, "KindName": getKindName(kind)})
 	})
 
 	r.GET("modify", func(c *gin.Context) {
@@ -117,9 +126,10 @@ func deck(r *gin.RouterGroup) {
 	})
 
 	r.POST("insert", func(c *gin.Context) {
+		kind := c.Query("kind")
 		deckName := c.PostForm("deckName")
-		kind := c.PostForm("kind")
-		insertDeck(deckName, kind)
+		cards := c.PostForm("cards")
+		insertDeckTxn(deckName, kind, cards)
 	})
 
 	r.POST("update", func(c *gin.Context) {
@@ -127,8 +137,7 @@ func deck(r *gin.RouterGroup) {
 		deckName := c.PostForm("deckName")
 		kind := c.PostForm("kind")
 		cards := c.PostForm("cards")
-		updateDeck(deckId, deckName)
-		updateCardDeck(deckId, kind, cards)
+		updateDeckTxn(deckId, deckName, kind, cards)
 	})
 
 	r.POST("delete", func(c *gin.Context) {

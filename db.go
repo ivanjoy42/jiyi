@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strconv"
 	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -68,15 +69,42 @@ type Deck struct {
 	DeckName string
 }
 
+// 添加卡组（事物）
+//
+// 1.添加卡组
+// 2.获取卡片ID
+// 3.添加卡片与卡组的关联
+func insertDeckTxn(deckName, kind, cards string) {
+	deckId := insertDeck(deckName, kind)
+	cardIds := getCardIds(kind, cards)
+	insertCardDeck(cardIds, deckId)
+}
+
+// 更新卡组（事物）
+//
+// 1.更新卡组
+// 2.删除旧的关联
+// 3.获取卡片ID
+// 4.添加卡片与卡组的关联
+func updateDeckTxn(deckId, deckName, kind, cards string) {
+	updateDeck(deckId, deckName)
+	deleteCardDeckByDeckId(deckId)
+	cardIds := getCardIds(kind, cards)
+	insertCardDeck(cardIds, deckId)
+}
+
 func selectDeck(kind string) (res []Deck) {
 	sql := `SELECT * FROM deck WHERE kind=? LIMIT 100`
 	db.Select(&res, sql, kind)
 	return
 }
 
-func insertDeck(deckName, kind string) {
+func insertDeck(deckName, kind string) (id string) {
 	sql := `INSERT INTO deck(deck_name, kind) VALUES(?, ?)`
-	db.Exec(sql, deckName, kind)
+	res, _ := db.Exec(sql, deckName, kind)
+	lastId, _ := res.LastInsertId()
+	id = strconv.FormatInt(lastId, 10)
+	return
 }
 
 func getDeck(DeckId string) (res Deck) {
@@ -100,21 +128,12 @@ func updateDeck(deckId, deckName string) {
 	db.Exec(sql, deckName, deckId)
 }
 
-// 修改卡片与卡组的关联
-//
-// 1.删除旧的关联；
-// 2.根据卡片的front获取卡片ID；
-// 3.添加新的关联。
-func updateCardDeck(deckId, kind, sFront string) {
-	deleteCardDeckByDeckId(deckId)
-
+func getCardIds(kind, sFront string) (cards []Card) {
 	front := splitSpace(sFront)
-	cards := []Card{}
 	sql := `SELECT * FROM card WHERE kind=? AND front IN(?) ORDER BY FIELD(front, ?)`
 	sql, args, _ := sqlx.In(sql, kind, front, front)
 	db.Select(&cards, sql, args...)
-
-	insertCardDeck(cards, deckId)
+	return
 }
 
 func deleteCardDeckByDeckId(deckId string) {
@@ -136,7 +155,6 @@ func insertCardDeck(cards []Card, deckId string) {
 func deleteDeck(deckId string) {
 	sql := `DELETE FROM deck WHERE deck_id=?`
 	db.Exec(sql, deckId)
-
 	deleteCardDeckByDeckId(deckId)
 }
 

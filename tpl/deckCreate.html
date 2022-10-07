@@ -2,24 +2,14 @@
   <a href="javascript:history.back()">＜</a>新建卡组
 </header>
 
-<form onsubmit="return Submit('deck/insert', -1)">
-  <main style="padding:4rem 1.5rem 5.5rem 1.5rem; height:100%;">
-    <input name="kind" value="0" id="r0" type="radio" style="display:none" checked />
-    <input name="kind" value="1" id="r1" type="radio" style="display:none" />
-    <label for="r0" class="green small" onclick="selectRadio(this)">通用</label><label for="r1" class="gray small"
-      onclick="selectRadio(this)">字词</label>
-
+<form onsubmit="return Submit('deck/insert?kind={{.Kind}}', -1)">
+  <main style="padding:4rem 2rem 9rem 2rem; height:100%;">
+    <input name="kind" type="hidden" />
     <input name="deckName" placeholder="卡组名称" class="sole" />
+    <textarea name="cards" placeholder="卡片"></textarea>
   </main>
 
-  <footer style="padding:0 1.5rem">
+  <footer style="padding:0 2rem">
     <button type="submit" class="sole">保存</button>
   </footer>
 </form>
-
-<script>
-  function selectRadio(e) {
-    $("label").attr("class", "gray small")
-    $(e).attr("class", "green small")
-  }
-</script>
