@@ -1,9 +1,10 @@
 <header>
-  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>新建卡组
+  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>
+  <div>新建卡组</div>
 </header>
 
 <form onsubmit="return Submit('deck/insert?kind={{.Kind}}', -1)">
-  <main style="padding:4rem 2rem 9rem 2rem; height:100%;">
+  <main style="padding:4rem 2rem 10rem 2rem; height:100%;">
     <input name="kind" type="hidden" />
     <input name="deckName" placeholder="卡组名称" class="sole" />
     <textarea name="cards" placeholder="卡片"></textarea>

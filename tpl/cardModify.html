@@ -1,6 +1,7 @@
 {{with .Card}}
 <header>
-  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>修改卡片
+  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>
+  <div>修改卡片</div>
   <a href="javascript:Href('card/remove?cardId={{.CardId}}', 1)" class="tool"><img src="../static/delete.svg" /></a>
 </header>
 
@@ -9,7 +10,7 @@
     <input name="cardId" value="{{.CardId}}" type="hidden">
     <input name="front" placeholder="正面" class="sole" value="{{.Front}}" />
     <input name="pinyin" placeholder="拼音" class="sole" value="{{.Pinyin}}" {{if ne .Kind 2 }}type="hidden" {{end}} />
-    <textarea name="back" placeholder="背面" style="height:10rem">{{.Back}}</textarea>
+    <textarea name="back" placeholder="背面" style="height:11rem">{{.Back}}</textarea>
     <input name="helper" placeholder="助记" class="sole" value="{{.Helper}}" />
     <button type="submit" class="sole">保存</button>
   </main>

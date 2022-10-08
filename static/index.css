@@ -1,48 +1,33 @@
 * {
-    margin: 0;
-    font-size: 1rem;
-    font-family: arial, sans-serif;
     box-sizing: border-box;
+    font-family: arial, sans-serif;
+    font-size: 1.125rem;
+    margin: 0;
     outline: none;
     resize: none;
 }
 
+html {
+    font-size: 1rem;
+}
+
 mark {
+    background: #ffffff;
     color: #da251c;
     font-weight: bold;
-    background: #ffffff;
 }
 
 a {
-    text-decoration: none;
     color: #000000;
-}
-
-table,
-td,
-th {
-    border: 1px solid gray;
-    word-break: break-all;
-    text-align: center;
-    white-space: nowrap;
+    text-decoration: none;
 }
 
 body {
     background: #ffffff;
 }
 
-.back {
-    padding: 0 1rem 0 2rem;
-    float: left;
-}
-
-.tool {
-    float: right;
-    padding: 0 0.75rem;
-}
-
 img {
-    vertical-align: sub;
+    vertical-align: -9%;
 }
 
 header {
@@ -55,8 +40,11 @@ header {
     z-index: 1;
 }
 
-header i {
-    padding-left: 2rem;
+header div {
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: -1;
 }
 
 main {
@@ -67,8 +55,8 @@ main {
 
 footer {
     bottom: 0;
-    height: 4rem;
-    line-height: 4rem;
+    height: 5rem;
+    line-height: 5rem;
     position: fixed;
     text-align: center;
     width: 100%;
@@ -145,6 +133,16 @@ progress::-webkit-progress-bar {
     border-radius: 0.5rem;
 }
 
+.back {
+    float: left;
+    padding: 0 1rem 0 2rem;
+}
+
+.tool {
+    float: right;
+    padding: 0 0.75rem;
+}
+
 .center {
     max-width: 100%;
     display: block;
@@ -154,7 +152,7 @@ progress::-webkit-progress-bar {
 
 .setting {
     background: #ffffff;
-    line-height: 4rem;
+    line-height: 3.5rem;
     display: block;
     padding-left: 2rem;
     position: relative;

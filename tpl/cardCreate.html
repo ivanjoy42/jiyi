@@ -1,12 +1,13 @@
 <header>
-  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>新建卡片
+  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>
+  <div>新建卡片</div>
 </header>
 
 <form onsubmit="return Submit('card/insert?kind={{.Kind}}', -1)">
   <main style="padding:4rem 2rem">
     <input name="front" placeholder="正面" class="sole" />
     <input name="pinyin" placeholder="拼音" class="sole" {{if ne .Kind "2" }}type="hidden" {{end}} />
-    <textarea name="back" placeholder="背面" style="height:10rem"></textarea>
+    <textarea name="back" placeholder="背面" style="height:11rem"></textarea>
     <input name="helper" placeholder="助记" class="sole" />
     <button type="submit" class="sole">保存</button>
   </main>

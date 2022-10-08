@@ -1,5 +1,6 @@
 <header>
-  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>删除卡片
+  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>
+  <div>删除卡片</div>
 </header>
 
 {{with .Card}}
@@ -9,7 +10,7 @@
     <input name="front" placeholder="正面" class="sole" value="{{.Front}}" disabled />
     <input name="pinyin" placeholder="拼音" class="sole" value="{{.Pinyin}}" {{if ne .Kind 2 }}type="hidden" {{end}}
       disabled />
-    <textarea name="back" placeholder="背面" style="height:10rem" disabled>{{.Back}}</textarea>
+    <textarea name="back" placeholder="背面" style="height:11rem" disabled>{{.Back}}</textarea>
     <input name="helper" placeholder="助记" class="sole" value="{{.Helper}}" disabled />
 
     <button type="button" class="dual" onclick="javascript:history.back()">取消</button>
