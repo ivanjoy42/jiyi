@@ -30,8 +30,6 @@ func home(c *gin.Context) {
 // list列表页面；
 // create新建页面，modify修改页面，remove删除页面；
 // insert插入记录，update更新记录，delete删除记录。
-//
-// todo：分组浏览
 func card(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kind := c.Query("kind")
@@ -61,9 +59,14 @@ func card(r *gin.RouterGroup) {
 	})
 
 	r.GET("search", func(c *gin.Context) {
+		kind := c.Query("kind")
 		front := c.Query("front")
-		card := searchCard(front)
-		c.HTML(200, "cardSearch.html", gin.H{"Card": card, "Front": front})
+		card := searchCard(kind, front)
+		c.HTML(200, "cardSearch.html", gin.H{
+			"Card":  card,
+			"Front": front,
+			"Kind":  kind,
+		})
 	})
 
 	r.POST("insert", func(c *gin.Context) {

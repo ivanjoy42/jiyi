@@ -49,15 +49,15 @@ func deleteCard(cardId string) {
 	db.Exec(sql, cardId)
 }
 
-func updateCard(cardId, cardName, back, helper, pinyin string) {
+func updateCard(cardId, front, back, helper, pinyin string) {
 	sql := `UPDATE card SET front=?, back=?, helper=?, pinyin=? WHERE card_id=?`
-	db.Exec(sql, cardName, back, helper, pinyin, cardId)
+	db.Exec(sql, front, back, helper, pinyin, cardId)
 }
 
-func searchCard(sCardName string) (res []Card) {
-	cardName := splitSpace(sCardName)
-	sql := `SELECT * FROM card WHERE front IN(?)`
-	sql, args, _ := sqlx.In(sql, cardName)
+func searchCard(kind, front string) (res []Card) {
+	frontArray := splitSpace(front)
+	sql := `SELECT * FROM card WHERE kind=? AND front IN(?)`
+	sql, args, _ := sqlx.In(sql, kind, frontArray)
 	db.Select(&res, sql, args...)
 	return
 }
@@ -69,7 +69,7 @@ type Deck struct {
 	DeckName string
 }
 
-// 添加卡组（事物）
+// 添加卡组（todo：事物）
 //
 // 1.添加卡组
 // 2.获取卡片ID
@@ -80,7 +80,7 @@ func insertDeckTxn(deckName, kind, cards string) {
 	insertCardDeck(cardIds, deckId)
 }
 
-// 更新卡组（事物）
+// 更新卡组（todo：事物）
 //
 // 1.更新卡组
 // 2.删除旧的关联
@@ -128,10 +128,10 @@ func updateDeck(deckId, deckName string) {
 	db.Exec(sql, deckName, deckId)
 }
 
-func getCardIds(kind, sFront string) (cards []Card) {
-	front := splitSpace(sFront)
+func getCardIds(kind, front string) (cards []Card) {
+	frontArray := splitSpace(front)
 	sql := `SELECT * FROM card WHERE kind=? AND front IN(?) ORDER BY FIELD(front, ?)`
-	sql, args, _ := sqlx.In(sql, kind, front, front)
+	sql, args, _ := sqlx.In(sql, kind, frontArray, frontArray)
 	db.Select(&cards, sql, args...)
 	return
 }
