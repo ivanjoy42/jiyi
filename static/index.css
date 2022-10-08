@@ -1,7 +1,7 @@
 * {
     margin: 0;
     font-size: 1rem;
-    font-family: Arial;
+    font-family: arial, sans-serif;
     box-sizing: border-box;
     outline: none;
     resize: none;
@@ -42,8 +42,7 @@ body {
 }
 
 img {
-    height: 1.25rem;
-    vertical-align: middle;
+    vertical-align: sub;
 }
 
 header {
@@ -162,13 +161,8 @@ progress::-webkit-progress-bar {
 }
 
 .setting span {
+    float: right;
     padding-right: 2rem;
-    color: #aaaaaa;
-    text-align: right;
-    display: block;
-    width: calc(100% - 2rem);
-    position: absolute;
-    bottom: 0;
 }
 
 .hr {

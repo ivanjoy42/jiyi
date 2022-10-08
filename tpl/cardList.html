@@ -1,5 +1,5 @@
 <header>
-  <a href="javascript:history.back()" class="back">＜</a>{{.KindName}}卡片
+  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>{{.KindName}}卡片
   <a href="javascript:Href('card/create?kind={{.Kind}}', 1)" class="tool"><img src="../static/add.svg" /></a>
   <a href="javascript:Href('card/search', 1)" class="tool"><img src="../static/search.svg" /></a>
 </header>
@@ -9,7 +9,7 @@
   <a href="javascript:Href('card/modify?cardId={{.CardId}}', 1)" class="setting">
     {{.Front}}
     {{.CardId}}
-    <span>＞</span>
+    <span><img src="../static/forward.svg" /></span>
   </a>
   {{end}}
 </main>
