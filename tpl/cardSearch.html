@@ -1,6 +1,6 @@
 <header>
   <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>
-  <form onsubmit="javascript:Href('card/search?kind={{.Kind}}&front='+this.front.value, 0); return false">
+  <form onsubmit="javascript:Href('card/search?kindId={{.KindId}}&front='+this.front.value, 0); return false">
     <input name="front" value="{{.Front}}"
       style="height: 2.5rem; padding: 1.25rem; margin: 0.75rem 0; width:calc(100% - 6rem);" type="search" autofocus>
   </form>
@@ -11,7 +11,7 @@
   <a href="javascript:Href('card/modify?cardId={{.CardId}}', 1)" class="setting">
     {{.Front}}
     {{.CardId}}
-    <span>＞</span>
+    <span><img src="../static/forward.svg" /></span>
   </a>
   {{end}}
 </main>

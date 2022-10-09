@@ -3,9 +3,9 @@
   <div>新建卡组</div>
 </header>
 
-<form onsubmit="return Submit('deck/insert?kind={{.Kind}}', -1)">
+<form onsubmit="return Submit('deck/insert', -1)">
   <main style="padding:4rem 2rem 10rem 2rem; height:100%;">
-    <input name="kind" type="hidden" />
+    <input name="kindId" value="{{.KindId}}" type="hidden">
     <input name="deckName" placeholder="卡组名称" class="sole" />
     <textarea name="cards" placeholder="卡片"></textarea>
   </main>

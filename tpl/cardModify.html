@@ -9,7 +9,7 @@
   <main style="padding:4rem 2rem">
     <input name="cardId" value="{{.CardId}}" type="hidden">
     <input name="front" placeholder="正面" class="sole" value="{{.Front}}" />
-    <input name="pinyin" placeholder="拼音" class="sole" value="{{.Pinyin}}" {{if ne .Kind 2 }}type="hidden" {{end}} />
+    <input name="pinyin" placeholder="拼音" class="sole" value="{{.Pinyin}}" {{if ne .KindId 2 }}type="hidden" {{end}} />
     <textarea name="back" placeholder="背面" style="height:11rem">{{.Back}}</textarea>
     <input name="helper" placeholder="助记" class="sole" value="{{.Helper}}" />
     <button type="submit" class="sole">保存</button>

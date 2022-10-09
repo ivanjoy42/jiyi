@@ -32,50 +32,52 @@ func home(c *gin.Context) {
 // insert插入记录，update更新记录，delete删除记录。
 func card(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
-		kind := c.Query("kind")
-		card := selectCard(kind)
+		kindId := c.Query("kindId")
 		c.HTML(200, "cardList.html", gin.H{
-			"Card":     card,
-			"Kind":     kind,
-			"KindName": getKindName(kind),
+			"Card": selectCard(kindId),
+			"Kind": getKind(kindId),
 		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		kind := c.Query("kind")
-		c.HTML(200, "cardCreate.html", gin.H{"Kind": kind, "KindName": getKindName(kind)})
+		kindId := c.Query("kindId")
+		c.HTML(200, "cardCreate.html", gin.H{
+			"KindId": kindId,
+			"Kind":   getKind(kindId),
+		})
 	})
 
 	r.GET("modify", func(c *gin.Context) {
 		cardId := c.Query("cardId")
-		card := getCard(cardId)
-		c.HTML(200, "cardModify.html", gin.H{"Card": card})
+		c.HTML(200, "cardModify.html", gin.H{
+			"Card": getCard(cardId),
+		})
 	})
 
 	r.GET("remove", func(c *gin.Context) {
 		cardId := c.Query("cardId")
-		card := getCard(cardId)
-		c.HTML(200, "cardRemove.html", gin.H{"Card": card})
+		c.HTML(200, "cardRemove.html", gin.H{
+			"Card": getCard(cardId),
+		})
 	})
 
 	r.GET("search", func(c *gin.Context) {
-		kind := c.Query("kind")
+		kindId := c.Query("kindId")
 		front := c.Query("front")
-		card := searchCard(kind, front)
 		c.HTML(200, "cardSearch.html", gin.H{
-			"Card":  card,
-			"Front": front,
-			"Kind":  kind,
+			"Card":   searchCard(kindId, front),
+			"Front":  front,
+			"KindId": kindId,
 		})
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		kind := c.Query("kind")
+		kindId := c.PostForm("kindId")
 		front := c.PostForm("front")
 		back := c.PostForm("back")
 		helper := c.PostForm("helper")
 		pinyin := c.PostForm("pinyin")
-		insertCard(kind, front, back, helper, pinyin)
+		insertCard(kindId, front, back, helper, pinyin)
 	})
 
 	r.POST("update", func(c *gin.Context) {
@@ -100,47 +102,49 @@ func card(r *gin.RouterGroup) {
 // insert插入记录，update更新记录，delete删除记录。
 func deck(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
-		kind := c.Query("kind")
-		deck := selectDeck(kind)
+		kindId := c.Query("kindId")
 		c.HTML(200, "deckList.html", gin.H{
-			"Deck":     deck,
-			"Kind":     kind,
-			"KindName": getKindName(kind),
+			"Deck": selectDeck(kindId),
+			"Kind": getKind(kindId),
 		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		kind := c.Query("kind")
-		c.HTML(200, "deckCreate.html", gin.H{"Kind": kind, "KindName": getKindName(kind)})
+		kindId := c.Query("kindId")
+		c.HTML(200, "deckCreate.html", gin.H{
+			"KindId": kindId,
+		})
 	})
 
 	r.GET("modify", func(c *gin.Context) {
 		deckId := c.Query("deckId")
-		deck := getDeck(deckId)
-		card := selectCardByDeckId(deckId)
-		c.HTML(200, "deckModify.html", gin.H{"Deck": deck, "Card": card})
+		c.HTML(200, "deckModify.html", gin.H{
+			"Deck": getDeck(deckId),
+			"Card": selectCardByDeckId(deckId),
+		})
 	})
 
 	r.GET("remove", func(c *gin.Context) {
 		deckId := c.Query("deckId")
-		deck := getDeck(deckId)
-		card := selectCardByDeckId(deckId)
-		c.HTML(200, "deckRemove.html", gin.H{"Deck": deck, "Card": card})
+		c.HTML(200, "deckRemove.html", gin.H{
+			"Deck": getDeck(deckId),
+			"Card": selectCardByDeckId(deckId),
+		})
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		kind := c.Query("kind")
+		kindId := c.PostForm("kindId")
 		deckName := c.PostForm("deckName")
 		cards := c.PostForm("cards")
-		insertDeckTxn(deckName, kind, cards)
+		insertDeckTxn(deckName, kindId, cards)
 	})
 
 	r.POST("update", func(c *gin.Context) {
 		deckId := c.PostForm("deckId")
 		deckName := c.PostForm("deckName")
-		kind := c.PostForm("kind")
+		kindId := c.PostForm("kindId")
 		cards := c.PostForm("cards")
-		updateDeckTxn(deckId, deckName, kind, cards)
+		updateDeckTxn(deckId, deckName, kindId, cards)
 	})
 
 	r.POST("delete", func(c *gin.Context) {

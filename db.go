@@ -16,25 +16,25 @@ func init() {
 	db.MapperFunc(strcase.ToSnake)
 }
 
-// 卡片数据结构
+// 卡片
 type Card struct {
 	CardId int
-	Kind   int
+	KindId int
 	Front  string
 	Back   string
 	Helper string
 	Pinyin string
 }
 
-func insertCard(kind, front, back, helper, pinyin string) {
-	sql := `INSERT INTO card(kind, front, back, helper, pinyin) VALUES(? ,? ,?, ?, ?)`
-	db.Exec(sql, kind, front, back, helper, pinyin)
+func insertCard(kindId, front, back, helper, pinyin string) {
+	sql := `INSERT INTO card(kind_id, front, back, helper, pinyin) VALUES(? ,? ,?, ?, ?)`
+	db.Exec(sql, kindId, front, back, helper, pinyin)
 }
 
 // todo：分页
-func selectCard(kind string) (res []Card) {
-	sql := `SELECT * FROM card WHERE kind=? LIMIT 100`
-	db.Select(&res, sql, kind)
+func selectCard(kindId string) (res []Card) {
+	sql := `SELECT * FROM card WHERE kind_id=? LIMIT 100`
+	db.Select(&res, sql, kindId)
 	return
 }
 
@@ -54,18 +54,18 @@ func updateCard(cardId, front, back, helper, pinyin string) {
 	db.Exec(sql, front, back, helper, pinyin, cardId)
 }
 
-func searchCard(kind, front string) (res []Card) {
+func searchCard(kindId, front string) (res []Card) {
 	frontArray := splitSpace(front)
-	sql := `SELECT * FROM card WHERE kind=? AND front IN(?)`
-	sql, args, _ := sqlx.In(sql, kind, frontArray)
+	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?)`
+	sql, args, _ := sqlx.In(sql, kindId, frontArray)
 	db.Select(&res, sql, args...)
 	return
 }
 
-// 卡组数据结构
+// 卡组
 type Deck struct {
 	DeckId   int
-	Kind     int
+	KindId   int
 	DeckName string
 }
 
@@ -74,9 +74,9 @@ type Deck struct {
 // 1.添加卡组
 // 2.获取卡片ID
 // 3.添加卡片与卡组的关联
-func insertDeckTxn(deckName, kind, cards string) {
-	deckId := insertDeck(deckName, kind)
-	cardIds := getCardIds(kind, cards)
+func insertDeckTxn(deckName, kindId, cards string) {
+	deckId := insertDeck(deckName, kindId)
+	cardIds := getCardIds(kindId, cards)
 	insertCardDeck(cardIds, deckId)
 }
 
@@ -86,22 +86,22 @@ func insertDeckTxn(deckName, kind, cards string) {
 // 2.删除旧的关联
 // 3.获取卡片ID
 // 4.添加卡片与卡组的关联
-func updateDeckTxn(deckId, deckName, kind, cards string) {
+func updateDeckTxn(deckId, deckName, kindId, cards string) {
 	updateDeck(deckId, deckName)
 	deleteCardDeckByDeckId(deckId)
-	cardIds := getCardIds(kind, cards)
+	cardIds := getCardIds(kindId, cards)
 	insertCardDeck(cardIds, deckId)
 }
 
-func selectDeck(kind string) (res []Deck) {
-	sql := `SELECT * FROM deck WHERE kind=? LIMIT 100`
-	db.Select(&res, sql, kind)
+func selectDeck(kindId string) (res []Deck) {
+	sql := `SELECT * FROM deck WHERE kind_id=? LIMIT 100`
+	db.Select(&res, sql, kindId)
 	return
 }
 
-func insertDeck(deckName, kind string) (id string) {
-	sql := `INSERT INTO deck(deck_name, kind) VALUES(?, ?)`
-	res, _ := db.Exec(sql, deckName, kind)
+func insertDeck(deckName, kindId string) (id string) {
+	sql := `INSERT INTO deck(deck_name, kind_id) VALUES(?, ?)`
+	res, _ := db.Exec(sql, deckName, kindId)
 	lastId, _ := res.LastInsertId()
 	id = strconv.FormatInt(lastId, 10)
 	return
@@ -128,10 +128,10 @@ func updateDeck(deckId, deckName string) {
 	db.Exec(sql, deckName, deckId)
 }
 
-func getCardIds(kind, front string) (cards []Card) {
+func getCardIds(kindId, front string) (cards []Card) {
 	frontArray := splitSpace(front)
-	sql := `SELECT * FROM card WHERE kind=? AND front IN(?) ORDER BY FIELD(front, ?)`
-	sql, args, _ := sqlx.In(sql, kind, frontArray, frontArray)
+	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?) ORDER BY FIELD(front, ?)`
+	sql, args, _ := sqlx.In(sql, kindId, frontArray, frontArray)
 	db.Select(&cards, sql, args...)
 	return
 }
@@ -166,12 +166,18 @@ func splitSpace(s string) (res []string) {
 	return
 }
 
-func getKindName(kind string) (res string) {
-	switch kind {
+// 类型
+type Kind struct {
+	KindId   int
+	KindName string
+}
+
+func getKind(kindId string) (res Kind) {
+	switch kindId {
 	case "1":
-		res = "通用"
+		res = Kind{1, "通用"}
 	case "2":
-		res = "字词"
+		res = Kind{2, "字词"}
 	}
 	return
 }
