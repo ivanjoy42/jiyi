@@ -91,7 +91,7 @@ func card(r *gin.RouterGroup) {
 
 	r.POST("delete", func(c *gin.Context) {
 		cardId := c.PostForm("cardId")
-		deleteCard(cardId)
+		deleteCardTxn(cardId)
 	})
 }
 

@@ -26,9 +26,10 @@ type Card struct {
 	Pinyin string
 }
 
-func insertCard(kindId, front, back, helper, pinyin string) {
-	sql := `INSERT INTO card(kind_id, front, back, helper, pinyin) VALUES(? ,? ,?, ?, ?)`
-	db.Exec(sql, kindId, front, back, helper, pinyin)
+func getCard(cardId string) (res Card) {
+	sql := `SELECT * FROM card WHERE card_id=?`
+	db.Get(&res, sql, cardId)
+	return
 }
 
 // todo：分页
@@ -36,22 +37,6 @@ func selectCard(kindId string) (res []Card) {
 	sql := `SELECT * FROM card WHERE kind_id=? LIMIT 100`
 	db.Select(&res, sql, kindId)
 	return
-}
-
-func getCard(cardId string) (res Card) {
-	sql := `SELECT * FROM card WHERE card_id=?`
-	db.Get(&res, sql, cardId)
-	return
-}
-
-func deleteCard(cardId string) {
-	sql := `DELETE FROM card WHERE card_id=?`
-	db.Exec(sql, cardId)
-}
-
-func updateCard(cardId, front, back, helper, pinyin string) {
-	sql := `UPDATE card SET front=?, back=?, helper=?, pinyin=? WHERE card_id=?`
-	db.Exec(sql, front, back, helper, pinyin, cardId)
 }
 
 func searchCard(kindId, front string) (res []Card) {
@@ -62,6 +47,30 @@ func searchCard(kindId, front string) (res []Card) {
 	return
 }
 
+func insertCard(kindId, front, back, helper, pinyin string) {
+	sql := `INSERT INTO card(kind_id, front, back, helper, pinyin) VALUES(? ,? ,?, ?, ?)`
+	db.Exec(sql, kindId, front, back, helper, pinyin)
+}
+
+func updateCard(cardId, front, back, helper, pinyin string) {
+	sql := `UPDATE card SET front=?, back=?, helper=?, pinyin=? WHERE card_id=?`
+	db.Exec(sql, front, back, helper, pinyin, cardId)
+}
+
+// 删除卡片（todo：事物）
+//
+// 1.删除卡片
+// 2.删除卡片与卡组的关联
+func deleteCardTxn(cardId string) {
+	deleteCard(cardId)
+	deleteCardDeckByCardId(cardId)
+}
+
+func deleteCard(cardId string) {
+	sql := `DELETE FROM card WHERE card_id=?`
+	db.Exec(sql, cardId)
+}
+
 // 卡组
 type Deck struct {
 	DeckId   int
@@ -69,47 +78,15 @@ type Deck struct {
 	DeckName string
 }
 
-// 添加卡组（todo：事物）
-//
-// 1.添加卡组
-// 2.获取卡片ID
-// 3.添加卡片与卡组的关联
-func insertDeckTxn(deckName, kindId, cards string) {
-	deckId := insertDeck(deckName, kindId)
-	cardIds := getCardIds(kindId, cards)
-	insertCardDeck(cardIds, deckId)
-}
-
-// 更新卡组（todo：事物）
-//
-// 1.更新卡组
-// 2.删除旧的关联
-// 3.获取卡片ID
-// 4.添加卡片与卡组的关联
-func updateDeckTxn(deckId, deckName, kindId, cards string) {
-	updateDeck(deckId, deckName)
-	deleteCardDeckByDeckId(deckId)
-	cardIds := getCardIds(kindId, cards)
-	insertCardDeck(cardIds, deckId)
+func getDeck(DeckId string) (res Deck) {
+	sql := `SELECT * FROM deck WHERE deck_id=?`
+	db.Get(&res, sql, DeckId)
+	return
 }
 
 func selectDeck(kindId string) (res []Deck) {
 	sql := `SELECT * FROM deck WHERE kind_id=? LIMIT 100`
 	db.Select(&res, sql, kindId)
-	return
-}
-
-func insertDeck(deckName, kindId string) (id string) {
-	sql := `INSERT INTO deck(deck_name, kind_id) VALUES(?, ?)`
-	res, _ := db.Exec(sql, deckName, kindId)
-	lastId, _ := res.LastInsertId()
-	id = strconv.FormatInt(lastId, 10)
-	return
-}
-
-func getDeck(DeckId string) (res Deck) {
-	sql := `SELECT * FROM deck WHERE deck_id=?`
-	db.Get(&res, sql, DeckId)
 	return
 }
 
@@ -123,12 +100,7 @@ func selectCardByDeckId(DeckId string) (res []Card) {
 	return
 }
 
-func updateDeck(deckId, deckName string) {
-	sql := `UPDATE deck SET deck_name=? WHERE deck_id=?`
-	db.Exec(sql, deckName, deckId)
-}
-
-func getCardIds(kindId, front string) (cards []Card) {
+func selectCardIds(kindId, front string) (cards []Card) {
 	frontArray := splitSpace(front)
 	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?) ORDER BY FIELD(front, ?)`
 	sql, args, _ := sqlx.In(sql, kindId, frontArray, frontArray)
@@ -136,11 +108,50 @@ func getCardIds(kindId, front string) (cards []Card) {
 	return
 }
 
-func deleteCardDeckByDeckId(deckId string) {
-	sql := `DELETE FROM card_deck WHERE deck_id=?`
-	db.Exec(sql, deckId)
+// 添加卡组（todo：事物）
+//
+// 1.添加卡组
+// 2.获取卡片ID
+// 3.添加卡片与卡组的关联
+func insertDeckTxn(deckName, kindId, cards string) {
+	deckId := insertDeck(deckName, kindId)
+	cardIds := selectCardIds(kindId, cards)
+	insertCardDeck(cardIds, deckId)
 }
 
+func insertDeck(deckName, kindId string) (id string) {
+	sql := `INSERT INTO deck(deck_name, kind_id) VALUES(?, ?)`
+	res, _ := db.Exec(sql, deckName, kindId)
+	lastId, _ := res.LastInsertId()
+	id = strconv.FormatInt(lastId, 10)
+	return
+}
+
+// 更新卡组（todo：事物）
+//
+// 1.更新卡组
+// 2.删除旧的关联
+// 3.获取卡片ID
+// 4.添加卡片与卡组的关联
+func updateDeckTxn(deckId, deckName, kindId, cards string) {
+	updateDeck(deckId, deckName)
+	deleteCardDeckByDeckId(deckId)
+	cardIds := selectCardIds(kindId, cards)
+	insertCardDeck(cardIds, deckId)
+}
+
+func updateDeck(deckId, deckName string) {
+	sql := `UPDATE deck SET deck_name=? WHERE deck_id=?`
+	db.Exec(sql, deckName, deckId)
+}
+
+func deleteDeck(deckId string) {
+	sql := `DELETE FROM deck WHERE deck_id=?`
+	db.Exec(sql, deckId)
+	deleteCardDeckByDeckId(deckId)
+}
+
+// 卡片与卡组的关联操作
 func insertCardDeck(cards []Card, deckId string) {
 	cardDeck := []map[string]interface{}{}
 	for _, v := range cards {
@@ -152,18 +163,14 @@ func insertCardDeck(cards []Card, deckId string) {
 	db.NamedExec(sql, cardDeck)
 }
 
-func deleteDeck(deckId string) {
-	sql := `DELETE FROM deck WHERE deck_id=?`
-	db.Exec(sql, deckId)
-	deleteCardDeckByDeckId(deckId)
+func deleteCardDeckByCardId(cardId string) {
+	sql := `DELETE FROM card_deck WHERE card_id=?`
+	db.Exec(sql, cardId)
 }
 
-func splitSpace(s string) (res []string) {
-	s = strings.TrimSpace(s)
-	s = strings.ReplaceAll(s, "\r", " ")
-	s = strings.ReplaceAll(s, "\n", " ")
-	res = strings.Fields(s)
-	return
+func deleteCardDeckByDeckId(deckId string) {
+	sql := `DELETE FROM card_deck WHERE deck_id=?`
+	db.Exec(sql, deckId)
 }
 
 // 类型
@@ -183,5 +190,14 @@ func getKind(kindId string) (res Kind) {
 	case "4":
 		res = Kind{4, "古诗文"}
 	}
+	return
+}
+
+// 公用函数
+func splitSpace(s string) (res []string) {
+	s = strings.TrimSpace(s)
+	s = strings.ReplaceAll(s, "\r", " ")
+	s = strings.ReplaceAll(s, "\n", " ")
+	res = strings.Fields(s)
 	return
 }
