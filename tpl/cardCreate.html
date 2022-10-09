@@ -5,13 +5,14 @@
 
 {{with .Kind}}
 <form onsubmit="return Submit('card/insert', -1)">
-  <main style="padding:4rem 2rem">
+  <main class="edit">
+    <input name="front" placeholder="正面" />
+    <input name="pinyin" placeholder="拼音" {{if ne .KindId 2 }}type="hidden" {{end}} />
+    <textarea name="back" placeholder="背面"></textarea>
+    <input name="helper" placeholder="助记" />
     <input name="kindId" value="{{.KindId}}" type="hidden">
-    <input name="front" placeholder="正面" class="sole" />
-    <input name="pinyin" placeholder="拼音" class="sole" {{if ne .KindId 2 }}type="hidden" {{end}} />
-    <textarea name="back" placeholder="背面" style="height:11rem"></textarea>
-    <input name="helper" placeholder="助记" class="sole" />
-    <button type="submit" class="sole">保存</button>
+
+    <button type="submit">保存</button>
   </main>
 </form>
 {{end}}

@@ -4,18 +4,18 @@
 </header>
 
 <form onsubmit="return Submit('deck/delete', -2)">
-  <main style="padding:4rem 2rem 10rem 2rem; height:100%;">
+  <main class="edit" style="height:100%">
     {{with .Deck}}
+    <input name="deckName" value="{{.DeckName}}" placeholder="卡组名" disabled />
     <input name="deckId" value="{{.DeckId}}" type="hidden" />
     <input name="kindId" value="{{.KindId}}" type="hidden" />
-    <input name="deckName" value="{{.DeckName}}" placeholder="卡组名称" style="width:100%; margin-bottom:1rem;" disabled />
     {{end}}
-    <textarea name="cards" placeholder="卡片" disabled>{{range .Card}}{{.Front}}
+    <textarea name="cards" style="height:calc(100% - 9rem)" placeholder="卡片名" disabled>{{range .Card}}{{.Front}}
 {{end}}</textarea>
   </main>
 
-  <footer style="padding:0 2rem;">
-    <button type="button" class="dual" onclick="javascript:history.back()">取消</button>
-    <button type="submit" class="dual orange" style="margin-right: 0">删除</button>
+  <footer>
+    <button type="button" class="dual" onclick="history.back()">取消</button>
+    <button type="submit" class="dual orange">删除</button>
   </footer>
 </form>
