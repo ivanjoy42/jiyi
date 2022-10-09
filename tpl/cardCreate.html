@@ -7,7 +7,7 @@
 <form onsubmit="return Submit('card/insert', -1)">
   <main class="edit">
     <input name="front" placeholder="正面" />
-    <input name="pinyin" placeholder="拼音" {{if ne .KindId 2 }}type="hidden" {{end}} />
+    <input name="pinyin" placeholder="拼音" {{if and (ne .KindId 2) (ne .KindId 3)}}type="hidden" {{end}} />
     <textarea name="back" placeholder="背面"></textarea>
     <input name="helper" placeholder="助记" />
     <input name="kindId" value="{{.KindId}}" type="hidden">

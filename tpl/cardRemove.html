@@ -7,7 +7,8 @@
 <form onsubmit="return Submit('card/delete', -2)">
   <main class="edit">
     <input name="front" placeholder="正面" value="{{.Front}}" disabled />
-    <input name="pinyin" placeholder="拼音" value="{{.Pinyin}}" {{if ne .KindId 2 }}type="hidden" {{end}} disabled />
+    <input name="pinyin" placeholder="拼音" value="{{.Pinyin}}" disabled {{if and (ne .KindId 2) (ne .KindId
+      3)}}type="hidden" {{end}} />
     <textarea name="back" placeholder="背面" style="height:11rem" disabled>{{.Back}}</textarea>
     <input name="helper" placeholder="助记" value="{{.Helper}}" disabled />
     <input name="cardId" value="{{.CardId}}" type="hidden">

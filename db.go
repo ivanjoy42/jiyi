@@ -175,9 +175,13 @@ type Kind struct {
 func getKind(kindId string) (res Kind) {
 	switch kindId {
 	case "1":
-		res = Kind{1, "通用"}
+		res = Kind{1, "基本"}
 	case "2":
-		res = Kind{2, "字词"}
+		res = Kind{2, "汉字"}
+	case "3":
+		res = Kind{3, "词语"}
+	case "4":
+		res = Kind{4, "古诗文"}
 	}
 	return
 }

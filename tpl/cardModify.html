@@ -8,7 +8,8 @@
 <form onsubmit="return Submit('card/update', -1)">
   <main class="edit">
     <input name="front" placeholder="正面" value="{{.Front}}" />
-    <input name="pinyin" placeholder="拼音" value="{{.Pinyin}}" {{if ne .KindId 2 }}type="hidden" {{end}} />
+    <input name="pinyin" placeholder="拼音" value="{{.Pinyin}}" {{if and (ne .KindId 2) (ne .KindId 3)}}type="hidden"
+      {{end}} />
     <textarea name="back" placeholder="背面">{{.Back}}</textarea>
     <input name="helper" placeholder="助记" value="{{.Helper}}" />
     <input name="cardId" value="{{.CardId}}" type="hidden">
