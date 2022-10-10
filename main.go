@@ -1,6 +1,8 @@
 package main
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,67 +33,70 @@ func home(c *gin.Context) {
 // create新建页面，modify修改页面，remove删除页面；
 // insert插入记录，update更新记录，delete删除记录。
 func card(r *gin.RouterGroup) {
+	card := Card{}
+	kind := Kind{}
+
 	r.GET("list", func(c *gin.Context) {
-		kindId := c.Query("kindId")
+		card.KindId, _ = strconv.Atoi(c.Query("kindId"))
+		kind.KindId = card.KindId
 		c.HTML(200, "cardList.html", gin.H{
-			"Card": selectCard(kindId),
-			"Kind": getKind(kindId),
+			"Card": card.getAll(),
+			"Kind": kind.get(),
 		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		kindId := c.Query("kindId")
+		kind.KindId, _ = strconv.Atoi(c.Query("kindId"))
 		c.HTML(200, "cardCreate.html", gin.H{
-			"KindId": kindId,
-			"Kind":   getKind(kindId),
+			"Kind": kind.get(),
 		})
 	})
 
 	r.GET("modify", func(c *gin.Context) {
-		cardId := c.Query("cardId")
+		card.CardId, _ = strconv.Atoi(c.Query("cardId"))
 		c.HTML(200, "cardModify.html", gin.H{
-			"Card": getCard(cardId),
+			"Card": card.get(),
 		})
 	})
 
 	r.GET("remove", func(c *gin.Context) {
-		cardId := c.Query("cardId")
+		card.CardId, _ = strconv.Atoi(c.Query("cardId"))
 		c.HTML(200, "cardRemove.html", gin.H{
-			"Card": getCard(cardId),
+			"Card": card.get(),
 		})
 	})
 
 	r.GET("search", func(c *gin.Context) {
-		kindId := c.Query("kindId")
-		front := c.Query("front")
+		card.KindId, _ = strconv.Atoi(c.Query("kindId"))
+		query := c.Query("query")
 		c.HTML(200, "cardSearch.html", gin.H{
-			"Card":   searchCard(kindId, front),
-			"Front":  front,
-			"KindId": kindId,
+			"Card":   card.search(query),
+			"Query":  query,
+			"KindId": card.KindId,
 		})
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		kindId := c.PostForm("kindId")
-		front := c.PostForm("front")
-		back := c.PostForm("back")
-		helper := c.PostForm("helper")
-		pinyin := c.PostForm("pinyin")
-		insertCard(kindId, front, back, helper, pinyin)
+		card.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
+		card.Front = c.PostForm("front")
+		card.Back = c.PostForm("back")
+		card.Helper = c.PostForm("helper")
+		card.Pinyin = c.PostForm("pinyin")
+		card.insert()
 	})
 
 	r.POST("update", func(c *gin.Context) {
-		cardId := c.PostForm("cardId")
-		front := c.PostForm("front")
-		back := c.PostForm("back")
-		helper := c.PostForm("helper")
-		pinyin := c.PostForm("pinyin")
-		updateCard(cardId, front, back, helper, pinyin)
+		card.CardId, _ = strconv.Atoi(c.PostForm("cardId"))
+		card.Front = c.PostForm("front")
+		card.Back = c.PostForm("back")
+		card.Helper = c.PostForm("helper")
+		card.Pinyin = c.PostForm("pinyin")
+		card.update()
 	})
 
 	r.POST("delete", func(c *gin.Context) {
-		cardId := c.PostForm("cardId")
-		deleteCardTxn(cardId)
+		card.CardId, _ = strconv.Atoi(c.PostForm("cardId"))
+		card.deleteTx()
 	})
 }
 
