@@ -3,7 +3,6 @@
   <div>新建卡片</div>
 </header>
 
-{{with .Kind}}
 <form onsubmit="return Submit('card/insert', -1)">
   <main class="edit">
     <input name="front" placeholder="正面" />
@@ -15,4 +14,3 @@
     <button type="submit">保存</button>
   </main>
 </form>
-{{end}}
