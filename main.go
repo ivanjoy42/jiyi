@@ -130,7 +130,7 @@ func deckGroup(r *gin.RouterGroup) {
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		c.HTML(200, "deckModify.html", gin.H{
 			"Deck":   deck.get(deckId),
-			"Fronts": cards.selectFronts(deckId),
+			"Fronts": deck.getFronts(deckId),
 		})
 	})
 
@@ -138,7 +138,7 @@ func deckGroup(r *gin.RouterGroup) {
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		c.HTML(200, "deckRemove.html", gin.H{
 			"Deck":   deck.get(deckId),
-			"Fronts": cards.selectFronts(deckId),
+			"Fronts": deck.getFronts(deckId),
 		})
 	})
 

@@ -52,7 +52,7 @@ func (c *Card) delete(cardId int) {
 // 2.删除卡片与卡组的关联
 func (c *Card) deleteTx(cardId int) {
 	c.delete(cardId)
-	cardDeck.deleteByCardId(cardId)
+	cardDeck.deleteByCard(cardId)
 }
 
 type Cards []Card
@@ -65,33 +65,18 @@ func (c *Cards) list(kindId int) *Cards {
 }
 
 func (c *Cards) search(kindId int, query string) *Cards {
-	fronts := splitSpace(query)
+	frontArray := splitSpace(query)
 	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?)`
-	sql, args, _ := sqlx.In(sql, kindId, fronts)
+	sql, args, _ := sqlx.In(sql, kindId, frontArray)
 	db.Select(c, sql, args...)
 	return c
 }
 
-func (c *Cards) selectCardIds(kindId int, front string) *Cards {
-	frontArray := splitSpace(front)
-	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?) ORDER BY FIELD(front, ?)`
+func (c *Cards) getId(kindId int, fronts string) (res []int) {
+	frontArray := splitSpace(fronts)
+	sql := `SELECT card_id FROM card WHERE kind_id=? AND front IN(?) ORDER BY FIELD(front, ?)`
 	sql, args, _ := sqlx.In(sql, kindId, frontArray, frontArray)
-	db.Select(c, sql, args...)
-	return c
-}
-
-func (c *Cards) selectFronts(deckId int) (fronts string) {
-	sql := `SELECT card.* FROM card, deck, card_deck 
-			WHERE deck.deck_id=? 
-			AND card.card_id=card_deck.card_id 
-			AND deck.deck_id=card_deck.deck_id
-			ORDER BY card_deck_id`
-	db.Select(c, sql, deckId)
-
-	for _, v := range *c {
-		fronts += v.Front + "\n"
-	}
-
+	db.Select(&res, sql, args...)
 	return
 }
 
@@ -132,8 +117,8 @@ func (d *Deck) delete(deckId int) {
 // 3.添加卡片与卡组的关联
 func (d *Deck) insertTx(fronts string) {
 	deckId := d.insert()
-	cardArray := cards.selectCardIds(d.KindId, fronts)
-	cardDeck.insert(cardArray, deckId)
+	cardIds := cards.getId(d.KindId, fronts)
+	cardDeck.insert(cardIds, deckId)
 }
 
 // 更新卡组（todo：事物）
@@ -144,18 +129,29 @@ func (d *Deck) insertTx(fronts string) {
 // 4.添加卡片与卡组的关联
 func (d *Deck) updateTx(fronts string) {
 	d.update()
-	cardDeck.deleteByDeckId(d.DeckId)
-	c := cards.selectCardIds(d.KindId, fronts)
-	cardDeck.insert(c, d.DeckId)
+	cardDeck.deleteByDeck(d.DeckId)
+	cardIds := cards.getId(d.KindId, fronts)
+	cardDeck.insert(cardIds, d.DeckId)
 }
 
 // 删除卡组（todo：事物）
 //
 // 1.删除卡组
 // 2.删除卡片与卡组的关联
-func (deck *Deck) deleteTx(deckId int) {
-	deck.delete(deckId)
-	cardDeck.deleteByDeckId(deckId)
+func (d *Deck) deleteTx(deckId int) {
+	d.delete(deckId)
+	cardDeck.deleteByDeck(deckId)
+}
+
+func (d *Deck) getFronts(deckId int) string {
+	res := []string{}
+	sql := `SELECT card.front FROM card, deck, card_deck
+			WHERE deck.deck_id=?
+			AND card.card_id=card_deck.card_id
+			AND deck.deck_id=card_deck.deck_id
+			ORDER BY card_deck_id`
+	db.Select(&res, sql, deckId)
+	return strings.Join(res, "\n")
 }
 
 type Decks []Deck
@@ -174,28 +170,27 @@ type CardDeck struct {
 }
 
 // 卡片与卡组的关联操作
-func (cd *CardDeck) insert(c *Cards, deckId int) {
+func (cd *CardDeck) insert(cardIds []int, deckId int) {
 	cardDeckArray := []map[string]interface{}{}
-	for _, v := range *c {
-		cardId := v.CardId
-		row := map[string]interface{}{"cardId": cardId, "deckId": deckId}
+	for _, v := range cardIds {
+		row := map[string]interface{}{"cardId": v, "deckId": deckId}
 		cardDeckArray = append(cardDeckArray, row)
 	}
 	sql := `INSERT INTO card_deck (card_id, deck_id) VALUES (:cardId, :deckId)`
 	db.NamedExec(sql, cardDeckArray)
 }
 
-func (cardDeck *CardDeck) deleteByCardId(cardId int) {
+func (cardDeck *CardDeck) deleteByCard(cardId int) {
 	sql := `DELETE FROM card_deck WHERE card_id=?`
 	db.Exec(sql, cardId)
 }
 
-func (cardDeck *CardDeck) deleteByDeckId(deckId int) {
+func (cardDeck *CardDeck) deleteByDeck(deckId int) {
 	sql := `DELETE FROM card_deck WHERE deck_id=?`
 	db.Exec(sql, deckId)
 }
 
-// 类型
+// 卡片类型
 type Kind struct {
 	KindId   int
 	KindName string
@@ -216,7 +211,13 @@ func (kind *Kind) get(kindId int) *Kind {
 	return kind
 }
 
-// 公用函数
+// 学习模式
+type Mode struct {
+	ModeId   int
+	ModeName string
+}
+
+// 公共函数
 func splitSpace(s string) (res []string) {
 	s = strings.TrimSpace(s)
 	s = strings.ReplaceAll(s, "\r", " ")
