@@ -196,25 +196,60 @@ type Kind struct {
 	KindName string
 }
 
-func (kind *Kind) get(kindId int) *Kind {
-	kind.KindId = kindId
+func (k *Kind) get(kindId int) *Kind {
+	k.KindId = kindId
 	switch kindId {
 	case 1:
-		kind.KindName = "普通"
+		k.KindName = "其他"
 	case 2:
-		kind.KindName = "汉字"
+		k.KindName = "汉字"
 	case 3:
-		kind.KindName = "词语"
+		k.KindName = "词语"
 	case 4:
-		kind.KindName = "古诗文"
+		k.KindName = "古诗文"
 	}
-	return kind
+	return k
 }
 
 // 学习模式
 type Mode struct {
 	ModeId   int
 	ModeName string
+}
+
+var mode Mode
+
+func (m *Mode) get(modeId int) *Mode {
+	m.ModeId = modeId
+	switch modeId {
+	case 1:
+		m.ModeName = "背诵"
+	case 2:
+		m.ModeName = "默写"
+	case 3:
+		m.ModeName = "认识"
+	case 4:
+		m.ModeName = "听写"
+	}
+	return m
+}
+
+// 学习
+type Learn struct {
+	LearnId int
+	ModeId  int
+	KindId  int
+	DeckId  int
+}
+
+// 学习卡片
+type LearnCard struct {
+	LearnCardId int
+	LearnId     int
+	CardId      int
+	rank        int
+	updateTime  int
+	NextTime    int
 }
 
 // 公共函数

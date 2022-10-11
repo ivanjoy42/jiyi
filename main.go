@@ -22,6 +22,8 @@ func main() {
 
 	r.GET("/", index)
 	r.GET("/home", home)
+	r.GET("/manage", manage)
+	r.GET("/learn", learn)
 	cardGroup(r.Group("card"))
 	deckGroup(r.Group("deck"))
 
@@ -34,6 +36,14 @@ func index(c *gin.Context) {
 
 func home(c *gin.Context) {
 	c.HTML(200, "home.html", gin.H{})
+}
+
+func manage(c *gin.Context) {
+	c.HTML(200, "manage.html", gin.H{})
+}
+
+func learn(c *gin.Context) {
+	c.HTML(200, "learn.html", gin.H{})
 }
 
 // 卡片操作

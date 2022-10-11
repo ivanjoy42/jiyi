@@ -3,37 +3,24 @@
 </header>
 
 <main>
-  <a href="javascript:Href('card/list?kindId=2', 1)" class="setting">汉字卡片
-    <span><img src="../static/forward.svg" /></span>
-  </a>
-  <a href="javascript:Href('deck/list?kindId=2', 1)" class="setting">汉字卡组
-    <span><img src="../static/forward.svg" /></span>
-  </a>
+  <section>
+    语文一年级上<button type="button" style="width: 7rem;">切换</button>
+    <button onclick="javascript:Href('learn?kind=2&mode=3', 1)" type="button">认识汉字（识字）</button>
+  </section>
+
+  <section>
+    语文一年级上<button type="button" style="width: 7rem;">切换</button>
+    <button onclick="javascript:Href('learn?kind=2&mode=4', 1)" type="button">听写汉字（听写）</button>
+  </section>
+
+  <a href="javascript:Href('learn', 1)" class="setting">认识词语<span><img src="../static/forward.svg" /></span></a>
+  <a href="javascript:Href('learn', 1)" class="setting">听写词语<span><img src="../static/forward.svg" /></span></a>
+  <a href="javascript:Href('learn', 1)" class="setting">背诵古诗文<span><img src="../static/forward.svg" /></span></a>
+  <a href="javascript:Href('learn', 1)" class="setting">默写古诗文<span><img src="../static/forward.svg" /></span></a>
+  <a href="javascript:Href('learn', 1)" class="setting">背诵其他<span><img src="../static/forward.svg" /></span></a>
+  <a href="javascript:Href('learn', 1)" class="setting">默写其他<span><img src="../static/forward.svg" /></span></a>
 
   <div class="hr"><span></span></div>
 
-  <a href="javascript:Href('card/list?kindId=3', 1)" class="setting">词语卡片
-    <span><img src="../static/forward.svg" /></span>
-  </a>
-  <a href="javascript:Href('deck/list?kindId=3', 1)" class="setting">词语卡组
-    <span><img src="../static/forward.svg" /></span>
-  </a>
-
-  <div class="hr"><span></span></div>
-
-  <a href="javascript:Href('card/list?kindId=4', 1)" class="setting">古诗文卡片
-    <span><img src="../static/forward.svg" /></span>
-  </a>
-  <a href="javascript:Href('deck/list?kindId=4', 1)" class="setting">古诗文卡组
-    <span><img src="../static/forward.svg" /></span>
-  </a>
-
-  <div class="hr"><span></span></div>
-
-  <a href="javascript:Href('card/list?kindId=1', 1)" class="setting">普通卡片
-    <span><img src="../static/forward.svg" /></span>
-  </a>
-  <a href="javascript:Href('deck/list?kindId=1', 1)" class="setting">普通卡组
-    <span><img src="../static/forward.svg" /></span>
-  </a>
+  <a href="javascript:Href('manage', 1)" class="setting">卡片管理<span><img src="../static/forward.svg" /></span></a>
 </main>
