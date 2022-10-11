@@ -25,67 +25,74 @@ type Card struct {
 	Pinyin string
 }
 
-func (card *Card) get(cardId int) *Card {
+func (c *Card) get(cardId int) *Card {
 	sql := `SELECT * FROM card WHERE card_id=?`
-	db.Get(card, sql, cardId)
-	return card
+	db.Get(c, sql, cardId)
+	return c
 }
 
-// todo：分页
-func (card *Card) list(kindId int) (res []Card) {
-	sql := `SELECT * FROM card WHERE kind_id=? LIMIT 100`
-	db.Select(&res, sql, kindId)
-	return
-}
-
-func (card *Card) search(kindId int, query string) (res []Card) {
-	fronts := splitSpace(query)
-	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?)`
-	sql, args, _ := sqlx.In(sql, kindId, fronts)
-	db.Select(&res, sql, args...)
-	return
-}
-
-func (card *Card) selectCardIds(kindId int, front string) (res []Card) {
-	frontArray := splitSpace(front)
-	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?) ORDER BY FIELD(front, ?)`
-	sql, args, _ := sqlx.In(sql, kindId, frontArray, frontArray)
-	db.Select(&res, sql, args...)
-	return
-}
-
-func (card *Card) selectByDeckId(deckId int) (res []Card) {
-	sql := `SELECT card.* FROM card, deck, card_deck 
-			WHERE deck.deck_id=? 
-			AND card.card_id=card_deck.card_id 
-			AND deck.deck_id=card_deck.deck_id
-			ORDER BY card_deck_id`
-	db.Select(&res, sql, deckId)
-	return
-}
-
-func (card *Card) insert() {
+func (c *Card) insert() {
 	sql := `INSERT INTO card(kind_id, front, back, helper, pinyin) VALUES(? ,? ,?, ?, ?)`
-	db.Exec(sql, card.KindId, card.Front, card.Back, card.Helper, card.Pinyin)
+	db.Exec(sql, c.KindId, c.Front, c.Back, c.Helper, c.Pinyin)
 }
 
-func (card *Card) update() {
+func (c *Card) update() {
 	sql := `UPDATE card SET front=?, back=?, helper=?, pinyin=? WHERE card_id=?`
-	db.Exec(sql, card.Front, card.Back, card.Helper, card.Pinyin, card.CardId)
+	db.Exec(sql, c.Front, c.Back, c.Helper, c.Pinyin, c.CardId)
+}
+
+func (c *Card) delete(cardId int) {
+	sql := `DELETE FROM card WHERE card_id=?`
+	db.Exec(sql, cardId)
 }
 
 // 删除卡片（todo：事物）
 //
 // 1.删除卡片
 // 2.删除卡片与卡组的关联
-func (card *Card) deleteTx(cardId int) {
-	card.delete(cardId)
+func (c *Card) deleteTx(cardId int) {
+	c.delete(cardId)
 	cardDeck.deleteByCardId(cardId)
 }
 
-func (card *Card) delete(cardId int) {
-	sql := `DELETE FROM card WHERE card_id=?`
-	db.Exec(sql, cardId)
+type Cards []Card
+
+// todo：分页
+func (c *Cards) list(kindId int) *Cards {
+	sql := `SELECT * FROM card WHERE kind_id=? LIMIT 100`
+	db.Select(c, sql, kindId)
+	return c
+}
+
+func (c *Cards) search(kindId int, query string) *Cards {
+	fronts := splitSpace(query)
+	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?)`
+	sql, args, _ := sqlx.In(sql, kindId, fronts)
+	db.Select(c, sql, args...)
+	return c
+}
+
+func (c *Cards) selectCardIds(kindId int, front string) *Cards {
+	frontArray := splitSpace(front)
+	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?) ORDER BY FIELD(front, ?)`
+	sql, args, _ := sqlx.In(sql, kindId, frontArray, frontArray)
+	db.Select(c, sql, args...)
+	return c
+}
+
+func (c *Cards) selectFronts(deckId int) (fronts string) {
+	sql := `SELECT card.* FROM card, deck, card_deck 
+			WHERE deck.deck_id=? 
+			AND card.card_id=card_deck.card_id 
+			AND deck.deck_id=card_deck.deck_id
+			ORDER BY card_deck_id`
+	db.Select(c, sql, deckId)
+
+	for _, v := range *c {
+		fronts += v.Front + "\n"
+	}
+
+	return
 }
 
 // 卡组
@@ -95,16 +102,27 @@ type Deck struct {
 	DeckName string
 }
 
-func (deck *Deck) get(deckId int) *Deck {
+func (d *Deck) get(deckId int) *Deck {
 	sql := `SELECT * FROM deck WHERE deck_id=?`
-	db.Get(deck, sql, deckId)
-	return deck
+	db.Get(d, sql, deckId)
+	return d
 }
 
-func (deck *Deck) list(kindId int) (res []Deck) {
-	sql := `SELECT * FROM deck WHERE kind_id=? LIMIT 100`
-	db.Select(&res, sql, kindId)
-	return
+func (d *Deck) insert() int {
+	sql := `INSERT INTO deck(deck_name, kind_id) VALUES(?, ?)`
+	res, _ := db.Exec(sql, d.DeckName, d.KindId)
+	lastId, _ := res.LastInsertId()
+	return int(lastId)
+}
+
+func (d *Deck) update() {
+	sql := `UPDATE deck SET deck_name=? WHERE deck_id=?`
+	db.Exec(sql, d.DeckName, d.DeckId)
+}
+
+func (d *Deck) delete(deckId int) {
+	sql := `DELETE FROM deck WHERE deck_id=?`
+	db.Exec(sql, deckId)
 }
 
 // 添加卡组（todo：事物）
@@ -112,18 +130,10 @@ func (deck *Deck) list(kindId int) (res []Deck) {
 // 1.添加卡组
 // 2.获取卡片ID
 // 3.添加卡片与卡组的关联
-func (deck *Deck) insertTx(fronts string) {
-	deckId := deck.insert()
-	card := Card{}
-	cardArray := card.selectCardIds(deck.KindId, fronts)
+func (d *Deck) insertTx(fronts string) {
+	deckId := d.insert()
+	cardArray := cards.selectCardIds(d.KindId, fronts)
 	cardDeck.insert(cardArray, deckId)
-}
-
-func (deck *Deck) insert() int {
-	sql := `INSERT INTO deck(deck_name, kind_id) VALUES(?, ?)`
-	res, _ := db.Exec(sql, deck.DeckName, deck.KindId)
-	lastId64, _ := res.LastInsertId()
-	return int(lastId64)
 }
 
 // 更新卡组（todo：事物）
@@ -132,17 +142,11 @@ func (deck *Deck) insert() int {
 // 2.删除旧的关联
 // 3.获取卡片ID
 // 4.添加卡片与卡组的关联
-func (deck *Deck) updateTx(fronts string) {
-	deck.update()
-	cardDeck.deleteByDeckId(deck.DeckId)
-	card := Card{}
-	cardArray := card.selectCardIds(deck.KindId, fronts)
-	cardDeck.insert(cardArray, deck.DeckId)
-}
-
-func (deck *Deck) update() {
-	sql := `UPDATE deck SET deck_name=? WHERE deck_id=?`
-	db.Exec(sql, deck.DeckName, deck.DeckId)
+func (d *Deck) updateTx(fronts string) {
+	d.update()
+	cardDeck.deleteByDeckId(d.DeckId)
+	c := cards.selectCardIds(d.KindId, fronts)
+	cardDeck.insert(c, d.DeckId)
 }
 
 // 删除卡组（todo：事物）
@@ -154,20 +158,25 @@ func (deck *Deck) deleteTx(deckId int) {
 	cardDeck.deleteByDeckId(deckId)
 }
 
-func (deck *Deck) delete(deckId int) {
-	sql := `DELETE FROM deck WHERE deck_id=?`
-	db.Exec(sql, deckId)
+type Decks []Deck
+
+func (d *Decks) list(kindId int) *Decks {
+	sql := `SELECT * FROM deck WHERE kind_id=? LIMIT 100`
+	db.Select(d, sql, kindId)
+	return d
 }
 
 // 卡片卡组关联
-type CardDeck struct{}
-
-var cardDeck CardDeck
+type CardDeck struct {
+	CardDeckId int
+	CardId     int
+	DeckId     int
+}
 
 // 卡片与卡组的关联操作
-func (cardDeck *CardDeck) insert(cardArray []Card, deckId int) {
+func (cd *CardDeck) insert(c *Cards, deckId int) {
 	cardDeckArray := []map[string]interface{}{}
-	for _, v := range cardArray {
+	for _, v := range *c {
 		cardId := v.CardId
 		row := map[string]interface{}{"cardId": cardId, "deckId": deckId}
 		cardDeckArray = append(cardDeckArray, row)

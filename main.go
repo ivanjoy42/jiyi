@@ -6,6 +6,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	card     Card
+	cards    Cards
+	deck     Deck
+	decks    Decks
+	cardDeck CardDeck
+	kind     Kind
+)
+
 func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("tpl/*")
@@ -13,8 +22,8 @@ func main() {
 
 	r.GET("/", index)
 	r.GET("/home", home)
-	card(r.Group("card"))
-	deck(r.Group("deck"))
+	cardGroup(r.Group("card"))
+	deckGroup(r.Group("deck"))
 
 	r.Run(":8080")
 }
@@ -32,16 +41,12 @@ func home(c *gin.Context) {
 // list列表页面；
 // create新建页面，modify修改页面，remove删除页面；
 // insert插入记录，update更新记录，delete删除记录。
-func card(r *gin.RouterGroup) {
-	card := Card{}
-	kind := Kind{}
-
+func cardGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
-
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
 		c.HTML(200, "cardList.html", gin.H{
-			"Card": card.list(kindId),
-			"Kind": kind.get(kindId),
+			"Cards": cards.list(kindId),
+			"Kind":  kind.get(kindId),
 		})
 	})
 
@@ -70,7 +75,7 @@ func card(r *gin.RouterGroup) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
 		query := c.Query("query")
 		c.HTML(200, "cardSearch.html", gin.H{
-			"Card":   card.search(kindId, query),
+			"Cards":  cards.search(kindId, query),
 			"KindId": kindId,
 			"Query":  query,
 		})
@@ -105,15 +110,11 @@ func card(r *gin.RouterGroup) {
 // list列表页面；
 // create新建页面，modify修改页面，remove删除页面；
 // insert插入记录，update更新记录，delete删除记录。
-func deck(r *gin.RouterGroup) {
-	deck := Deck{}
-	kind := Kind{}
-	card := Card{}
-
+func deckGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
 		c.HTML(200, "deckList.html", gin.H{
-			"Deck": deck.list(kindId),
+			"Deck": decks.list(kindId),
 			"Kind": kind.get(kindId),
 		})
 	})
@@ -128,32 +129,32 @@ func deck(r *gin.RouterGroup) {
 	r.GET("modify", func(c *gin.Context) {
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		c.HTML(200, "deckModify.html", gin.H{
-			"Deck": deck.get(deckId),
-			"Card": card.selectByDeckId(deckId),
+			"Deck":   deck.get(deckId),
+			"Fronts": cards.selectFronts(deckId),
 		})
 	})
 
 	r.GET("remove", func(c *gin.Context) {
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		c.HTML(200, "deckRemove.html", gin.H{
-			"Deck": deck.get(deckId),
-			"Card": card.selectByDeckId(deckId),
+			"Deck":   deck.get(deckId),
+			"Fronts": cards.selectFronts(deckId),
 		})
 	})
 
 	r.POST("insert", func(c *gin.Context) {
 		deck.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
 		deck.DeckName = c.PostForm("deckName")
-		cards := c.PostForm("cards")
-		deck.insertTx(cards)
+		fronts := c.PostForm("fronts")
+		deck.insertTx(fronts)
 	})
 
 	r.POST("update", func(c *gin.Context) {
 		deck.DeckId, _ = strconv.Atoi(c.PostForm("deckId"))
 		deck.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
 		deck.DeckName = c.PostForm("deckName")
-		cards := c.PostForm("cards")
-		deck.updateTx(cards)
+		fronts := c.PostForm("fronts")
+		deck.updateTx(fronts)
 	})
 
 	r.POST("delete", func(c *gin.Context) {

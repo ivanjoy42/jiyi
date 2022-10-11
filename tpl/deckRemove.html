@@ -6,12 +6,10 @@
 <form onsubmit="return Submit('deck/delete', -2)">
   <main class="edit" style="height:100%">
     {{with .Deck}}
-    <input name="deckName" value="{{.DeckName}}" placeholder="卡组名" disabled />
+    <input value="{{.DeckName}}" placeholder="卡组名" disabled />
     <input name="deckId" value="{{.DeckId}}" type="hidden" />
-    <input name="kindId" value="{{.KindId}}" type="hidden" />
     {{end}}
-    <textarea name="cards" style="height:calc(100% - 9rem)" placeholder="卡片名" disabled>{{range .Card}}{{.Front}}
-{{end}}</textarea>
+    <textarea style="height:calc(100% - 9rem)" placeholder="卡片名" disabled>{{.Fronts}}</textarea>
   </main>
 
   <footer>
