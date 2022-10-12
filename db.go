@@ -10,6 +10,15 @@ import (
 
 var db *sqlx.DB
 
+// 公共函数
+func splitSpace(s string) (res []string) {
+	s = strings.TrimSpace(s)
+	s = strings.ReplaceAll(s, "\r", " ")
+	s = strings.ReplaceAll(s, "\n", " ")
+	res = strings.Fields(s)
+	return
+}
+
 func init() {
 	db, _ = sqlx.Connect("mysql", "root:123456@/jiyi")
 	db.MapperFunc(strcase.ToSnake)
@@ -236,10 +245,23 @@ func (m *Mode) get(modeId int) *Mode {
 
 // 学习
 type Learn struct {
-	LearnId int
-	ModeId  int
-	KindId  int
-	DeckId  int
+	LearnId   int
+	ModeId    int
+	KindId    int
+	DeckId    int
+	LearnName string
+}
+
+func (l *Learn) get(learnId int) Learn {
+	sql := `SELECT * FROM learn WHERE learn_id=?`
+	db.Get(l, sql, learnId)
+	return *l
+}
+
+func (l *Learn) list() (res []Learn) {
+	sql := `SELECT * FROM learn`
+	db.Select(&res, sql)
+	return
 }
 
 // 学习卡片
@@ -248,15 +270,7 @@ type LearnCard struct {
 	LearnId     int
 	CardId      int
 	rank        int
+	skip        int
 	updateTime  int
 	NextTime    int
-}
-
-// 公共函数
-func splitSpace(s string) (res []string) {
-	s = strings.TrimSpace(s)
-	s = strings.ReplaceAll(s, "\r", " ")
-	s = strings.ReplaceAll(s, "\n", " ")
-	res = strings.Fields(s)
-	return
 }

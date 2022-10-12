@@ -1,10 +1,26 @@
 <header>
   <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>
-  <div>学习</div>
+  <div>{{.Learn.LearnName}}</div>
 </header>
 
 <main>
+  <section style="xheight:10rem;">
+    累计学习：50字<br>
+    累计时长：100分钟<br>
+    今天学习：5字<br>
+    今天时长：10分钟<br>
 
+    <hr>
 
+    <div style="float:right">更换<img src="../static/more.svg" /></div>
+    卡组：语文一年级上 (15/100)<br>
+    已学：15<br>
+    未学：85<br>
+    总计：100<br>
 
+    <hr>
+
+    <button onclick="javascript:Href('learn?kind=2&mode=3', 1)" type="button" class="dual">复习</button>
+    <button onclick="javascript:Href('learn?kind=2&mode=3', 1)" type="button" class="dual">新学</button>
+  </section>
 </main>

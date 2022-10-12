@@ -3,24 +3,17 @@
 </header>
 
 <main>
-  <section>
-    语文一年级上<button type="button" style="width: 7rem;">切换</button>
-    <button onclick="javascript:Href('learn?kind=2&mode=3', 1)" type="button">认识汉字（识字）</button>
-  </section>
+  {{range .Learn}}
 
-  <section>
-    语文一年级上<button type="button" style="width: 7rem;">切换</button>
-    <button onclick="javascript:Href('learn?kind=2&mode=4', 1)" type="button">听写汉字（听写）</button>
-  </section>
+  <a href="javascript:Href('learn?learnId={{.LearnId}}', 1)" class="setting">{{.LearnName}}<span>
+      <img src="../static/forward.svg" /></span></a>
 
-  <a href="javascript:Href('learn', 1)" class="setting">认识词语<span><img src="../static/forward.svg" /></span></a>
-  <a href="javascript:Href('learn', 1)" class="setting">听写词语<span><img src="../static/forward.svg" /></span></a>
-  <a href="javascript:Href('learn', 1)" class="setting">背诵古诗文<span><img src="../static/forward.svg" /></span></a>
-  <a href="javascript:Href('learn', 1)" class="setting">默写古诗文<span><img src="../static/forward.svg" /></span></a>
-  <a href="javascript:Href('learn', 1)" class="setting">背诵其他<span><img src="../static/forward.svg" /></span></a>
-  <a href="javascript:Href('learn', 1)" class="setting">默写其他<span><img src="../static/forward.svg" /></span></a>
+  {{end}}
 
   <div class="hr"><span></span></div>
 
   <a href="javascript:Href('manage', 1)" class="setting">卡片管理<span><img src="../static/forward.svg" /></span></a>
+
+  <div class="hr"><span></span></div>
+
 </main>

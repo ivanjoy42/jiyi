@@ -13,6 +13,7 @@ var (
 	decks    Decks
 	cardDeck CardDeck
 	kind     Kind
+	learn    Learn
 )
 
 func main() {
@@ -20,30 +21,35 @@ func main() {
 	r.LoadHTMLGlob("tpl/*")
 	r.Static("/static", "static")
 
-	r.GET("/", index)
-	r.GET("/home", home)
-	r.GET("/manage", manage)
-	r.GET("/learn", learn)
+	r.GET("/", indexRoute)
+	r.GET("/home", homeRoute)
+	r.GET("/manage", manageRoute)
+	r.GET("/learn", learnRoute)
 	cardGroup(r.Group("card"))
 	deckGroup(r.Group("deck"))
 
 	r.Run(":8080")
 }
 
-func index(c *gin.Context) {
+func indexRoute(c *gin.Context) {
 	c.HTML(200, "index.html", gin.H{})
 }
 
-func home(c *gin.Context) {
-	c.HTML(200, "home.html", gin.H{})
+func homeRoute(c *gin.Context) {
+	c.HTML(200, "home.html", gin.H{
+		"Learn": learn.list(),
+	})
 }
 
-func manage(c *gin.Context) {
+func manageRoute(c *gin.Context) {
 	c.HTML(200, "manage.html", gin.H{})
 }
 
-func learn(c *gin.Context) {
-	c.HTML(200, "learn.html", gin.H{})
+func learnRoute(c *gin.Context) {
+	learnId, _ := strconv.Atoi(c.Query("learnId"))
+	c.HTML(200, "learn.html", gin.H{
+		"Learn": learn.get(learnId),
+	})
 }
 
 // 卡片操作
