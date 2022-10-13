@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -16,11 +17,27 @@ var (
 	learn    Learn
 )
 
+func setVer(c *gin.Context) {
+	f1, _ := os.Stat("static/index.css")
+	ts1 := f1.ModTime().Unix()
+
+	f2, _ := os.Stat("static/index.js")
+	ts2 := f2.ModTime().Unix()
+
+	ver := strconv.FormatInt(ts1, 10)
+	if ts2 > ts1 {
+		ver = strconv.FormatInt(ts2, 10)
+	}
+
+	c.SetCookie("ver", ver, 86400*30, "", "", false, false)
+}
+
 func main() {
 	r := gin.Default()
-	r.LoadHTMLGlob("tpl/*")
+	r.StaticFile("/favicon.ico", "favicon.ico")
 	r.Static("/static", "static")
-
+	r.LoadHTMLGlob("tpl/*")
+	r.Use(setVer)
 	r.GET("/", indexRoute)
 	r.GET("/home", homeRoute)
 	r.GET("/card", cardRoute)
@@ -29,7 +46,6 @@ func main() {
 	r.GET("/learn", learnRoute)
 	cardGroup(r.Group("card"))
 	deckGroup(r.Group("deck"))
-
 	r.Run(":8080")
 }
 

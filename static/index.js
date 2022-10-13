@@ -12,6 +12,28 @@ $(function () {
     });
 });
 
+function UpdateVer() {
+    ver = GetCookie("ver");
+
+    $('link[rel="stylesheet"]').each(function () {
+        latest = this.href.replace(/\?.*|$/, "?" + ver);
+        if (this.href != latest) {
+            this.href = latest;
+        }
+    });
+
+    $("script").each(function () {
+        if (this.src == "" || this.src.indexOf("jquery") >= 0) {
+            return;
+        }
+        latest = this.src.replace(/\?.*|$/, "?" + ver);
+        if (this.src != latest) {
+            this.remove();
+            $("<script>").attr("src", latest).appendTo("head");
+        }
+    });
+}
+
 function GetCookie(name) {
     var arr,
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -55,10 +77,18 @@ function Href(url, direct) {
             success: function (res) {
                 UpdateHistory(url, direct);
                 $("body").html(res);
+                autofocus();
                 scrollTo(0, 0);
+                UpdateVer();
             },
         });
     }
+}
+
+function autofocus() {
+    e = $("input[autofocus],textarea[autofocus]");
+    tmp = e.val();
+    e.val("").focus().val(tmp);
 }
 
 function UpdateHistory(url, direct) {
