@@ -55,6 +55,19 @@ footer {
     width: 100%;
 }
 
+.footer-nav {
+    background: #ffffff;
+    padding: 0;
+    height: 4rem;
+    line-height: 4rem;
+}
+
+.footer-nav div {
+    text-align: center;
+    width: 25%;
+    float: left;
+}
+
 textarea {
     border: 0;
     border-radius: 1rem;

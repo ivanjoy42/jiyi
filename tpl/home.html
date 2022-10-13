@@ -4,16 +4,9 @@
 
 <main>
   {{range .Learn}}
-
   <a href="javascript:Href('learn?learnId={{.LearnId}}', 1)" class="setting">{{.LearnName}}<span>
       <img src="../static/forward.svg" /></span></a>
-
   {{end}}
-
-  <div class="hr"><span></span></div>
-
-  <a href="javascript:Href('manage', 1)" class="setting">卡片管理<span><img src="../static/forward.svg" /></span></a>
-
-  <div class="hr"><span></span></div>
-
 </main>
+
+{{ template "footer.html" }}

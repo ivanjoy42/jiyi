@@ -23,7 +23,9 @@ func main() {
 
 	r.GET("/", indexRoute)
 	r.GET("/home", homeRoute)
-	r.GET("/manage", manageRoute)
+	r.GET("/card", cardRoute)
+	r.GET("/setting", settingRoute)
+	r.GET("/user", userRoute)
 	r.GET("/learn", learnRoute)
 	cardGroup(r.Group("card"))
 	deckGroup(r.Group("deck"))
@@ -41,8 +43,16 @@ func homeRoute(c *gin.Context) {
 	})
 }
 
-func manageRoute(c *gin.Context) {
-	c.HTML(200, "manage.html", gin.H{})
+func cardRoute(c *gin.Context) {
+	c.HTML(200, "card.html", gin.H{})
+}
+
+func settingRoute(c *gin.Context) {
+	c.HTML(200, "setting.html", gin.H{})
+}
+
+func userRoute(c *gin.Context) {
+	c.HTML(200, "user.html", gin.H{})
 }
 
 func learnRoute(c *gin.Context) {
