@@ -1,8 +1,10 @@
 <header>
   {{template "back.html"}}
   {{with .Kind}}
-  <div>{{.KindName}}卡组</div>
-  <a href="javascript:Href('deck/create?kindId={{.KindId}}', 1)" class="tool"><img src="/static/icon/add.svg" /></a>
+  {{.KindName}}卡组
+  <span class="tool">
+    <a href="javascript:Href('deck/create?kindId={{.KindId}}', 1)"><img src="/static/icon/add.svg" /></a>
+  </span>
   {{end}}
 </header>
 

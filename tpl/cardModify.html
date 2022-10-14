@@ -1,8 +1,10 @@
 {{with .Card}}
 <header>
   {{template "back.html"}}
-  <div>修改卡片</div>
-  <a href="javascript:Href('card/remove?cardId={{.CardId}}', 1)" class="tool"><img src="/static/icon/delete.svg" /></a>
+  修改卡片
+  <span class="tool">
+    <a href="javascript:Href('card/remove?cardId={{.CardId}}', 1)"><img src="/static/icon/delete.svg" /></a>
+  </span>
 </header>
 
 <form onsubmit="return Submit('card/update', -1)">
