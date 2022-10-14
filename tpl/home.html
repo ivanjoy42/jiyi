@@ -5,8 +5,8 @@
 <main>
   {{range .Learn}}
   <a href="javascript:Href('learn?learnId={{.LearnId}}', 1)" class="setting">{{.LearnName}}<span>
-      <img src="../static/forward.svg" /></span></a>
+      <img src="../static/icon/forward.svg" /></span></a>
   {{end}}
 </main>
 
-{{ template "footer.html" }}
+{{template "nav.html"}}

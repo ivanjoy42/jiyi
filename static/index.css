@@ -55,14 +55,16 @@ footer {
     width: 100%;
 }
 
-.footer-nav {
+nav {
     background: #ffffff;
     padding: 0;
-    height: 4rem;
     line-height: 4rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
-.footer-nav div {
+nav div {
     text-align: center;
     width: 25%;
     float: left;

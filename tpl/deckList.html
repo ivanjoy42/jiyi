@@ -1,8 +1,8 @@
 <header>
-  <a href="javascript:history.back()" class="back"><img src="../static/back.svg" /></a>
+  {{template "back.html"}}
   {{with .Kind}}
   <div>{{.KindName}}卡组</div>
-  <a href="javascript:Href('deck/create?kindId={{.KindId}}', 1)" class="tool"><img src="../static/add.svg" /></a>
+  <a href="javascript:Href('deck/create?kindId={{.KindId}}', 1)" class="tool"><img src="../static/icon/add.svg" /></a>
   {{end}}
 </header>
 
@@ -11,7 +11,7 @@
   <a href="javascript:Href('deck/modify?deckId={{.DeckId}}', 1)" class="setting">
     {{.DeckName}}
     {{.DeckId}}
-    <span><img src="../static/forward.svg" /></span>
+    <span><img src="../static/icon/forward.svg" /></span>
   </a>
   {{end}}
 </main>
