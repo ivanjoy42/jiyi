@@ -2,11 +2,12 @@
   <div>记忆犹新</div>
 </header>
 
-<main>
+<dl>
   {{range .Learn}}
-  <a href="javascript:Href('learn?learnId={{.LearnId}}', 1)" class="setting">{{.LearnName}}<span>
-      <img src="/static/icon/forward.svg" /></span></a>
+  <a href="javascript:Href('learn?learnId={{.LearnId}}', 1)">
+    <dt>{{.LearnName}}<img src="/static/icon/forward.svg" /></dt>
+  </a>
   {{end}}
-</main>
+</dl>
 
 {{template "nav.html"}}

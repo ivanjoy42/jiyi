@@ -47,6 +47,20 @@ main {
     width: 100%;
 }
 
+dl {
+    padding: 4rem 0;
+}
+
+dt {
+    line-height: 3.5rem;
+    padding: 0 2rem;
+}
+
+dt img {
+    float: right;
+    margin-top: 1.125rem;
+}
+
 footer {
     bottom: 0;
     height: 5.5rem;
@@ -122,19 +136,6 @@ button {
     display: block;
     margin: 0 auto;
     text-align: center;
-}
-
-.setting {
-    background: #ffffff;
-    line-height: 3.5rem;
-    display: block;
-    padding-left: 2rem;
-    position: relative;
-}
-
-.setting span {
-    float: right;
-    padding-right: 2rem;
 }
 
 .hr {
