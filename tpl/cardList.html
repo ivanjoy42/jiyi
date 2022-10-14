@@ -7,12 +7,14 @@
   {{end}}
 </header>
 
-<main>
+<dl>
   {{range .Cards}}
-  <a href="javascript:Href('card/modify?cardId={{.CardId}}', 1)" class="setting">
-    {{.Front}}
-    {{.CardId}}
-    <span><img src="/static/icon/forward.svg" /></span>
+  <a href="javascript:Href('card/modify?cardId={{.CardId}}', 1)">
+    <dt>
+      {{.Front}}
+      {{.CardId}}
+      <img src="/static/icon/forward.svg" />
+    </dt>
   </a>
   {{end}}
-</main>
+</dl>

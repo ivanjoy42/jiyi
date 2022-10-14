@@ -6,12 +6,14 @@
   {{end}}
 </header>
 
-<main>
+<dl>
   {{range .Deck}}
-  <a href="javascript:Href('deck/modify?deckId={{.DeckId}}', 1)" class="setting">
-    {{.DeckName}}
-    {{.DeckId}}
-    <span><img src="/static/icon/forward.svg" /></span>
+  <a href="javascript:Href('deck/modify?deckId={{.DeckId}}', 1)">
+    <dt>
+      {{.DeckName}}
+      {{.DeckId}}
+      <img src="/static/icon/forward.svg" />
+    </dt>
   </a>
   {{end}}
-</main>
+</dl>
