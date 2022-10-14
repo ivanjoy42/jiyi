@@ -34,10 +34,10 @@ type Card struct {
 	Pinyin string
 }
 
-func (c *Card) get(cardId int) *Card {
+func (c *Card) get(cardId int) (res Card) {
 	sql := `SELECT * FROM card WHERE card_id=?`
-	db.Get(c, sql, cardId)
-	return c
+	db.Get(&res, sql, cardId)
+	return
 }
 
 func (c *Card) insert() {
@@ -64,24 +64,22 @@ func (c *Card) deleteTx(cardId int) {
 	cardDeck.deleteByCard(cardId)
 }
 
-type Cards []Card
-
 // todo：分页
-func (c *Cards) list(kindId int) *Cards {
+func (c *Card) list(kindId int) (res []Card) {
 	sql := `SELECT * FROM card WHERE kind_id=? LIMIT 100`
-	db.Select(c, sql, kindId)
-	return c
+	db.Select(&res, sql, kindId)
+	return
 }
 
-func (c *Cards) search(kindId int, query string) *Cards {
+func (c *Card) search(kindId int, query string) (res []Card) {
 	frontArray := splitSpace(query)
 	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?)`
 	sql, args, _ := sqlx.In(sql, kindId, frontArray)
-	db.Select(c, sql, args...)
-	return c
+	db.Select(&res, sql, args...)
+	return
 }
 
-func (c *Cards) getId(kindId int, fronts string) (res []int) {
+func (c *Card) getIds(kindId int, fronts string) (res []int) {
 	frontArray := splitSpace(fronts)
 	sql := `SELECT card_id FROM card WHERE kind_id=? AND front IN(?) ORDER BY FIELD(front, ?)`
 	sql, args, _ := sqlx.In(sql, kindId, frontArray, frontArray)
@@ -96,10 +94,10 @@ type Deck struct {
 	DeckName string
 }
 
-func (d *Deck) get(deckId int) *Deck {
+func (d *Deck) get(deckId int) (res Deck) {
 	sql := `SELECT * FROM deck WHERE deck_id=?`
-	db.Get(d, sql, deckId)
-	return d
+	db.Get(&res, sql, deckId)
+	return
 }
 
 func (d *Deck) insert() int {
@@ -126,7 +124,7 @@ func (d *Deck) delete(deckId int) {
 // 3.添加卡片与卡组的关联
 func (d *Deck) insertTx(fronts string) {
 	deckId := d.insert()
-	cardIds := cards.getId(d.KindId, fronts)
+	cardIds := card.getIds(d.KindId, fronts)
 	cardDeck.insert(cardIds, deckId)
 }
 
@@ -139,7 +137,7 @@ func (d *Deck) insertTx(fronts string) {
 func (d *Deck) updateTx(fronts string) {
 	d.update()
 	cardDeck.deleteByDeck(d.DeckId)
-	cardIds := cards.getId(d.KindId, fronts)
+	cardIds := card.getIds(d.KindId, fronts)
 	cardDeck.insert(cardIds, d.DeckId)
 }
 
@@ -163,12 +161,10 @@ func (d *Deck) getFronts(deckId int) string {
 	return strings.Join(res, "\n")
 }
 
-type Decks []Deck
-
-func (d *Decks) list(kindId int) *Decks {
+func (d *Deck) list(kindId int) (res []Deck) {
 	sql := `SELECT * FROM deck WHERE kind_id=? LIMIT 100`
-	db.Select(d, sql, kindId)
-	return d
+	db.Select(&res, sql, kindId)
+	return res
 }
 
 // 卡片卡组关联
@@ -228,19 +224,19 @@ type Mode struct {
 
 var mode Mode
 
-func (m *Mode) get(modeId int) *Mode {
-	m.ModeId = modeId
+func (m *Mode) get(modeId int) (res Mode) {
+	res.ModeId = modeId
 	switch modeId {
 	case 1:
-		m.ModeName = "背诵"
+		res.ModeName = "背诵"
 	case 2:
-		m.ModeName = "默写"
+		res.ModeName = "默写"
 	case 3:
-		m.ModeName = "认识"
+		res.ModeName = "认识"
 	case 4:
-		m.ModeName = "听写"
+		res.ModeName = "听写"
 	}
-	return m
+	return
 }
 
 // 学习

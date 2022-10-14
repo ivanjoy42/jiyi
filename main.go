@@ -9,28 +9,11 @@ import (
 
 var (
 	card     Card
-	cards    Cards
 	deck     Deck
-	decks    Decks
 	cardDeck CardDeck
 	kind     Kind
 	learn    Learn
 )
-
-func setVer(c *gin.Context) {
-	f1, _ := os.Stat("static/index.css")
-	ts1 := f1.ModTime().Unix()
-
-	f2, _ := os.Stat("static/index.js")
-	ts2 := f2.ModTime().Unix()
-
-	ver := strconv.FormatInt(ts1, 10)
-	if ts2 > ts1 {
-		ver = strconv.FormatInt(ts2, 10)
-	}
-
-	c.SetCookie("ver", ver, 86400*30, "", "", false, false)
-}
 
 func main() {
 	r := gin.Default()
@@ -78,6 +61,21 @@ func learnRoute(c *gin.Context) {
 	})
 }
 
+func setVer(c *gin.Context) {
+	f1, _ := os.Stat("static/index.css")
+	ts1 := f1.ModTime().Unix()
+
+	f2, _ := os.Stat("static/index.js")
+	ts2 := f2.ModTime().Unix()
+
+	ver := strconv.FormatInt(ts1, 10)
+	if ts2 > ts1 {
+		ver = strconv.FormatInt(ts2, 10)
+	}
+
+	c.SetCookie("ver", ver, 86400*30, "", "", false, false)
+}
+
 // 卡片操作
 //
 // list列表页面；
@@ -87,8 +85,8 @@ func cardGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
 		c.HTML(200, "cardList.html", gin.H{
-			"Cards": cards.list(kindId),
-			"Kind":  kind.get(kindId),
+			"Card": card.list(kindId),
+			"Kind": kind.get(kindId),
 		})
 	})
 
@@ -117,7 +115,7 @@ func cardGroup(r *gin.RouterGroup) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
 		query := c.Query("query")
 		c.HTML(200, "cardSearch.html", gin.H{
-			"Cards":  cards.search(kindId, query),
+			"Card":   card.search(kindId, query),
 			"KindId": kindId,
 			"Query":  query,
 		})
@@ -156,7 +154,7 @@ func deckGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
 		c.HTML(200, "deckList.html", gin.H{
-			"Deck": decks.list(kindId),
+			"Deck": deck.list(kindId),
 			"Kind": kind.get(kindId),
 		})
 	})
