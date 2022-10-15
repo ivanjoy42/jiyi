@@ -1,5 +1,6 @@
+{{define "deck/list.html"}}
 <header>
-  {{template "publicBack.html"}}
+  {{template "public/back.html"}}
   {{with .Kind}}
   {{.KindName}}卡组
   <span class="tool">
@@ -19,3 +20,4 @@
   </a>
   {{end}}
 </dl>
+{{end}}

@@ -1,5 +1,6 @@
+{{define "card/remove.html"}}
 <header>
-  {{template "publicBack.html"}}
+  {{template "public/back.html"}}
   删除卡片
 </header>
 
@@ -13,8 +14,9 @@
     <input name="helper" placeholder="助记" value="{{.Helper}}" disabled />
     <input name="cardId" value="{{.CardId}}" type="hidden">
 
-    <button type="button" class="dual" onclick="history.back()">取消</button>
-    <button type="submit" class="dual orange">删除</button>
+    <button type="button" class="double" onclick="history.back()">取消</button>
+    <button type="submit" class="double orange">删除</button>
   </main>
 </form>
+{{end}}
 {{end}}

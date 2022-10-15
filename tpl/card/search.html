@@ -1,5 +1,6 @@
+{{define "card/search.html"}}
 <header>
-  {{template "publicBack.html"}}
+  {{template "public/back.html"}}
   <form onsubmit="javascript:Href('card/search?kindId={{.KindId}}&query='+this.query.value, 0); return false">
     <input name="query" value="{{.Query}}" type="search" autofocus>
   </form>
@@ -16,3 +17,4 @@
   </a>
   {{end}}
 </dl>
+{{end}}

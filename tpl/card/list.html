@@ -1,5 +1,6 @@
+{{define "card/list.html"}}
 <header>
-  {{template "publicBack.html"}}
+  {{template "public/back.html"}}
   {{with .Kind}}
   {{.KindName}}卡片
   <span class="tool">
@@ -20,3 +21,4 @@
   </a>
   {{end}}
 </dl>
+{{end}}

@@ -19,7 +19,7 @@ func main() {
 	r := gin.Default()
 	r.StaticFile("/favicon.ico", "favicon.ico")
 	r.Static("/static", "static")
-	r.LoadHTMLGlob("tpl/*")
+	r.LoadHTMLGlob("tpl/**/*")
 	r.Use(setVer)
 	r.GET("/", indexRoute)
 	r.GET("/home", homeRoute)
@@ -29,16 +29,15 @@ func main() {
 	learnDeckGroup(r.Group("learnDeck"))
 	settingGroup(r.Group("setting"))
 	userGroup(r.Group("user"))
-
 	r.Run(":8080")
 }
 
 func indexRoute(c *gin.Context) {
-	c.HTML(200, "index.html", gin.H{})
+	c.HTML(200, "public/index.html", gin.H{})
 }
 
 func homeRoute(c *gin.Context) {
-	c.HTML(200, "home.html", gin.H{
+	c.HTML(200, "public/home.html", gin.H{
 		"Learn": learn.list(),
 	})
 }
@@ -65,12 +64,12 @@ func setVer(c *gin.Context) {
 // insert插入记录，update更新记录，delete删除记录。
 func cardGroup(r *gin.RouterGroup) {
 	r.GET("index", func(c *gin.Context) {
-		c.HTML(200, "cardIndex.html", gin.H{})
+		c.HTML(200, "card/index.html", gin.H{})
 	})
 
 	r.GET("list", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
-		c.HTML(200, "cardList.html", gin.H{
+		c.HTML(200, "card/list.html", gin.H{
 			"Card": card.list(kindId),
 			"Kind": kind.get(kindId),
 		})
@@ -78,21 +77,21 @@ func cardGroup(r *gin.RouterGroup) {
 
 	r.GET("create", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
-		c.HTML(200, "cardCreate.html", gin.H{
+		c.HTML(200, "card/create.html", gin.H{
 			"KindId": kindId,
 		})
 	})
 
 	r.GET("modify", func(c *gin.Context) {
 		cardId, _ := strconv.Atoi(c.Query("cardId"))
-		c.HTML(200, "cardModify.html", gin.H{
+		c.HTML(200, "card/modify.html", gin.H{
 			"Card": card.get(cardId),
 		})
 	})
 
 	r.GET("remove", func(c *gin.Context) {
 		cardId, _ := strconv.Atoi(c.Query("cardId"))
-		c.HTML(200, "cardRemove.html", gin.H{
+		c.HTML(200, "card/remove.html", gin.H{
 			"Card": card.get(cardId),
 		})
 	})
@@ -100,7 +99,7 @@ func cardGroup(r *gin.RouterGroup) {
 	r.GET("search", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
 		query := c.Query("query")
-		c.HTML(200, "cardSearch.html", gin.H{
+		c.HTML(200, "card/search.html", gin.H{
 			"Card":   card.search(kindId, query),
 			"KindId": kindId,
 			"Query":  query,
@@ -139,7 +138,7 @@ func cardGroup(r *gin.RouterGroup) {
 func deckGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
-		c.HTML(200, "deckList.html", gin.H{
+		c.HTML(200, "deck/list.html", gin.H{
 			"Deck": deck.list(kindId),
 			"Kind": kind.get(kindId),
 		})
@@ -147,14 +146,14 @@ func deckGroup(r *gin.RouterGroup) {
 
 	r.GET("create", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
-		c.HTML(200, "deckCreate.html", gin.H{
+		c.HTML(200, "deck/create.html", gin.H{
 			"KindId": kindId,
 		})
 	})
 
 	r.GET("modify", func(c *gin.Context) {
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
-		c.HTML(200, "deckModify.html", gin.H{
+		c.HTML(200, "deck/modify.html", gin.H{
 			"Deck":   deck.get(deckId),
 			"Fronts": deck.getFronts(deckId),
 		})
@@ -162,7 +161,7 @@ func deckGroup(r *gin.RouterGroup) {
 
 	r.GET("remove", func(c *gin.Context) {
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
-		c.HTML(200, "deckRemove.html", gin.H{
+		c.HTML(200, "deck/remove.html", gin.H{
 			"Deck":   deck.get(deckId),
 			"Fronts": deck.getFronts(deckId),
 		})
@@ -195,7 +194,7 @@ func learnGroup(r *gin.RouterGroup) {
 		learnId, _ := strconv.Atoi(c.Query("learnId"))
 		learn = learn.get(learnId)
 		deck = deck.get(learn.DeckId)
-		c.HTML(200, "learnDetail.html", gin.H{
+		c.HTML(200, "learn/detail.html", gin.H{
 			"Learn": learn,
 			"Deck":  deck,
 		})
@@ -207,7 +206,7 @@ func learnDeckGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		learnId, _ := strconv.Atoi(c.Query("learnId"))
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
-		c.HTML(200, "learnDeckList.html", gin.H{
+		c.HTML(200, "learnDeck/list.html", gin.H{
 			"Deck":    deck.list(kindId),
 			"Kind":    kind.get(kindId),
 			"LearnId": learnId,
@@ -217,7 +216,7 @@ func learnDeckGroup(r *gin.RouterGroup) {
 	r.GET("detail", func(c *gin.Context) {
 		learnId, _ := strconv.Atoi(c.Query("learnId"))
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
-		c.HTML(200, "learnDeckDetail.html", gin.H{
+		c.HTML(200, "learnDeck/detail.html", gin.H{
 			"Deck":    deck.get(deckId),
 			"Fronts":  deck.getFronts(deckId),
 			"LearnId": learnId,
@@ -234,12 +233,12 @@ func learnDeckGroup(r *gin.RouterGroup) {
 
 func settingGroup(r *gin.RouterGroup) {
 	r.GET("index", func(c *gin.Context) {
-		c.HTML(200, "settingIndex.html", gin.H{})
+		c.HTML(200, "setting/index.html", gin.H{})
 	})
 }
 
 func userGroup(r *gin.RouterGroup) {
 	r.GET("index", func(c *gin.Context) {
-		c.HTML(200, "userIndex.html", gin.H{})
+		c.HTML(200, "user/index.html", gin.H{})
 	})
 }

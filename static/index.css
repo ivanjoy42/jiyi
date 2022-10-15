@@ -178,9 +178,15 @@ textarea {
     background: #ed9266;
 }
 
-.dual {
+.double {
     width: calc(50% - 1rem);
     float: left;
+}
+
+.triple {
+    width: calc(33% - 1rem);
+    float: left;
+    padding: 0;
 }
 
 .edit {

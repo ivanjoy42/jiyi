@@ -1,6 +1,7 @@
+{{define "learn/detail.html"}}
 {{with .Learn}}
 <header>
-  {{template "publicBack.html"}}
+  {{template "public/back.html"}}
   {{.LearnName}}
   <span class="tool">
     <a href="javascript:Href('learnDeck/list?kindId={{.KindId}}&learnId={{.LearnId}}', 1)">
@@ -32,6 +33,8 @@
     </section>
   </a>
 
-  <button onclick="Href('learn?kind=2&mode=3', 1)" type="button" class="dual">复习</button>
-  <button onclick="Href('learn?kind=2&mode=3', 1)" type="button" class="dual">新学</button>
+  <button onclick="Href('learn?kind=2&mode=3', 1)" type="button" class="triple">复习</button>
+  <button onclick="Href('learn?kind=2&mode=3', 1)" type="button" class="triple">讲解</button>
+  <button onclick="Href('learn?kind=2&mode=3', 1)" type="button" class="triple">新学</button>
 </main>
+{{end}}
