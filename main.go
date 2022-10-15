@@ -8,6 +8,7 @@ import (
 )
 
 var (
+	ver      string
 	card     Card
 	deck     Deck
 	cardDeck CardDeck
@@ -22,7 +23,6 @@ func main() {
 	r.LoadHTMLGlob("tpl/**/*")
 	r.Use(setVer)
 	r.GET("/", indexRoute)
-	r.GET("/home", homeRoute)
 	cardGroup(r.Group("card"))
 	deckGroup(r.Group("deck"))
 	learnGroup(r.Group("learn"))
@@ -32,16 +32,6 @@ func main() {
 	r.Run(":8080")
 }
 
-func indexRoute(c *gin.Context) {
-	c.HTML(200, "public/index.html", gin.H{})
-}
-
-func homeRoute(c *gin.Context) {
-	c.HTML(200, "public/home.html", gin.H{
-		"Learn": learn.list(),
-	})
-}
-
 func setVer(c *gin.Context) {
 	f1, _ := os.Stat("static/index.css")
 	ts1 := f1.ModTime().Unix()
@@ -49,12 +39,18 @@ func setVer(c *gin.Context) {
 	f2, _ := os.Stat("static/index.js")
 	ts2 := f2.ModTime().Unix()
 
-	ver := strconv.FormatInt(ts1, 10)
+	ver = strconv.FormatInt(ts1, 10)
 	if ts2 > ts1 {
 		ver = strconv.FormatInt(ts2, 10)
 	}
 
 	c.SetCookie("ver", ver, 86400*30, "", "", false, false)
+}
+
+func indexRoute(c *gin.Context) {
+	c.HTML(200, "public/index.html", gin.H{
+		"Ver": ver,
+	})
 }
 
 // 卡片操作
@@ -190,6 +186,12 @@ func deckGroup(r *gin.RouterGroup) {
 
 // 学习操作
 func learnGroup(r *gin.RouterGroup) {
+	r.GET("index", func(c *gin.Context) {
+		c.HTML(200, "learn/index.html", gin.H{
+			"Learn": learn.list(),
+		})
+	})
+
 	r.GET("detail", func(c *gin.Context) {
 		learnId, _ := strconv.Atoi(c.Query("learnId"))
 		learn = learn.get(learnId)

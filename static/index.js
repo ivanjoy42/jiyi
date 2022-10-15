@@ -1,7 +1,7 @@
 BackUrl = "";
 BodyXHR = null;
-HomeDeep = 0;
-HomePage = "home";
+Deep = 0;
+Home = "learn/index";
 
 $(function () {
     url = GetHash();
@@ -46,7 +46,7 @@ function GetCookie(name) {
 
 function GetHash() {
     if (location.hash == "") {
-        url = HomePage;
+        url = Home;
     } else {
         url = location.hash.slice(1);
     }
@@ -62,14 +62,14 @@ function Href(url, direct) {
         BodyXHR.abort();
     }
 
-    if (direct < 0 && HomeDeep > 0) {
+    if (direct < 0 && Deep > 0) {
         BackUrl = url;
         history.go(direct);
         return;
-    } else if (direct == undefined && HomeDeep > 0) {
+    } else if (direct == undefined && Deep > 0) {
         BackUrl = url;
-        history.go(-HomeDeep);
-        HomeDeep = 1;
+        history.go(-Deep);
+        Deep = 1;
         return;
     } else {
         BodyXHR = $.ajax({
@@ -94,7 +94,7 @@ function autofocus() {
 function UpdateHistory(url, direct) {
     if (direct == 1) {
         history.pushState(url, null, "#" + url);
-        HomeDeep++;
+        Deep++;
     } else if (direct == 0) {
         history.replaceState(url, null, "#" + url);
     }
@@ -103,14 +103,14 @@ function UpdateHistory(url, direct) {
 onpopstate = function (event) {
     if (event.state == null) {
         url = GetHash();
-        HomeDeep++;
+        Deep++;
     } else if (BackUrl != "") {
         url = BackUrl;
         BackUrl = "";
-        HomeDeep--;
+        Deep--;
     } else {
         url = event.state;
-        HomeDeep--;
+        Deep--;
     }
     Href(url, 0);
 };
@@ -128,7 +128,7 @@ function Submit(url, direct) {
         success: function (res) {
             if (direct < 0) {
                 history.go(direct);
-                HomeDeep = HomeDeep + direct + 1;
+                Deep = Deep + direct + 1;
             } else {
                 $("body").html(res);
                 scrollTo(0, 0);
