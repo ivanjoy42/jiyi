@@ -9,10 +9,10 @@
 <dl>
   {{range .Deck}}
   <a href="javascript:Href('learnDeck/detail?learnId={{$LearnId}}&deckId={{.DeckId}}', 1)">
-    <dt>
-      {{.DeckName}}
-      {{.DeckId}}
-      <img src="/static/icon/forward.svg" />
+    <dt class="dt2">
+      {{.DeckName}} {{.DeckId}}
+      <span>100+200=300</span>
+      <progress value="20" max="100"></progress>
     </dt>
   </a>
   {{end}}
