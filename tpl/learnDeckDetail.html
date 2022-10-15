@@ -1,0 +1,16 @@
+<header>
+  {{template "publicBack.html"}}
+  {{.Deck.DeckName}}
+</header>
+
+<form onsubmit="return Submit('learnDeck/update', -2)">
+  <main>
+    <input name="deckId" value="{{.Deck.DeckId}}" type="hidden" />
+    <input name="learnId" value="{{.LearnId}}" type="hidden" />
+    {{.Fronts}}
+  </main>
+
+  <footer>
+    <button type="submit">选用</button>
+  </footer>
+</form>

@@ -254,6 +254,11 @@ func (l *Learn) get(learnId int) Learn {
 	return *l
 }
 
+func (l *Learn) update() {
+	sql := `UPDATE learn SET mode_id=?, kind_id=?, deck_id=?, learn_name=? WHERE learn_id=?`
+	db.Exec(sql, l.ModeId, l.KindId, l.DeckId, l.LearnName, l.LearnId)
+}
+
 func (l *Learn) list() (res []Learn) {
 	sql := `SELECT * FROM learn`
 	db.Select(&res, sql)

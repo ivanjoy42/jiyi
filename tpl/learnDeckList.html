@@ -1,0 +1,18 @@
+<header>
+  {{template "publicBack.html"}}
+  {{.Kind.KindName}}
+</header>
+
+{{$LearnId := .LearnId}}
+
+<dl>
+  {{range .Deck}}
+  <a href="javascript:Href('learnDeck/detail?learnId={{$LearnId}}&deckId={{.DeckId}}', 1)">
+    <dt>
+      {{.DeckName}}
+      {{.DeckId}}
+      <img src="/static/icon/forward.svg" />
+    </dt>
+  </a>
+  {{end}}
+</dl>

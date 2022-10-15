@@ -23,12 +23,13 @@ func main() {
 	r.Use(setVer)
 	r.GET("/", indexRoute)
 	r.GET("/home", homeRoute)
-	r.GET("/card", cardRoute)
-	r.GET("/setting", settingRoute)
-	r.GET("/user", userRoute)
-	r.GET("/learn", learnRoute)
 	cardGroup(r.Group("card"))
 	deckGroup(r.Group("deck"))
+	learnGroup(r.Group("learn"))
+	learnDeckGroup(r.Group("learnDeck"))
+	settingGroup(r.Group("setting"))
+	userGroup(r.Group("user"))
+
 	r.Run(":8080")
 }
 
@@ -39,25 +40,6 @@ func indexRoute(c *gin.Context) {
 func homeRoute(c *gin.Context) {
 	c.HTML(200, "home.html", gin.H{
 		"Learn": learn.list(),
-	})
-}
-
-func cardRoute(c *gin.Context) {
-	c.HTML(200, "card.html", gin.H{})
-}
-
-func settingRoute(c *gin.Context) {
-	c.HTML(200, "setting.html", gin.H{})
-}
-
-func userRoute(c *gin.Context) {
-	c.HTML(200, "user.html", gin.H{})
-}
-
-func learnRoute(c *gin.Context) {
-	learnId, _ := strconv.Atoi(c.Query("learnId"))
-	c.HTML(200, "learn.html", gin.H{
-		"Learn": learn.get(learnId),
 	})
 }
 
@@ -82,6 +64,10 @@ func setVer(c *gin.Context) {
 // create新建页面，modify修改页面，remove删除页面；
 // insert插入记录，update更新记录，delete删除记录。
 func cardGroup(r *gin.RouterGroup) {
+	r.GET("index", func(c *gin.Context) {
+		c.HTML(200, "cardIndex.html", gin.H{})
+	})
+
 	r.GET("list", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
 		c.HTML(200, "cardList.html", gin.H{
@@ -200,5 +186,60 @@ func deckGroup(r *gin.RouterGroup) {
 	r.POST("delete", func(c *gin.Context) {
 		deckId, _ := strconv.Atoi(c.PostForm("deckId"))
 		deck.deleteTx(deckId)
+	})
+}
+
+// 学习操作
+func learnGroup(r *gin.RouterGroup) {
+	r.GET("detail", func(c *gin.Context) {
+		learnId, _ := strconv.Atoi(c.Query("learnId"))
+		learn = learn.get(learnId)
+		deck = deck.get(learn.DeckId)
+		c.HTML(200, "learnDetail.html", gin.H{
+			"Learn": learn,
+			"Deck":  deck,
+		})
+	})
+}
+
+// 学习卡组操作
+func learnDeckGroup(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		learnId, _ := strconv.Atoi(c.Query("learnId"))
+		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		c.HTML(200, "learnDeckList.html", gin.H{
+			"Deck":    deck.list(kindId),
+			"Kind":    kind.get(kindId),
+			"LearnId": learnId,
+		})
+	})
+
+	r.GET("detail", func(c *gin.Context) {
+		learnId, _ := strconv.Atoi(c.Query("learnId"))
+		deckId, _ := strconv.Atoi(c.Query("deckId"))
+		c.HTML(200, "learnDeckDetail.html", gin.H{
+			"Deck":    deck.get(deckId),
+			"Fronts":  deck.getFronts(deckId),
+			"LearnId": learnId,
+		})
+	})
+
+	r.POST("update", func(c *gin.Context) {
+		learnId, _ := strconv.Atoi(c.PostForm("learnId"))
+		learn.get(learnId)
+		learn.DeckId, _ = strconv.Atoi(c.PostForm("deckId"))
+		learn.update()
+	})
+}
+
+func settingGroup(r *gin.RouterGroup) {
+	r.GET("index", func(c *gin.Context) {
+		c.HTML(200, "settingIndex.html", gin.H{})
+	})
+}
+
+func userGroup(r *gin.RouterGroup) {
+	r.GET("index", func(c *gin.Context) {
+		c.HTML(200, "userIndex.html", gin.H{})
 	})
 }

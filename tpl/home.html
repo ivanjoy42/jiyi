@@ -4,10 +4,10 @@
 
 <dl>
   {{range .Learn}}
-  <a href="javascript:Href('learn?learnId={{.LearnId}}', 1)">
+  <a href="javascript:Href('learn/detail?learnId={{.LearnId}}', 1)">
     <dt>{{.LearnName}}<img src="/static/icon/forward.svg" /></dt>
   </a>
   {{end}}
 </dl>
 
-{{template "nav.html"}}
+{{template "publicNav.html"}}

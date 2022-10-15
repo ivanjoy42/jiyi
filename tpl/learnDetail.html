@@ -1,0 +1,37 @@
+{{with .Learn}}
+<header>
+  {{template "publicBack.html"}}
+  {{.LearnName}}
+  <span class="tool">
+    <a href="javascript:Href('learnDeck/list?kindId={{.KindId}}&learnId={{.LearnId}}', 1)">
+      <img src="/static/icon/read_more.svg" />
+    </a>
+  </span>
+</header>
+
+<main>
+  <section style="height: 8rem;">
+    <div style="width: 50%; float: left;">
+      今天<br>
+      5 个<br>
+      10 分钟
+    </div>
+    <div style="width: 50%; float: left;">
+      累计<br>
+      3000 个<br>
+      5000 分钟
+    </div>
+  </section>
+
+  <a href="javascript:Href('learnDeck/list?kindId={{.KindId}}&learnId={{.LearnId}}', 1)">
+    {{end}}
+    <section>
+      {{.Deck.DeckName}}
+      <progress value="20" max="100"></progress>
+      20 + 80 = 100
+    </section>
+  </a>
+
+  <button onclick="Href('learn?kind=2&mode=3', 1)" type="button" class="dual">复习</button>
+  <button onclick="Href('learn?kind=2&mode=3', 1)" type="button" class="dual">新学</button>
+</main>
