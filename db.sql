@@ -31,10 +31,9 @@ CREATE TABLE IF NOT EXISTS `deck` (
 DROP TABLE IF EXISTS `learn`;
 CREATE TABLE IF NOT EXISTS `learn` (
   `learn_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `card_id` int(10) unsigned NOT NULL,
-  `rank` tinyint(4) NOT NULL,
-  `skip` tinyint(4) NOT NULL,
-  `update_ts` datetime NOT NULL,
-  `next_ts` datetime NOT NULL,
+  `mode_id` int(10) unsigned NOT NULL,
+  `kind_id` int(10) unsigned NOT NULL,
+  `deck_id` int(10) unsigned NOT NULL,
+  `learn_name` varchar(100) NOT NULL,
   PRIMARY KEY (`learn_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
