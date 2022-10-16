@@ -57,6 +57,7 @@ dt img {
 
 .dt2 progress {
     vertical-align: top;
+    height: 0.375rem;
 }
 
 
@@ -127,7 +128,7 @@ progress {
     background: #ffffff;
     width: 100%;
     vertical-align: middle;
-    height: 0.375rem;
+    height: 0.5rem;
 }
 
 progress::-webkit-progress-bar {

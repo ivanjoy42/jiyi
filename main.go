@@ -60,7 +60,9 @@ func indexRoute(c *gin.Context) {
 // insert插入记录，update更新记录，delete删除记录。
 func cardGroup(r *gin.RouterGroup) {
 	r.GET("index", func(c *gin.Context) {
-		c.HTML(200, "card/index.html", gin.H{})
+		c.HTML(200, "card/index.html", gin.H{
+			"Kind": kind.list(),
+		})
 	})
 
 	r.GET("list", func(c *gin.Context) {

@@ -1,39 +1,25 @@
 {{define "card/index.html"}}
 <header>
-  卡片
+  卡片管理
 </header>
 
 <dl>
-  <a href="javascript:Href('card/list?kindId=2', 1)">
-    <dt>汉字卡片<img src="/static/icon/forward.svg" /></dt>
+  <div style="padding-left: 2rem; font-size: smaller; line-height: 2rem;">卡片类型</div>
+  {{range .Kind}}
+  <a href="javascript:Href('card/list?kindId={{.KindId}}', 1)">
+    <dt>{{.KindName}}<img src="/static/icon/forward.svg" /></dt>
   </a>
-  <a href="javascript:Href('deck/list?kindId=2', 1)">
-    <dt>汉字卡组<img src="/static/icon/forward.svg" /></dt>
-  </a>
+  {{end}}
+
   <div class="hr"><span></span></div>
 
-  <a href="javascript:Href('card/list?kindId=3', 1)">
-    <dt>词语卡片<img src="/static/icon/forward.svg" /></dt>
+  <div style="padding-left: 2rem; font-size: smaller; line-height: 2rem;">卡组类型</div>
+  {{range .Kind}}
+  <a href="javascript:Href('deck/list?kindId={{.KindId}}', 1)">
+    <dt>{{.KindName}}<img src="/static/icon/forward.svg" /></dt>
   </a>
-  <a href="javascript:Href('deck/list?kindId=3', 1)">
-    <dt>词语卡组<img src="/static/icon/forward.svg" /></dt>
-  </a>
-  <div class="hr"><span></span></div>
+  {{end}}
 
-  <a href="javascript:Href('card/list?kindId=4', 1)">
-    <dt>古诗文卡片<img src="/static/icon/forward.svg" /></dt>
-  </a>
-  <a href="javascript:Href('deck/list?kindId=4', 1)">
-    <dt>古诗文卡组<img src="/static/icon/forward.svg" /></dt>
-  </a>
-  <div class="hr"><span></span></div>
-
-  <a href="javascript:Href('card/list?kindId=1', 1)">
-    <dt>普通卡片<img src="/static/icon/forward.svg" /></dt>
-  </a>
-  <a href="javascript:Href('deck/list?kindId=1', 1)">
-    <dt>普通卡组<img src="/static/icon/forward.svg" /></dt>
-  </a>
 </dl>
 
 {{template "public/nav.html"}}

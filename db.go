@@ -207,13 +207,23 @@ func (k *Kind) get(kindId int) *Kind {
 	case 1:
 		k.KindName = "其他"
 	case 2:
-		k.KindName = "汉字"
+		k.KindName = "字"
 	case 3:
 		k.KindName = "词语"
 	case 4:
 		k.KindName = "古诗文"
 	}
 	return k
+}
+
+func (k *Kind) list() (res []Kind) {
+	// sql := `SELECT * FROM kind`
+	// db.Select(&res, sql)
+	res = append(res, *k.get(2))
+	res = append(res, *k.get(3))
+	res = append(res, *k.get(4))
+	res = append(res, *k.get(1))
+	return
 }
 
 // 学习模式
