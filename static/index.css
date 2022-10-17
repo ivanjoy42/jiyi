@@ -196,6 +196,18 @@ textarea {
 
 .orange {
     background: #ed9266;
+    color: #ffffff;
+
+}
+
+.green {
+    background: #41b382;
+    color: #ffffff;
+}
+
+.white {
+    background: #ffffff;
+    color: #000000;
 }
 
 .double {

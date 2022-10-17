@@ -13,6 +13,7 @@ var (
 	deck     Deck
 	cardDeck CardDeck
 	kind     Kind
+	mode     Mode
 	learn    Learn
 )
 
@@ -202,6 +203,21 @@ func learnGroup(r *gin.RouterGroup) {
 			"Learn": learn,
 			"Deck":  deck,
 		})
+	})
+
+	r.GET("create", func(c *gin.Context) {
+
+		c.HTML(200, "learn/create.html", gin.H{
+			"Kind": kind.list(),
+			"Mode": mode.list(),
+		})
+	})
+
+	r.POST("insert", func(c *gin.Context) {
+		learn.ModeId, _ = strconv.Atoi(c.PostForm("modeId"))
+		learn.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
+		learn.LearnName = c.PostForm("learnName")
+		learn.insert()
 	})
 }
 

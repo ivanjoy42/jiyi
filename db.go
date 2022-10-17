@@ -205,7 +205,7 @@ func (k *Kind) get(kindId int) *Kind {
 	k.KindId = kindId
 	switch kindId {
 	case 1:
-		k.KindName = "其他"
+		k.KindName = "综合"
 	case 2:
 		k.KindName = "字"
 	case 3:
@@ -219,10 +219,10 @@ func (k *Kind) get(kindId int) *Kind {
 func (k *Kind) list() (res []Kind) {
 	// sql := `SELECT * FROM kind`
 	// db.Select(&res, sql)
+	res = append(res, *k.get(1))
 	res = append(res, *k.get(2))
 	res = append(res, *k.get(3))
 	res = append(res, *k.get(4))
-	res = append(res, *k.get(1))
 	return
 }
 
@@ -231,8 +231,6 @@ type Mode struct {
 	ModeId   int
 	ModeName string
 }
-
-var mode Mode
 
 func (m *Mode) get(modeId int) (res Mode) {
 	res.ModeId = modeId
@@ -249,6 +247,14 @@ func (m *Mode) get(modeId int) (res Mode) {
 	return
 }
 
+func (m *Mode) list() (res []Mode) {
+	res = append(res, m.get(1))
+	res = append(res, m.get(2))
+	res = append(res, m.get(3))
+	res = append(res, m.get(4))
+	return
+}
+
 // 学习
 type Learn struct {
 	LearnId   int
@@ -262,6 +268,11 @@ func (l *Learn) get(learnId int) Learn {
 	sql := `SELECT * FROM learn WHERE learn_id=?`
 	db.Get(l, sql, learnId)
 	return *l
+}
+
+func (l *Learn) insert() {
+	sql := `INSERT INTO learn(mode_id, kind_id, deck_id, learn_name) VALUES(?, ?, 0, ?)`
+	db.Exec(sql, l.ModeId, l.KindId, l.LearnName)
 }
 
 func (l *Learn) update() {
