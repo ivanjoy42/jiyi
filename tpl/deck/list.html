@@ -2,7 +2,7 @@
 <header>
   {{template "public/back.html"}}
   {{with .Kind}}
-  {{.KindName}}卡组
+  {{.KindName}}
   <span class="tool">
     <a href="javascript:Href('deck/create?kindId={{.KindId}}', 1)"><img src="/static/icon/add.svg" /></a>
   </span>
@@ -11,10 +11,9 @@
 
 <dl>
   {{range .Deck}}
-  <a href="javascript:Href('deck/modify?deckId={{.DeckId}}', 1)">
+  <a href="javascript:Href('card/list?kindId={{.KindId}}&deckId={{.DeckId}}', 1)">
     <dt>
       {{.DeckName}}
-      {{.DeckId}}
       <img src="/static/icon/forward.svg" />
     </dt>
   </a>

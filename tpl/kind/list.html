@@ -1,0 +1,15 @@
+{{define "kind/list.html"}}
+<header>
+  类型
+</header>
+
+<dl>
+  {{range .Kind}}
+  <a href="javascript:Href('deck/list?kindId={{.KindId}}', 1)">
+    <dt>{{.KindName}}<img src="/static/icon/forward.svg" /></dt>
+  </a>
+  {{end}}
+</dl>
+
+{{template "public/nav.html"}}
+{{end}}

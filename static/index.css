@@ -171,10 +171,11 @@ textarea {
 .tool {
     position: fixed;
     right: 1.5rem;
+    font-size: 0;
 }
 
 .tool a {
-    padding: 1.375rem 0.75rem;
+    padding: 1.375rem 0.5rem;
 }
 
 .center {

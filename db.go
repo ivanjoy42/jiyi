@@ -40,9 +40,17 @@ func (c *Card) get(cardId int) (res Card) {
 	return
 }
 
-func (c *Card) insert() {
+func (c *Card) insert() int {
 	sql := `INSERT INTO card(kind_id, front, back, helper, pinyin) VALUES(? ,? ,?, ?, ?)`
-	db.Exec(sql, c.KindId, c.Front, c.Back, c.Helper, c.Pinyin)
+	res, _ := db.Exec(sql, c.KindId, c.Front, c.Back, c.Helper, c.Pinyin)
+	lastId, _ := res.LastInsertId()
+	return int(lastId)
+}
+
+func (c *Card) insertTx(deckId int) {
+	cardId := c.insert()
+	cardIds := []int{cardId}
+	cardDeck.insert(cardIds, deckId)
 }
 
 func (c *Card) update() {
@@ -65,9 +73,12 @@ func (c *Card) deleteTx(cardId int) {
 }
 
 // todo：分页
-func (c *Card) list(kindId int) (res []Card) {
-	sql := `SELECT * FROM card WHERE kind_id=? LIMIT 100`
-	db.Select(&res, sql, kindId)
+func (c *Card) list(kindId, deckId int) (res []Card) {
+	sql := `SELECT card.* FROM card, card_deck 
+			WHERE card.card_id=card_deck.card_id 
+			AND kind_id=? 
+			AND deck_id=? LIMIT 100`
+	db.Select(&res, sql, kindId, deckId)
 	return
 }
 

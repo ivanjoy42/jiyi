@@ -26,6 +26,7 @@ func main() {
 	r.GET("/", indexRoute)
 	cardGroup(r.Group("card"))
 	deckGroup(r.Group("deck"))
+	kindGroup(r.Group("kind"))
 	learnGroup(r.Group("learn"))
 	learnDeckGroup(r.Group("learnDeck"))
 	settingGroup(r.Group("setting"))
@@ -60,24 +61,22 @@ func indexRoute(c *gin.Context) {
 // create新建页面，modify修改页面，remove删除页面；
 // insert插入记录，update更新记录，delete删除记录。
 func cardGroup(r *gin.RouterGroup) {
-	r.GET("index", func(c *gin.Context) {
-		c.HTML(200, "card/index.html", gin.H{
-			"Kind": kind.list(),
-		})
-	})
-
 	r.GET("list", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		c.HTML(200, "card/list.html", gin.H{
-			"Card": card.list(kindId),
+			"Card": card.list(kindId, deckId),
 			"Kind": kind.get(kindId),
+			"Deck": deck.get(deckId),
 		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
 		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		c.HTML(200, "card/create.html", gin.H{
 			"KindId": kindId,
+			"DeckId": deckId,
 		})
 	})
 
@@ -111,7 +110,8 @@ func cardGroup(r *gin.RouterGroup) {
 		card.Back = c.PostForm("back")
 		card.Helper = c.PostForm("helper")
 		card.Pinyin = c.PostForm("pinyin")
-		card.insert()
+		deckId, _ := strconv.Atoi(c.PostForm("deckId"))
+		card.insertTx(deckId)
 	})
 
 	r.POST("update", func(c *gin.Context) {
@@ -218,6 +218,15 @@ func learnGroup(r *gin.RouterGroup) {
 		learn.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
 		learn.LearnName = c.PostForm("learnName")
 		learn.insert()
+	})
+}
+
+//类型
+func kindGroup(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		c.HTML(200, "kind/list.html", gin.H{
+			"Kind": kind.list(),
+		})
 	})
 }
 
