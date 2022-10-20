@@ -13,8 +13,8 @@
   {{range .Deck}}
   <a href="javascript:Href('card/list?kindId={{.KindId}}&deckId={{.DeckId}}', 1)">
     <dt>
+      <img src="/static/icon/tag.svg" />
       {{.DeckName}}
-      <img src="/static/icon/chevron-right.svg" />
     </dt>
   </a>
   {{end}}

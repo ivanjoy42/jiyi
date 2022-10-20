@@ -36,7 +36,7 @@ dt {
     padding: 0 2rem;
 }
 
-dt img {
+.forward {
     float: right;
     margin-top: 1.125rem;
     opacity: 0.3;
