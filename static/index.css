@@ -39,6 +39,7 @@ dt {
 dt img {
     float: right;
     margin-top: 1.125rem;
+    opacity: 0.3;
 }
 
 .dt2 {
@@ -84,7 +85,8 @@ html {
 }
 
 img {
-    vertical-align: -9%;
+    vertical-align: -4%;
+    width: 1.125rem;
 }
 
 input {
@@ -122,6 +124,10 @@ nav div {
     text-align: center;
     width: 25%;
     float: left;
+}
+
+nav img{
+    width: 1.25rem;
 }
 
 progress {
