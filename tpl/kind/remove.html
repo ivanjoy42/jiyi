@@ -1,0 +1,24 @@
+{{define "kind/remove.html"}}
+<header>
+  {{template "public/back.html"}}
+  删除类型
+</header>
+
+<form onsubmit="return Submit('kind/delete', -3)">
+  <main class="edit" style="height:100%">
+    {{with .Kind}}
+    <input value="{{.KindName}}" placeholder="类型名" disabled />
+    <input name="kindId" value="{{.KindId}}" type="hidden" />
+    <div class="warning">
+      <img src="/static/icon/exclamation-triangle-fill.svg" />
+      即将删除【{{.KindName}}】中的全部卡片！
+    </div>
+    {{end}}
+  </main>
+
+  <footer>
+    <button type="button" class="double" onclick="history.back()">取消</button>
+    <button type="submit" class="double orange">删除</button>
+  </footer>
+</form>
+{{end}}

@@ -212,28 +212,30 @@ type Kind struct {
 	KindName string
 }
 
-func (k *Kind) get(kindId int) *Kind {
-	k.KindId = kindId
-	switch kindId {
-	case 1:
-		k.KindName = "综合"
-	case 2:
-		k.KindName = "字"
-	case 3:
-		k.KindName = "词语"
-	case 4:
-		k.KindName = "古诗文"
-	}
-	return k
+func (k *Kind) get(kindId int) (res Kind) {
+	sql := `SELECT * FROM kind WHERE kind_id=?`
+	db.Get(&res, sql, kindId)
+	return
+}
+
+func (k *Kind) insert() {
+	sql := `INSERT INTO kind(kind_name) VALUES(?)`
+	db.Exec(sql, k.KindName)
+}
+
+func (k *Kind) update() {
+	sql := `UPDATE kind SET kind_name=? WHERE kind_id=?`
+	db.Exec(sql, k.KindName, k.KindId)
+}
+
+func (k *Kind) delete(kindId int) {
+	sql := `DELETE FROM kind WHERE kind_id=?`
+	db.Exec(sql, kindId)
 }
 
 func (k *Kind) list() (res []Kind) {
-	// sql := `SELECT * FROM kind`
-	// db.Select(&res, sql)
-	res = append(res, *k.get(1))
-	res = append(res, *k.get(2))
-	res = append(res, *k.get(3))
-	res = append(res, *k.get(4))
+	sql := `SELECT * FROM kind`
+	db.Select(&res, sql)
 	return
 }
 

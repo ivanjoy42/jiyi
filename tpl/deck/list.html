@@ -4,6 +4,7 @@
   {{with .Kind}}
   {{.KindName}}
   <span class="tool">
+    <a href="javascript:Href('kind/modify?kindId={{.KindId}}', 1)"><img src="/static/icon/pencil.svg" /></a>
     <a href="javascript:Href('deck/create?kindId={{.KindId}}', 1)"><img src="/static/icon/plus-circle.svg" /></a>
   </span>
   {{end}}

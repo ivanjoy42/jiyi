@@ -34,21 +34,6 @@ func main() {
 	r.Run(":8080")
 }
 
-func setVer(c *gin.Context) {
-	f1, _ := os.Stat("static/index.css")
-	ts1 := f1.ModTime().Unix()
-
-	f2, _ := os.Stat("static/index.js")
-	ts2 := f2.ModTime().Unix()
-
-	ver = strconv.FormatInt(ts1, 10)
-	if ts2 > ts1 {
-		ver = strconv.FormatInt(ts2, 10)
-	}
-
-	c.SetCookie("ver", ver, 86400*30, "", "", false, false)
-}
-
 func indexRoute(c *gin.Context) {
 	c.HTML(200, "public/index.html", gin.H{
 		"Ver": ver,
@@ -187,6 +172,49 @@ func deckGroup(r *gin.RouterGroup) {
 	})
 }
 
+//类型
+func kindGroup(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		c.HTML(200, "kind/list.html", gin.H{
+			"Kind": kind.list(),
+		})
+	})
+
+	r.GET("create", func(c *gin.Context) {
+		c.HTML(200, "kind/create.html", gin.H{})
+	})
+
+	r.GET("modify", func(c *gin.Context) {
+		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		c.HTML(200, "kind/modify.html", gin.H{
+			"Kind": kind.get(kindId),
+		})
+	})
+
+	r.GET("remove", func(c *gin.Context) {
+		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		c.HTML(200, "kind/remove.html", gin.H{
+			"Kind": kind.get(kindId),
+		})
+	})
+
+	r.POST("insert", func(c *gin.Context) {
+		kind.KindName = c.PostForm("kindName")
+		kind.insert()
+	})
+
+	r.POST("update", func(c *gin.Context) {
+		kind.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
+		kind.KindName = c.PostForm("kindName")
+		kind.update()
+	})
+
+	r.POST("delete", func(c *gin.Context) {
+		kindId, _ := strconv.Atoi(c.PostForm("kindId"))
+		kind.delete(kindId)
+	})
+}
+
 // 学习操作
 func learnGroup(r *gin.RouterGroup) {
 	r.GET("index", func(c *gin.Context) {
@@ -206,7 +234,6 @@ func learnGroup(r *gin.RouterGroup) {
 	})
 
 	r.GET("create", func(c *gin.Context) {
-
 		c.HTML(200, "learn/create.html", gin.H{
 			"Kind": kind.list(),
 			"Mode": mode.list(),
@@ -218,15 +245,6 @@ func learnGroup(r *gin.RouterGroup) {
 		learn.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
 		learn.LearnName = c.PostForm("learnName")
 		learn.insert()
-	})
-}
-
-//类型
-func kindGroup(r *gin.RouterGroup) {
-	r.GET("list", func(c *gin.Context) {
-		c.HTML(200, "kind/list.html", gin.H{
-			"Kind": kind.list(),
-		})
 	})
 }
 
@@ -270,4 +288,19 @@ func userGroup(r *gin.RouterGroup) {
 	r.GET("index", func(c *gin.Context) {
 		c.HTML(200, "user/index.html", gin.H{})
 	})
+}
+
+func setVer(c *gin.Context) {
+	f1, _ := os.Stat("static/index.css")
+	ts1 := f1.ModTime().Unix()
+
+	f2, _ := os.Stat("static/index.js")
+	ts2 := f2.ModTime().Unix()
+
+	ver = strconv.FormatInt(ts1, 10)
+	if ts2 > ts1 {
+		ver = strconv.FormatInt(ts2, 10)
+	}
+
+	c.SetCookie("ver", ver, 86400*30, "", "", false, false)
 }

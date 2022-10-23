@@ -28,6 +28,13 @@ CREATE TABLE IF NOT EXISTS `deck` (
   UNIQUE KEY `kind_id_deck_name` (`kind_id`,`deck_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+DROP TABLE IF EXISTS `kind`;
+CREATE TABLE IF NOT EXISTS `kind` (
+  `kind_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `kind_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`kind_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 DROP TABLE IF EXISTS `learn`;
 CREATE TABLE IF NOT EXISTS `learn` (
   `learn_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
