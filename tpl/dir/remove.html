@@ -1,17 +1,17 @@
-{{define "kind/remove.html"}}
+{{define "dir/remove.html"}}
 <header>
   {{template "public/back.html"}}
-  删除类型
+  删除文件夹
 </header>
 
-<form onsubmit="return Submit('kind/delete', -3)">
+<form onsubmit="return Submit('dir/delete', -3)">
   <main class="edit" style="height:100%">
-    {{with .Kind}}
-    <input value="{{.KindName}}" placeholder="类型名" disabled />
-    <input name="kindId" value="{{.KindId}}" type="hidden" />
+    {{with .Dir}}
+    <input value="{{.DirName}}" placeholder="文件夹名" disabled />
+    <input name="dirId" value="{{.DirId}}" type="hidden" />
     <div class="warning">
       <img src="/static/icon/exclamation-triangle-fill.svg" />
-      即将删除【{{.KindName}}】中的全部卡片！
+      即将删除【{{.DirName}}】中的全部卡片！
     </div>
     {{end}}
   </main>

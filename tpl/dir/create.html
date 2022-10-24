@@ -1,0 +1,33 @@
+{{define "dir/create.html"}}
+<header>
+  {{template "public/back.html"}}
+  新建文件夹
+</header>
+
+<form onsubmit="return Submit('dir/insert', -1)">
+  <main class="edit" style="height:100%">
+    <input name="dirName" placeholder="文件夹名" />
+    <section>
+      类型<br>
+      <button onclick="javascript:setKind(1,this)" type="button" style="width:auto">基本</button>
+      <button onclick="javascript:setKind(2,this)" type="button" style="width:auto">字词</button>
+      <input name="kindId" value="1" type="hidden">
+    </section>
+  </main>
+  <footer>
+    <button type="submit">保存</button>
+  </footer>
+</form>
+
+<script>
+  $(function () {
+    setKind(1, $("section").eq(0).find("button").eq(0))
+  });
+
+  function setKind(kindId, e) {
+    $(e).siblings("button").attr("class", "white")
+    $(e).attr("class", "green")
+    $("input[name='kindId']").val(kindId)
+  }
+</script>
+{{end}}

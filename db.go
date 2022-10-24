@@ -27,22 +27,22 @@ func init() {
 // 卡片
 type Card struct {
 	CardId int
-	KindId int
+	DirId  int
 	Front  string
 	Back   string
 	Helper string
 	Pinyin string
 }
 
-func (c *Card) get(cardId int) (res Card) {
+func (c *Card) get(cardId int) Card {
 	sql := `SELECT * FROM card WHERE card_id=?`
-	db.Get(&res, sql, cardId)
-	return
+	db.Get(c, sql, cardId)
+	return *c
 }
 
 func (c *Card) insert() int {
-	sql := `INSERT INTO card(kind_id, front, back, helper, pinyin) VALUES(? ,? ,?, ?, ?)`
-	res, _ := db.Exec(sql, c.KindId, c.Front, c.Back, c.Helper, c.Pinyin)
+	sql := `INSERT INTO card(dir_id, front, back, helper, pinyin) VALUES(? ,? ,?, ?, ?)`
+	res, _ := db.Exec(sql, c.DirId, c.Front, c.Back, c.Helper, c.Pinyin)
 	lastId, _ := res.LastInsertId()
 	return int(lastId)
 }
@@ -73,27 +73,27 @@ func (c *Card) deleteTx(cardId int) {
 }
 
 // todo：分页
-func (c *Card) list(kindId, deckId int) (res []Card) {
+func (c *Card) list(dirId, deckId int) (res []Card) {
 	sql := `SELECT card.* FROM card, card_deck 
 			WHERE card.card_id=card_deck.card_id 
-			AND kind_id=? 
+			AND dir_id=? 
 			AND deck_id=? LIMIT 100`
-	db.Select(&res, sql, kindId, deckId)
+	db.Select(&res, sql, dirId, deckId)
 	return
 }
 
-func (c *Card) search(kindId int, query string) (res []Card) {
+func (c *Card) search(dirId int, query string) (res []Card) {
 	frontArray := splitSpace(query)
-	sql := `SELECT * FROM card WHERE kind_id=? AND front IN(?)`
-	sql, args, _ := sqlx.In(sql, kindId, frontArray)
+	sql := `SELECT * FROM card WHERE dir_id=? AND front IN(?)`
+	sql, args, _ := sqlx.In(sql, dirId, frontArray)
 	db.Select(&res, sql, args...)
 	return
 }
 
-func (c *Card) getIds(kindId int, fronts string) (res []int) {
+func (c *Card) getIds(dirId int, fronts string) (res []int) {
 	frontArray := splitSpace(fronts)
-	sql := `SELECT card_id FROM card WHERE kind_id=? AND front IN(?) ORDER BY FIELD(front, ?)`
-	sql, args, _ := sqlx.In(sql, kindId, frontArray, frontArray)
+	sql := `SELECT card_id FROM card WHERE dir_id=? AND front IN(?) ORDER BY FIELD(front, ?)`
+	sql, args, _ := sqlx.In(sql, dirId, frontArray, frontArray)
 	db.Select(&res, sql, args...)
 	return
 }
@@ -101,7 +101,7 @@ func (c *Card) getIds(kindId int, fronts string) (res []int) {
 // 卡组
 type Deck struct {
 	DeckId   int
-	KindId   int
+	DirId    int
 	DeckName string
 }
 
@@ -112,8 +112,8 @@ func (d *Deck) get(deckId int) (res Deck) {
 }
 
 func (d *Deck) insert() int {
-	sql := `INSERT INTO deck(deck_name, kind_id) VALUES(?, ?)`
-	res, _ := db.Exec(sql, d.DeckName, d.KindId)
+	sql := `INSERT INTO deck(deck_name, dir_id) VALUES(?, ?)`
+	res, _ := db.Exec(sql, d.DeckName, d.DirId)
 	lastId, _ := res.LastInsertId()
 	return int(lastId)
 }
@@ -135,7 +135,7 @@ func (d *Deck) delete(deckId int) {
 // 3.添加卡片与卡组的关联
 func (d *Deck) insertTx(fronts string) {
 	deckId := d.insert()
-	cardIds := card.getIds(d.KindId, fronts)
+	cardIds := card.getIds(d.DirId, fronts)
 	cardDeck.insert(cardIds, deckId)
 }
 
@@ -148,7 +148,7 @@ func (d *Deck) insertTx(fronts string) {
 func (d *Deck) updateTx(fronts string) {
 	d.update()
 	cardDeck.deleteByDeck(d.DeckId)
-	cardIds := card.getIds(d.KindId, fronts)
+	cardIds := card.getIds(d.DirId, fronts)
 	cardDeck.insert(cardIds, d.DeckId)
 }
 
@@ -172,9 +172,9 @@ func (d *Deck) getFronts(deckId int) string {
 	return strings.Join(res, "\n")
 }
 
-func (d *Deck) list(kindId int) (res []Deck) {
-	sql := `SELECT * FROM deck WHERE kind_id=? LIMIT 100`
-	db.Select(&res, sql, kindId)
+func (d *Deck) list(dirId int) (res []Deck) {
+	sql := `SELECT * FROM deck WHERE dir_id=? LIMIT 100`
+	db.Select(&res, sql, dirId)
 	return res
 }
 
@@ -206,35 +206,36 @@ func (cardDeck *CardDeck) deleteByDeck(deckId int) {
 	db.Exec(sql, deckId)
 }
 
-// 卡片类型
-type Kind struct {
-	KindId   int
-	KindName string
+// 卡片文件夹
+type Dir struct {
+	DirId   int
+	DirName string
+	KindId  int
 }
 
-func (k *Kind) get(kindId int) (res Kind) {
-	sql := `SELECT * FROM kind WHERE kind_id=?`
-	db.Get(&res, sql, kindId)
+func (k *Dir) get(dirId int) (res Dir) {
+	sql := `SELECT * FROM dir WHERE dir_id=?`
+	db.Get(&res, sql, dirId)
 	return
 }
 
-func (k *Kind) insert() {
-	sql := `INSERT INTO kind(kind_name) VALUES(?)`
-	db.Exec(sql, k.KindName)
+func (k *Dir) insert(kindId int) {
+	sql := `INSERT INTO dir(dir_name, kind_id) VALUES(?, ?)`
+	db.Exec(sql, k.DirName, kindId)
 }
 
-func (k *Kind) update() {
-	sql := `UPDATE kind SET kind_name=? WHERE kind_id=?`
-	db.Exec(sql, k.KindName, k.KindId)
+func (k *Dir) update() {
+	sql := `UPDATE dir SET dir_name=? WHERE dir_id=?`
+	db.Exec(sql, k.DirName, k.DirId)
 }
 
-func (k *Kind) delete(kindId int) {
-	sql := `DELETE FROM kind WHERE kind_id=?`
-	db.Exec(sql, kindId)
+func (k *Dir) delete(dirId int) {
+	sql := `DELETE FROM dir WHERE dir_id=?`
+	db.Exec(sql, dirId)
 }
 
-func (k *Kind) list() (res []Kind) {
-	sql := `SELECT * FROM kind`
+func (k *Dir) list() (res []Dir) {
+	sql := `SELECT * FROM dir`
 	db.Select(&res, sql)
 	return
 }
@@ -272,7 +273,7 @@ func (m *Mode) list() (res []Mode) {
 type Learn struct {
 	LearnId   int
 	ModeId    int
-	KindId    int
+	DirId     int
 	DeckId    int
 	LearnName string
 }
@@ -284,13 +285,13 @@ func (l *Learn) get(learnId int) Learn {
 }
 
 func (l *Learn) insert() {
-	sql := `INSERT INTO learn(mode_id, kind_id, deck_id, learn_name) VALUES(?, ?, 0, ?)`
-	db.Exec(sql, l.ModeId, l.KindId, l.LearnName)
+	sql := `INSERT INTO learn(mode_id, dir_id, deck_id, learn_name) VALUES(?, ?, 0, ?)`
+	db.Exec(sql, l.ModeId, l.DirId, l.LearnName)
 }
 
 func (l *Learn) update() {
-	sql := `UPDATE learn SET mode_id=?, kind_id=?, deck_id=?, learn_name=? WHERE learn_id=?`
-	db.Exec(sql, l.ModeId, l.KindId, l.DeckId, l.LearnName, l.LearnId)
+	sql := `UPDATE learn SET mode_id=?, dir_id=?, deck_id=?, learn_name=? WHERE learn_id=?`
+	db.Exec(sql, l.ModeId, l.DirId, l.DeckId, l.LearnName, l.LearnId)
 }
 
 func (l *Learn) list() (res []Learn) {

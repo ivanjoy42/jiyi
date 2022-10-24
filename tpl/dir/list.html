@@ -1,0 +1,21 @@
+{{define "dir/list.html"}}
+<header>
+  文件夹
+  <span class="tool">
+    <a href="javascript:Href('dir/create', 1)"><img src="/static/icon/plus-circle.svg" /></a>
+  </span>
+</header>
+
+<dl>
+  {{range .Dir}}
+  <a href="javascript:Href('deck/list?dirId={{.DirId}}', 1)">
+    <dt>
+      <img src="/static/icon/folder.svg" />
+      {{.DirName}}
+    </dt>
+  </a>
+  {{end}}
+</dl>
+
+{{template "public/nav.html"}}
+{{end}}

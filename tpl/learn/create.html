@@ -8,7 +8,7 @@
   <main class="edit" style="height:100%">
     <input name="learnName" placeholder="项目名" />
     <input name="modeId" value="1" type="hidden">
-    <input name="kindId" value="1" type="hidden">
+    <input name="dirId" value="1" type="hidden">
 
     <section>
       学习方式<br>
@@ -19,8 +19,8 @@
 
     <section>
       学习内容<br>
-      {{range .Kind}}
-      <button onclick="javascript:setKind('{{.KindId}}',this)" type="button" style="width:auto">{{.KindName}}</button>
+      {{range .Dir}}
+      <button onclick="javascript:setDir('{{.DirId}}',this)" type="button" style="width:auto">{{.DirName}}</button>
       {{end}}
     </section>
 
@@ -31,7 +31,7 @@
 <script>
   $(function () {
     setMode(1, $("section").eq(0).find("button").eq(0))
-    setKind(1, $("section").eq(1).find("button").eq(0))
+    setDir(1, $("section").eq(1).find("button").eq(0))
   });
 
   function setMode(modeId, e) {
@@ -40,29 +40,29 @@
     $("input[name='modeId']").val(modeId)
 
     btn = $("section").eq(1).find("button")
-    kind = $("input[name='kindId']").val()
+    dir = $("input[name='dirId']").val()
 
     if (modeId == 3 || modeId == 4) {
       btn.hide()
       btn.eq(1).show()
       btn.eq(2).show()
-      if (kind == 1 || kind == 4) {
-        setKind(2, btn.eq(1))
+      if (dir == 1 || dir == 4) {
+        setDir(2, btn.eq(1))
       }
     } else {
       btn.show()
       btn.eq(1).hide()
       btn.eq(2).hide()
-      if (kind == 2 || kind == 3) {
-        setKind(1, btn.eq(0))
+      if (dir == 2 || dir == 3) {
+        setDir(1, btn.eq(0))
       }
     }
   }
 
-  function setKind(kindId, e) {
+  function setDir(dirId, e) {
     $(e).siblings("button").attr("class", "white")
     $(e).attr("class", "green")
-    $("input[name='kindId']").val(kindId)
+    $("input[name='dirId']").val(dirId)
   }
 </script>
 {{end}}

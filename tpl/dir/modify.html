@@ -1,0 +1,22 @@
+{{define "dir/modify.html"}}
+<header>
+  {{template "public/back.html"}}
+  修改文件夹
+  <span class="tool">
+    <a href="javascript:Href('dir/remove?dirId={{.Dir.DirId}}', 1)"><img src="/static/icon/trash.svg" /></a>
+  </span>
+</header>
+
+<form onsubmit="return Submit('dir/update', -1)">
+  <main class="edit" style="height:100%">
+    {{with .Dir}}
+    <input name="dirName" value="{{.DirName}}" placeholder="文件夹名" />
+    <input name="dirId" value="{{.DirId}}" type="hidden" />
+    {{end}}
+  </main>
+
+  <footer>
+    <button type="submit">保存</button>
+  </footer>
+</form>
+{{end}}

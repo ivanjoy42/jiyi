@@ -1,18 +1,18 @@
 {{define "deck/list.html"}}
 <header>
   {{template "public/back.html"}}
-  {{with .Kind}}
-  {{.KindName}}
+  {{with .Dir}}
+  {{.DirName}}
   <span class="tool">
-    <a href="javascript:Href('kind/modify?kindId={{.KindId}}', 1)"><img src="/static/icon/pencil.svg" /></a>
-    <a href="javascript:Href('deck/create?kindId={{.KindId}}', 1)"><img src="/static/icon/plus-circle.svg" /></a>
+    <a href="javascript:Href('dir/modify?dirId={{.DirId}}', 1)"><img src="/static/icon/pencil.svg" /></a>
+    <a href="javascript:Href('deck/create?dirId={{.DirId}}', 1)"><img src="/static/icon/plus-circle.svg" /></a>
   </span>
   {{end}}
 </header>
 
 <dl>
   {{range .Deck}}
-  <a href="javascript:Href('card/list?kindId={{.KindId}}&deckId={{.DeckId}}', 1)">
+  <a href="javascript:Href('card/list?dirId={{.DirId}}&deckId={{.DeckId}}', 1)">
     <dt>
       <img src="/static/icon/tag.svg" />
       {{.DeckName}}

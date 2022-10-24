@@ -5,7 +5,7 @@
   {{template "public/back.html"}}
   {{.LearnName}}
   <span class="tool">
-    <a href="javascript:Href('learnDeck/list?kindId={{.KindId}}&learnId={{.LearnId}}', 1)">
+    <a href="javascript:Href('learnDeck/list?dirId={{.DirId}}&learnId={{.LearnId}}', 1)">
       <img src="/static/icon/three-dots.svg" />
     </a>
   </span>
@@ -24,17 +24,17 @@
   <section>
     30 / 100 个 （5 分钟）
     <progress value="30" max="100"></progress>
-    <button onclick="Href('learn?kind=2&mode=3', 1)" type="button">复习</button>
+    <button onclick="Href('learn?dir=2&mode=3', 1)" type="button">复习</button>
   </section>
 
   <section>
     5 / 10 个 （10 分钟）
     <progress value="50" max="100"></progress>
-    <button onclick="Href('learn?kind=2&mode=3', 1)" type="button">讲解</button>
+    <button onclick="Href('learn?dir=2&mode=3', 1)" type="button">讲解</button>
   </section>
 
   <section>
-    <a href="javascript:Href('learnDeck/list?kindId={{.KindId}}&learnId={{.LearnId}}', 1)">
+    <a href="javascript:Href('learnDeck/list?dirId={{.DirId}}&learnId={{.LearnId}}', 1)">
       <img src="/static/icon/three-dots.svg" style="position:absolute; right:3rem" />
       <div>
         {{$Deck.DeckName}}<br>
@@ -43,7 +43,7 @@
         5 个 （5 分钟）
       </div>
     </a>
-    <button onclick="Href('learn?kind=2&mode=3', 1)" type="button">新学</button>
+    <button onclick="Href('learn?dir=2&mode=3', 1)" type="button">新学</button>
   </section>
 </main>
 {{end}}

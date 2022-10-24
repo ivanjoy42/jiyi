@@ -12,7 +12,7 @@ var (
 	card     Card
 	deck     Deck
 	cardDeck CardDeck
-	kind     Kind
+	dir      Dir
 	mode     Mode
 	learn    Learn
 )
@@ -26,7 +26,7 @@ func main() {
 	r.GET("/", indexRoute)
 	cardGroup(r.Group("card"))
 	deckGroup(r.Group("deck"))
-	kindGroup(r.Group("kind"))
+	dirGroup(r.Group("dir"))
 	learnGroup(r.Group("learn"))
 	learnDeckGroup(r.Group("learnDeck"))
 	settingGroup(r.Group("setting"))
@@ -47,21 +47,21 @@ func indexRoute(c *gin.Context) {
 // insert插入记录，update更新记录，delete删除记录。
 func cardGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
-		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		c.HTML(200, "card/list.html", gin.H{
-			"Card": card.list(kindId, deckId),
-			"Kind": kind.get(kindId),
+			"Card": card.list(dirId, deckId),
+			"Dir":  dir.get(dirId),
 			"Deck": deck.get(deckId),
 		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		c.HTML(200, "card/create.html", gin.H{
-			"KindId": kindId,
 			"DeckId": deckId,
+			"Dir":    dir.get(dirId),
 		})
 	})
 
@@ -69,6 +69,7 @@ func cardGroup(r *gin.RouterGroup) {
 		cardId, _ := strconv.Atoi(c.Query("cardId"))
 		c.HTML(200, "card/modify.html", gin.H{
 			"Card": card.get(cardId),
+			"Dir":  dir.get(card.DirId),
 		})
 	})
 
@@ -76,21 +77,22 @@ func cardGroup(r *gin.RouterGroup) {
 		cardId, _ := strconv.Atoi(c.Query("cardId"))
 		c.HTML(200, "card/remove.html", gin.H{
 			"Card": card.get(cardId),
+			"Dir":  dir.get(card.DirId),
 		})
 	})
 
 	r.GET("search", func(c *gin.Context) {
-		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
 		query := c.Query("query")
 		c.HTML(200, "card/search.html", gin.H{
-			"Card":   card.search(kindId, query),
-			"KindId": kindId,
-			"Query":  query,
+			"Card":  card.search(dirId, query),
+			"DirId": dirId,
+			"Query": query,
 		})
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		card.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
+		card.DirId, _ = strconv.Atoi(c.PostForm("dirId"))
 		card.Front = c.PostForm("front")
 		card.Back = c.PostForm("back")
 		card.Helper = c.PostForm("helper")
@@ -121,17 +123,17 @@ func cardGroup(r *gin.RouterGroup) {
 // insert插入记录，update更新记录，delete删除记录。
 func deckGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
-		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
 		c.HTML(200, "deck/list.html", gin.H{
-			"Deck": deck.list(kindId),
-			"Kind": kind.get(kindId),
+			"Deck": deck.list(dirId),
+			"Dir":  dir.get(dirId),
 		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
 		c.HTML(200, "deck/create.html", gin.H{
-			"KindId": kindId,
+			"DirId": dirId,
 		})
 	})
 
@@ -152,7 +154,7 @@ func deckGroup(r *gin.RouterGroup) {
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		deck.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
+		deck.DirId, _ = strconv.Atoi(c.PostForm("dirId"))
 		deck.DeckName = c.PostForm("deckName")
 		fronts := c.PostForm("fronts")
 		deck.insertTx(fronts)
@@ -160,7 +162,7 @@ func deckGroup(r *gin.RouterGroup) {
 
 	r.POST("update", func(c *gin.Context) {
 		deck.DeckId, _ = strconv.Atoi(c.PostForm("deckId"))
-		deck.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
+		deck.DirId, _ = strconv.Atoi(c.PostForm("dirId"))
 		deck.DeckName = c.PostForm("deckName")
 		fronts := c.PostForm("fronts")
 		deck.updateTx(fronts)
@@ -172,46 +174,47 @@ func deckGroup(r *gin.RouterGroup) {
 	})
 }
 
-//类型
-func kindGroup(r *gin.RouterGroup) {
+//文件夹
+func dirGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
-		c.HTML(200, "kind/list.html", gin.H{
-			"Kind": kind.list(),
+		c.HTML(200, "dir/list.html", gin.H{
+			"Dir": dir.list(),
 		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		c.HTML(200, "kind/create.html", gin.H{})
+		c.HTML(200, "dir/create.html", gin.H{})
 	})
 
 	r.GET("modify", func(c *gin.Context) {
-		kindId, _ := strconv.Atoi(c.Query("kindId"))
-		c.HTML(200, "kind/modify.html", gin.H{
-			"Kind": kind.get(kindId),
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
+		c.HTML(200, "dir/modify.html", gin.H{
+			"Dir": dir.get(dirId),
 		})
 	})
 
 	r.GET("remove", func(c *gin.Context) {
-		kindId, _ := strconv.Atoi(c.Query("kindId"))
-		c.HTML(200, "kind/remove.html", gin.H{
-			"Kind": kind.get(kindId),
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
+		c.HTML(200, "dir/remove.html", gin.H{
+			"Dir": dir.get(dirId),
 		})
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		kind.KindName = c.PostForm("kindName")
-		kind.insert()
+		dir.DirName = c.PostForm("dirName")
+		kindId, _ := strconv.Atoi(c.PostForm("kindId"))
+		dir.insert(kindId)
 	})
 
 	r.POST("update", func(c *gin.Context) {
-		kind.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
-		kind.KindName = c.PostForm("kindName")
-		kind.update()
+		dir.DirId, _ = strconv.Atoi(c.PostForm("dirId"))
+		dir.DirName = c.PostForm("dirName")
+		dir.update()
 	})
 
 	r.POST("delete", func(c *gin.Context) {
-		kindId, _ := strconv.Atoi(c.PostForm("kindId"))
-		kind.delete(kindId)
+		dirId, _ := strconv.Atoi(c.PostForm("dirId"))
+		dir.delete(dirId)
 	})
 }
 
@@ -235,14 +238,14 @@ func learnGroup(r *gin.RouterGroup) {
 
 	r.GET("create", func(c *gin.Context) {
 		c.HTML(200, "learn/create.html", gin.H{
-			"Kind": kind.list(),
+			"Dir":  dir.list(),
 			"Mode": mode.list(),
 		})
 	})
 
 	r.POST("insert", func(c *gin.Context) {
 		learn.ModeId, _ = strconv.Atoi(c.PostForm("modeId"))
-		learn.KindId, _ = strconv.Atoi(c.PostForm("kindId"))
+		learn.DirId, _ = strconv.Atoi(c.PostForm("dirId"))
 		learn.LearnName = c.PostForm("learnName")
 		learn.insert()
 	})
@@ -252,10 +255,10 @@ func learnGroup(r *gin.RouterGroup) {
 func learnDeckGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		learnId, _ := strconv.Atoi(c.Query("learnId"))
-		kindId, _ := strconv.Atoi(c.Query("kindId"))
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
 		c.HTML(200, "learnDeck/list.html", gin.H{
-			"Deck":    deck.list(kindId),
-			"Kind":    kind.get(kindId),
+			"Deck":    deck.list(dirId),
+			"Dir":     dir.get(dirId),
 			"LearnId": learnId,
 		})
 	})

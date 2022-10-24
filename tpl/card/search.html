@@ -1,7 +1,7 @@
 {{define "card/search.html"}}
 <header>
   {{template "public/back.html"}}
-  <form onsubmit="javascript:Href('card/search?kindId={{.KindId}}&query='+this.query.value, 0); return false">
+  <form onsubmit="javascript:Href('card/search?dirId={{.DirId}}&query='+this.query.value, 0); return false">
     <input name="query" value="{{.Query}}" type="search" autofocus>
   </form>
 </header>
