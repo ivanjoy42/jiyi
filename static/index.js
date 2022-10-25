@@ -1,7 +1,7 @@
 BackUrl = "";
 BodyXHR = null;
 Deep = 0;
-Home = "learn/index";
+Home = "pract/list";
 
 $(function () {
     url = GetHash();

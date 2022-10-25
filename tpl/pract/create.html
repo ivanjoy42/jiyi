@@ -1,15 +1,15 @@
-{{define "learn/create.html"}}
+{{define "pract/create.html"}}
 <header>
   {{template "public/back.html"}}
-  新建项目
+  新建练习
 </header>
 
-<form onsubmit="return Submit('learn/insert', -1)">
+<form onsubmit="return Submit('pract/insert', -1)">
   <main class="edit" style="height:100%">
-    <input name="learnName" placeholder="项目名" />
+    <input name="practName" placeholder="练习名" />
 
     <section>
-      学习方式<br>
+      练习方式<br>
       {{range .Mode}}
       <button onclick="setRadio('modeId', '{{.ModeId}}',this)" type="button" style="width:auto">{{.ModeName}}</button>
       {{end}}
@@ -17,7 +17,7 @@
     </section>
 
     <section>
-      学习内容<br>
+      练习内容<br>
       {{range .Dir}}
       <button onclick="setRadio('dirId', '{{.DirId}}',this)" type="button" style="width:auto">{{.DirName}}</button>
       {{end}}

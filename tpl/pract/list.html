@@ -1,0 +1,18 @@
+{{define "pract/list.html"}}
+<header>
+  记忆犹新
+  <span class="tool">
+    <a href="javascript:Href('pract/create', 1)"><img src="/static/icon/plus-circle.svg" /></a>
+  </span>
+</header>
+
+<dl>
+  {{range .Pract}}
+  <a href="javascript:Href('pract/detail?practId={{.PractId}}', 1)">
+    <dt>{{.PractName}}<img src="/static/icon/chevron-right.svg" class="forward"/></dt>
+  </a>
+  {{end}}
+</dl>
+
+{{template "public/nav.html"}}
+{{end}}

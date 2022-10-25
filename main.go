@@ -14,7 +14,7 @@ var (
 	cardDeck CardDeck
 	dir      Dir
 	mode     Mode
-	learn    Learn
+	pract    Pract
 )
 
 func main() {
@@ -27,8 +27,8 @@ func main() {
 	cardGroup(r.Group("card"))
 	deckGroup(r.Group("deck"))
 	dirGroup(r.Group("dir"))
-	learnGroup(r.Group("learn"))
-	learnDeckGroup(r.Group("learnDeck"))
+	practGroup(r.Group("pract"))
+	practDeckGroup(r.Group("practDeck"))
 	settingGroup(r.Group("setting"))
 	userGroup(r.Group("user"))
 	r.Run(":8080")
@@ -218,66 +218,66 @@ func dirGroup(r *gin.RouterGroup) {
 	})
 }
 
-// 学习操作
-func learnGroup(r *gin.RouterGroup) {
-	r.GET("index", func(c *gin.Context) {
-		c.HTML(200, "learn/index.html", gin.H{
-			"Learn": learn.list(),
+// 练习操作
+func practGroup(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		c.HTML(200, "pract/list.html", gin.H{
+			"Pract": pract.list(),
 		})
 	})
 
 	r.GET("detail", func(c *gin.Context) {
-		learnId, _ := strconv.Atoi(c.Query("learnId"))
-		learn = learn.get(learnId)
-		deck = deck.get(learn.DeckId)
-		c.HTML(200, "learn/detail.html", gin.H{
-			"Learn": learn,
+		practId, _ := strconv.Atoi(c.Query("practId"))
+		pract = pract.get(practId)
+		deck = deck.get(pract.DeckId)
+		c.HTML(200, "pract/detail.html", gin.H{
+			"Pract": pract,
 			"Deck":  deck,
 		})
 	})
 
 	r.GET("create", func(c *gin.Context) {
-		c.HTML(200, "learn/create.html", gin.H{
+		c.HTML(200, "pract/create.html", gin.H{
 			"Dir":  dir.list(),
 			"Mode": mode.list(),
 		})
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		learn.ModeId, _ = strconv.Atoi(c.PostForm("modeId"))
-		learn.DirId, _ = strconv.Atoi(c.PostForm("dirId"))
-		learn.LearnName = c.PostForm("learnName")
-		learn.insert()
+		pract.ModeId, _ = strconv.Atoi(c.PostForm("modeId"))
+		pract.DirId, _ = strconv.Atoi(c.PostForm("dirId"))
+		pract.PractName = c.PostForm("practName")
+		pract.insert()
 	})
 }
 
-// 学习卡组操作
-func learnDeckGroup(r *gin.RouterGroup) {
+// 练习卡组操作
+func practDeckGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
-		learnId, _ := strconv.Atoi(c.Query("learnId"))
+		practId, _ := strconv.Atoi(c.Query("practId"))
 		dirId, _ := strconv.Atoi(c.Query("dirId"))
-		c.HTML(200, "learnDeck/list.html", gin.H{
+		c.HTML(200, "practDeck/list.html", gin.H{
 			"Deck":    deck.list(dirId),
 			"Dir":     dir.get(dirId),
-			"LearnId": learnId,
+			"PractId": practId,
 		})
 	})
 
 	r.GET("detail", func(c *gin.Context) {
-		learnId, _ := strconv.Atoi(c.Query("learnId"))
+		practId, _ := strconv.Atoi(c.Query("practId"))
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
-		c.HTML(200, "learnDeck/detail.html", gin.H{
+		c.HTML(200, "practDeck/detail.html", gin.H{
 			"Deck":    deck.get(deckId),
 			"Fronts":  deck.getFronts(deckId),
-			"LearnId": learnId,
+			"PractId": practId,
 		})
 	})
 
 	r.POST("update", func(c *gin.Context) {
-		learnId, _ := strconv.Atoi(c.PostForm("learnId"))
-		learn.get(learnId)
-		learn.DeckId, _ = strconv.Atoi(c.PostForm("deckId"))
-		learn.update()
+		practId, _ := strconv.Atoi(c.PostForm("practId"))
+		pract.get(practId)
+		pract.DeckId, _ = strconv.Atoi(c.PostForm("deckId"))
+		pract.update()
 	})
 }
 

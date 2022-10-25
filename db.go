@@ -240,7 +240,7 @@ func (k *Dir) list() (res []Dir) {
 	return
 }
 
-// 学习模式（卡片的显示方式）
+// 练习模式（卡片的显示方式）
 type Mode struct {
 	ModeId   int
 	ModeName string
@@ -263,41 +263,41 @@ func (m *Mode) list() (res []Mode) {
 	return
 }
 
-// 学习
-type Learn struct {
-	LearnId   int
+// 练习
+type Pract struct {
+	PractId   int
 	ModeId    int
 	DirId     int
 	DeckId    int
-	LearnName string
+	PractName string
 }
 
-func (l *Learn) get(learnId int) Learn {
-	sql := `SELECT * FROM learn WHERE learn_id=?`
-	db.Get(l, sql, learnId)
+func (l *Pract) get(practId int) Pract {
+	sql := `SELECT * FROM pract WHERE pract_id=?`
+	db.Get(l, sql, practId)
 	return *l
 }
 
-func (l *Learn) insert() {
-	sql := `INSERT INTO learn(mode_id, dir_id, deck_id, learn_name) VALUES(?, ?, 0, ?)`
-	db.Exec(sql, l.ModeId, l.DirId, l.LearnName)
+func (l *Pract) insert() {
+	sql := `INSERT INTO pract(mode_id, dir_id, deck_id, pract_name) VALUES(?, ?, 0, ?)`
+	db.Exec(sql, l.ModeId, l.DirId, l.PractName)
 }
 
-func (l *Learn) update() {
-	sql := `UPDATE learn SET mode_id=?, dir_id=?, deck_id=?, learn_name=? WHERE learn_id=?`
-	db.Exec(sql, l.ModeId, l.DirId, l.DeckId, l.LearnName, l.LearnId)
+func (l *Pract) update() {
+	sql := `UPDATE pract SET mode_id=?, dir_id=?, deck_id=?, pract_name=? WHERE pract_id=?`
+	db.Exec(sql, l.ModeId, l.DirId, l.DeckId, l.PractName, l.PractId)
 }
 
-func (l *Learn) list() (res []Learn) {
-	sql := `SELECT * FROM learn`
+func (l *Pract) list() (res []Pract) {
+	sql := `SELECT * FROM pract`
 	db.Select(&res, sql)
 	return
 }
 
-// 学习卡片
-type LearnCard struct {
-	LearnCardId int
-	LearnId     int
+// 练习卡片
+type PractCard struct {
+	PractCardId int
+	PractId     int
 	CardId      int
 	rank        int
 	skip        int
