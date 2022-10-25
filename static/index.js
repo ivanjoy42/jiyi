@@ -137,3 +137,9 @@ function Submit(url, direct) {
     });
     return false;
 }
+
+function setRadio(inputName, kindId, e) {
+    $(e).siblings("button").attr("class", "white")
+    $(e).attr("class", "green")
+    $("input[name=" + inputName + "]").val(kindId)
+}

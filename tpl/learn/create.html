@@ -7,21 +7,21 @@
 <form onsubmit="return Submit('learn/insert', -1)">
   <main class="edit" style="height:100%">
     <input name="learnName" placeholder="项目名" />
-    <input name="modeId" value="1" type="hidden">
-    <input name="dirId" value="1" type="hidden">
 
     <section>
       学习方式<br>
       {{range .Mode}}
-      <button onclick="javascript:setMode('{{.ModeId}}',this)" type="button" style="width:auto">{{.ModeName}}</button>
+      <button onclick="setRadio('modeId', '{{.ModeId}}',this)" type="button" style="width:auto">{{.ModeName}}</button>
       {{end}}
+      <input name="modeId" value="1" type="hidden">
     </section>
 
     <section>
       学习内容<br>
       {{range .Dir}}
-      <button onclick="javascript:setDir('{{.DirId}}',this)" type="button" style="width:auto">{{.DirName}}</button>
+      <button onclick="setRadio('dirId', '{{.DirId}}',this)" type="button" style="width:auto">{{.DirName}}</button>
       {{end}}
+      <input name="dirId" value="1" type="hidden">
     </section>
 
     <button type="submit">保存</button>
@@ -30,39 +30,8 @@
 
 <script>
   $(function () {
-    setMode(1, $("section").eq(0).find("button").eq(0))
-    setDir(1, $("section").eq(1).find("button").eq(0))
+    setRadio('modeId', 1, $("section").eq(0).find("button").eq(0))
+    setRadio('dirId', 1, $("section").eq(1).find("button").eq(0))
   });
-
-  function setMode(modeId, e) {
-    $(e).siblings("button").attr("class", "white")
-    $(e).attr("class", "green")
-    $("input[name='modeId']").val(modeId)
-
-    btn = $("section").eq(1).find("button")
-    dir = $("input[name='dirId']").val()
-
-    if (modeId == 3 || modeId == 4) {
-      btn.hide()
-      btn.eq(1).show()
-      btn.eq(2).show()
-      if (dir == 1 || dir == 4) {
-        setDir(2, btn.eq(1))
-      }
-    } else {
-      btn.show()
-      btn.eq(1).hide()
-      btn.eq(2).hide()
-      if (dir == 2 || dir == 3) {
-        setDir(1, btn.eq(0))
-      }
-    }
-  }
-
-  function setDir(dirId, e) {
-    $(e).siblings("button").attr("class", "white")
-    $(e).attr("class", "green")
-    $("input[name='dirId']").val(dirId)
-  }
 </script>
 {{end}}

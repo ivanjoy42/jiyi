@@ -240,7 +240,7 @@ func (k *Dir) list() (res []Dir) {
 	return
 }
 
-// 学习模式
+// 学习模式（卡片的显示方式）
 type Mode struct {
 	ModeId   int
 	ModeName string
@@ -250,12 +250,8 @@ func (m *Mode) get(modeId int) (res Mode) {
 	res.ModeId = modeId
 	switch modeId {
 	case 1:
-		res.ModeName = "背诵"
+		res.ModeName = "常规"
 	case 2:
-		res.ModeName = "默写"
-	case 3:
-		res.ModeName = "认识"
-	case 4:
 		res.ModeName = "听写"
 	}
 	return
@@ -264,8 +260,6 @@ func (m *Mode) get(modeId int) (res Mode) {
 func (m *Mode) list() (res []Mode) {
 	res = append(res, m.get(1))
 	res = append(res, m.get(2))
-	res = append(res, m.get(3))
-	res = append(res, m.get(4))
 	return
 }
 
