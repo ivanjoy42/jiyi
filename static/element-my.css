@@ -1,0 +1,14 @@
+:root {
+    --el-border-radius-round: 24px;
+    --el-color-primary: #2196f3;
+    --el-color-danger: #f44336;
+    --el-color-success: #4caf50;
+}
+
+.el-button--huge {
+    --el-button-size: 48px;
+    height: var(--el-button-size);
+    padding: 14px 23px;
+    font-size: var(--el-font-size-large);
+    border-radius: var(--el-border-radius-round);
+}

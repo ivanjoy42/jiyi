@@ -5,11 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <link rel="stylesheet" href="../element.css" />
+  <link rel="stylesheet" href="../element-my.css" />
   <script src="../vue.js"></script>
   <script src="../vue-router.js"></script>
   <script src="../element.js"></script>
   <script src="../element-iife.js"></script>
-  <title>element</title>
+  <title>index</title>
 </head>
 
 <body>
@@ -83,16 +84,25 @@
       </el-main>
 
       <el-footer>
-        <el-row :gutter="10">
+        <el-button size="small" round>小号</el-button>
+        <el-button size="default" round>默认</el-button>
+        <el-button size="large" round>大号</el-button>
+        <el-button>超大</el-button>
+        <el-button type="success">取消</el-button>
+        <el-button type="danger">删除</el-button>
+        <el-button type="primary">确定</el-button>
+        <el-divider></el-divider>
+
+        <el-row :gutter="15">
           <el-col :span="12">
-            <el-button style="width:100%;" type="success" round>{{ cancel }}</el-button>
+            <el-button style="width:100%;" type="success">{{ cancel }}</el-button>
           </el-col>
           <el-col :span="12">
-            <el-button style="width:100%;" type="danger" round>{{ confirm }}</el-button>
+            <el-button style="width:100%;" type="danger">{{ confirm }}</el-button>
           </el-col>
         </el-row>
         <el-divider></el-divider>
-        <el-button @click="dialogVisible=true" style="width:100%;" type="primary" round>{{ message }}</el-button>
+        <el-button @click="dialogVisible=true" style="width:100%;" type="primary">{{ message }}</el-button>
         <el-divider></el-divider>
         <el-button type="primary" @click="drawer=true">删除</el-button>
 
@@ -100,10 +110,10 @@
           <span>删除全部卡片？</span>
           <el-row :gutter="10">
             <el-col :span="12">
-              <el-button style="width:100%;" type="success" round>{{ cancel }}</el-button>
+              <el-button style="width:100%;" type="success">{{ cancel }}</el-button>
             </el-col>
             <el-col :span="12">
-              <el-button style="width:100%;" type="danger" round>{{ confirm }}</el-button>
+              <el-button style="width:100%;" type="danger">{{ confirm }}</el-button>
             </el-col>
           </el-row>
         </el-drawer>
@@ -160,7 +170,7 @@
 
     const app = Vue.createApp(App)
     app.use(router)
-    app.use(ElementPlus, { size: 'large' })
+    app.use(ElementPlus, { size: 'huge' })
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
       app.component(key, component)
     }
