@@ -46,8 +46,14 @@
         </el-icon>
         www
       </el-header>
+      <el-table :data="tableData">
+        <el-table-column prop="date"></el-table-column>
+        <el-table-column prop="name"></el-table-column>
+        <el-table-column prop="address"></el-table-column>
+      </el-table>
 
       <el-main>
+
         <p>
           <router-link to="/">Go to Home</router-link>
           <router-link to="/about">Go to About</router-link>
@@ -140,6 +146,29 @@
   </style>
 
   <script setup lang="ts">
+    const tableData = [
+      {
+        date: '2016-05-03',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        date: '2016-05-02',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        date: '2016-05-04',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        date: '2016-05-01',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+    ]
+
     const App = {
       data() {
         return {
@@ -151,9 +180,11 @@
           value1: "ccc",
           dialogVisible: false,
           drawer: false,
+          tableData,
         };
       },
     };
+
 
     const Home = { template: '<div>Home</div>' }
     const About = { template: '<div>About</div>' }

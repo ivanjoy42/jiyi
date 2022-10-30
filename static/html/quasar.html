@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link href="../quasar.css" rel="stylesheet" type="text/css">
+  <title>quasar</title>
+</head>
+
+<body>
+  <div id="q-app">
+    <q-layout view="hHh LpR fFf">
+      <q-header class="bg-white text-black">头</q-header>
+      <q-page-container>
+        <q-list class="text-body1">
+          <q-item clickable v-ripple onclick="alert(1)">
+            asdf
+          </q-item>
+          <q-item clickable v-ripple>
+            <q-item-section>测试1</q-item-section>
+          </q-item>
+          <q-item clickable v-ripple v-for="n in 25" :key="n">
+            <q-item-section>测试25</q-item-section>
+          </q-item>
+        </q-list>
+      </q-page-container>
+      <q-footer class="bg-white">
+        <div class="q-pa-md">
+          <div class="row q-col-gutter-x-md">
+            <div class="col-6">
+              <q-btn rounded color="green" class="full-width" size="large" label="取消"></q-btn>
+            </div>
+            <div class="col-6">
+              <q-btn rounded color="primary" class="full-width" size="large" label="确认"></q-btn>
+            </div>
+          </div>
+        </div>
+      </q-footer>
+    </q-layout>
+  </div>
+  <script src="../vue.js"></script>
+  <script src="../quasar.js"></script>
+  <script>
+    const app = Vue.createApp({
+      setup() {
+        return {}
+      }
+    })
+    app.use(Quasar)
+    app.mount('#q-app')
+  </script>
+</body>
+
+</html>
