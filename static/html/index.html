@@ -5,208 +5,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <link rel="stylesheet" href="../element.css" />
-  <link rel="stylesheet" href="../element-my.css" />
   <script src="../vue.js"></script>
   <script src="../vue-router.js"></script>
   <script src="../element.js"></script>
-  <script src="../element-iife.js"></script>
+  <script setup lang="ts">
+    urls = ['index.js', 'home.html', 'list.html', 'modify.html']
+    Promise.all(
+      urls.map(url => fetch(url).then(res => res.text()))
+    ).then(texts => {
+      o = document.createElement("template")
+      document.body.appendChild(o)
+      o.outerHTML = texts[1]
+
+      o = document.createElement("template")
+      document.body.appendChild(o)
+      o.outerHTML = texts[2]
+
+      o = document.createElement("template")
+      document.body.appendChild(o)
+      o.outerHTML = texts[3]
+
+      eval(texts[0])
+    })
+  </script>
   <title>index</title>
 </head>
 
 <body>
   <div id="app">
-    <el-container>
-      <el-header>
-        <el-icon :size="20" style="vertical-align:bottom">
-          <Edit />
-        </el-icon>
-        修改
-        <el-icon :size="20" style="vertical-align:bottom">
-          <Search />
-        </el-icon>
-        搜索
-        <el-icon style="vertical-align:bottom;font-size:1.25rem;">
-          <Circle-Plus />
-        </el-icon>
-        新建
-        <el-icon>
-          <House />
-        </el-icon>
-
-        <el-icon>
-          <Setting />
-        </el-icon>
-
-        <el-icon>
-          <Delete />
-        </el-icon>
-        xxx
-        <el-icon size="20">
-          <Folder />
-        </el-icon>
-        www
-      </el-header>
-      <el-table :data="tableData">
-        <el-table-column prop="date"></el-table-column>
-        <el-table-column prop="name"></el-table-column>
-        <el-table-column prop="address"></el-table-column>
-      </el-table>
-
-      <el-main>
-
-        <p>
-          <router-link to="/">Go to Home</router-link>
-          <router-link to="/about">Go to About</router-link>
-        </p>
-        <router-view></router-view>
-
-        <el-input v-model="input" placeholder="测试"></el-input>
-        <el-input v-model="textarea" type="textarea" placeholder="测试"></el-input>
-
-        <el-radio-group v-model="radio1" size="large">
-          <el-radio-button label="New York"></el-radio-button>
-          <el-radio-button label="Washington"></el-radio-button>
-          <el-radio-button label="Los Angeles"></el-radio-button>
-          <el-radio-button label="Chicago"></el-radio-button>
-        </el-radio-group>
-
-        <el-radio-group v-model="radio1">
-          <el-radio label="1" size="large" border>Option 1</el-radio>
-          <el-radio label="2" size="large">Option 2</el-radio>
-        </el-radio-group>
-
-        <el-divider></el-divider>
-
-        <el-switch v-model="value1"></el-switch>
-
-        <el-divider></el-divider>
-
-        <el-card class="box-card">
-          haha.
-          <el-divider></el-divider>
-          hehe
-        </el-card>
-
-      </el-main>
-
-      <el-footer>
-        <el-button size="small" round>小号</el-button>
-        <el-button size="default" round>默认</el-button>
-        <el-button size="large" round>大号</el-button>
-        <el-button>超大</el-button>
-        <el-button type="success">取消</el-button>
-        <el-button type="danger">删除</el-button>
-        <el-button type="primary">确定</el-button>
-        <el-divider></el-divider>
-
-        <el-row :gutter="15">
-          <el-col :span="12">
-            <el-button style="width:100%;" type="success">{{ cancel }}</el-button>
-          </el-col>
-          <el-col :span="12">
-            <el-button style="width:100%;" type="danger">{{ confirm }}</el-button>
-          </el-col>
-        </el-row>
-        <el-divider></el-divider>
-        <el-button @click="dialogVisible=true" style="width:100%;" type="primary">{{ message }}</el-button>
-        <el-divider></el-divider>
-        <el-button type="primary" @click="drawer=true">删除</el-button>
-
-        <el-drawer v-model="drawer" custom-class="abc" direction="btt" :with-header="false">
-          <span>删除全部卡片？</span>
-          <el-row :gutter="10">
-            <el-col :span="12">
-              <el-button style="width:100%;" type="success">{{ cancel }}</el-button>
-            </el-col>
-            <el-col :span="12">
-              <el-button style="width:100%;" type="danger">{{ confirm }}</el-button>
-            </el-col>
-          </el-row>
-        </el-drawer>
-
-
-        <el-dialog v-model="dialogVisible" title="即将删除全部卡片" width="80%" align-center center :show-close="false">
-          <!-- <span>即将删除全部卡片</span> -->
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="dialogVisible=false">取消</el-button>
-              <el-button type="danger" @click="dialogVisible=false">删除</el-button>
-            </span>
-          </template>
-        </el-dialog>
-
-      </el-footer>
-    </el-container>
+    <router-view></router-view>
   </div>
-
-  <style>
-    .abc {
-      border-radius: 2rem 2rem 0 0;
-    }
-  </style>
-
-  <script setup lang="ts">
-    const tableData = [
-      {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-04',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-01',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-    ]
-
-    const App = {
-      data() {
-        return {
-          message: "确定",
-          confirm: "确定",
-          cancel: "取消",
-          radio1: "aaa",
-          radio2: "bbb",
-          value1: "ccc",
-          dialogVisible: false,
-          drawer: false,
-          tableData,
-        };
-      },
-    };
-
-
-    const Home = { template: '<div>Home</div>' }
-    const About = { template: '<div>About</div>' }
-
-    const routes = [
-      { path: '/', component: Home },
-      { path: '/about', component: About },
-    ]
-
-    const router = VueRouter.createRouter({
-      history: VueRouter.createWebHashHistory(),
-      routes,
-    })
-
-    const app = Vue.createApp(App)
-    app.use(router)
-    app.use(ElementPlus, { size: 'huge' })
-    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-      app.component(key, component)
-    }
-    app.mount("#app")
-  </script>
 </body>
 
 </html>
