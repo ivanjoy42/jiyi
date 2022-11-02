@@ -4,26 +4,9 @@ const App = {
   }
 }
 
-const modify = {
-  template: '#modify',
-  data() {
-    return {
-      drawer: false,
-      cancel: '取消',
-      confirm: '确定',
-    }
-  },
-  beforeRouteLeave() {
-    if (this.drawer) {
-      this.drawer = false
-      return false
-    }
-  },
-}
-
 const routes = [
-  { path: '/', component: { template: '#home' } },
-  { path: '/list', component: { template: '#list' } },
+  { path: '/', component: home },
+  { path: '/list', component: list },
   { path: '/modify', component: modify },
 ]
 

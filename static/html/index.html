@@ -12,20 +12,9 @@
     urls = ['index.js', 'home.html', 'list.html', 'modify.html']
     Promise.all(
       urls.map(url => fetch(url).then(res => res.text()))
-    ).then(texts => {
-      o = document.createElement("template")
-      document.body.appendChild(o)
-      o.outerHTML = texts[1]
-
-      o = document.createElement("template")
-      document.body.appendChild(o)
-      o.outerHTML = texts[2]
-
-      o = document.createElement("template")
-      document.body.appendChild(o)
-      o.outerHTML = texts[3]
-
-      eval(texts[0])
+    ).then(text => {
+      text.slice(1).map(html => document.body.appendChild(document.createRange().createContextualFragment(html)))
+      eval(text[0])
     })
   </script>
   <title>index</title>
