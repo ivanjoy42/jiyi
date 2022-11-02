@@ -1,22 +1,3 @@
-<script>
-  const modify = {
-    data() {
-      return {
-        drawer: false,
-        cancel: '取消',
-        confirm: '确定',
-      }
-    },
-    beforeRouteLeave() {
-      if (this.drawer) {
-        this.drawer = false
-        return false
-      }
-    },
-    template: '#modify',
-  }
-</script>
-
 <template id="modify">
   <div>修改操作</div>
   <div>标题<input /></div>
