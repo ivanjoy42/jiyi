@@ -1,7 +1,5 @@
-await tpl('list.html')
-
 export default {
-  template: '#list',
+  template: await tpl('list'),
   data() {
     return {}
   },

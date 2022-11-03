@@ -1,7 +1,5 @@
-await tpl('home.html')
-
 export default {
-  template: '#home',
+  template: await tpl('home'),
   data() {
     return {}
   },

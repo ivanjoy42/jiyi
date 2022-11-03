@@ -1,7 +1,5 @@
-await tpl('modify.html')
-
 export default {
-  template: '#modify',
+  template: await tpl('modify'),
   data() {
     return {
       drawer: false,
