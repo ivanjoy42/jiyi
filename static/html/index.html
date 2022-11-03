@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <link href="../element.css" rel="stylesheet" />
+  <link href="../element-my.css" rel="stylesheet" />
   <script src="../vue.js"></script>
   <script src="../vue-router.js"></script>
   <script src="../element.js"></script>
@@ -38,7 +39,7 @@
     })
 
     const app = Vue.createApp(App)
-    app.use(ElementPlus, {})
+    app.use(ElementPlus, { size: 'huge' })
     app.use(router)
     app.mount("#app")
   </script>

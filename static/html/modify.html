@@ -1,17 +1,20 @@
 <div>修改操作</div>
-<div>标题<input /></div>
+<div>标题</div>
 <div>内容</div>
+<el-input v-model="input1" placeholder="标题" size="default" />
+<el-input v-model="input2" placeholder="标题" size="large" />
+<el-input v-model="input3" placeholder="标题" size="huge" />
 
 <el-button type="primary" @click="drawer=true">删除</el-button>
 
-<el-drawer v-model="drawer" direction="btt" :with-header="false">
-  <span>删除全部卡片？</span>
-  <el-row :gutter="10">
+<el-drawer v-model="drawer" size="auto" direction="btt" :with-header="false">
+  <div style="text-align:center; padding-bottom:24px; font-size:large; font-weight:bold;">删除全部卡片？</div>
+  <el-row :gutter="16">
     <el-col :span="12">
-      <el-button style="width:100%;" type="success">{{ cancel }}</el-button>
+      <el-button style="width:100%;" type="info">{{ cancel }}</el-button>
     </el-col>
     <el-col :span="12">
-      <el-button style="width:100%;" type="danger">{{ confirm }}</el-button>
+      <el-button style="width:100%;" type="primary">{{ confirm }}</el-button>
     </el-col>
   </el-row>
 </el-drawer>
