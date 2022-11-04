@@ -1,14 +1,34 @@
-<div>修改操作</div>
-<div>标题</div>
-<div>内容</div>
-<el-input v-model="input1" placeholder="标题" size="default" />
-<el-input v-model="input2" placeholder="标题" size="large" />
-<el-input v-model="input3" placeholder="标题" size="huge" />
-
-<el-button type="primary" @click="drawer=true">删除</el-button>
+<el-container>
+  <el-header style="text-align:center; line-height: 64px; font-size:18px;">
+    <el-icon :size="20" style="height:64px; width:32px; padding-left: 18px; position: fixed; left:0;"
+      @click="$router.back()">
+      <Back />
+    </el-icon>
+    <div style="position: fixed; right:24px">
+      <el-icon :size="20" style="height:64px; width:32px;" @click="drawer=true">
+        <Edit />
+      </el-icon>
+      <el-icon :size="20" style="height:64px; width:32px;">
+        <Search />
+      </el-icon>
+      <el-icon :size="20" style="height:64px; width:32px;" @click="drawer=true">
+        <Delete />
+      </el-icon>
+    </div>
+    修改卡片
+  </el-header>
+  <el-main>
+    <el-space :size="24" direction="vertical" style="display: block;">
+      <el-input v-model="front" placeholder="正面" size="huge" />
+      <el-input v-model="back" resize="none" :rows="7" type="textarea" placeholder="背面" size="huge" />
+      <el-input v-model="helper" placeholder="助记" size="huge" />
+      <el-button type="primary" style="width: 100%;">保存</el-button>
+    </el-space>
+  </el-main>
+</el-container>
 
 <el-drawer v-model="drawer" size="auto" direction="btt" :with-header="false">
-  <div style="text-align:center; padding-bottom:24px; font-size:large; font-weight:bold;">删除全部卡片？</div>
+  <div style="text-align:center; padding-bottom:24px; font-size:large;">删除全部卡片？</div>
   <el-row :gutter="16">
     <el-col :span="12">
       <el-button style="width:100%;" type="info">{{ cancel }}</el-button>

@@ -21,11 +21,16 @@
 
 .el-input--huge {
     --el-input-height: var(--el-component-size-huge);
-    font-size: var(--el-font-size-large)
+    font-size: var(--el-font-size-large);
+    --el-input-border-radius: 16px;
 }
 
 .el-input--huge .el-input__wrapper {
     padding: 1px 15px
+}
+
+.el-textarea__inner {
+    padding: 12px 15px;
 }
 
 .el-drawer {
@@ -34,4 +39,18 @@
 
 .el-drawer.btt {
     border-radius: 24px 24px 0 0;
+}
+
+body {
+    margin: 0;
+}
+
+.el-header {
+    --el-header-padding: 0 24px;
+    --el-header-height: 64px;
+}
+
+.el-main {
+    --el-main-padding: 0 24px;
+    height: calc(100vh - 64px);
 }

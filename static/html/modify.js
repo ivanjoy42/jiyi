@@ -5,9 +5,9 @@ export default {
       drawer: false,
       cancel: '取消',
       confirm: '确定',
-      input1: '',
-      input2: '',
-      input3: '',
+      front: '',
+      back: '',
+      helper: '',
     }
   },
   beforeRouteLeave() {

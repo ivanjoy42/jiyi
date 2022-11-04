@@ -9,6 +9,7 @@
   <script src="../vue.js"></script>
   <script src="../vue-router.js"></script>
   <script src="../element.js"></script>
+  <script src="../element-iife.js"></script>
   <title>index</title>
 </head>
 
@@ -41,6 +42,10 @@
     const app = Vue.createApp(App)
     app.use(ElementPlus, { size: 'huge' })
     app.use(router)
+    app.use(ElementPlus, { size: 'huge' })
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+      app.component(key, component)
+    }
     app.mount("#app")
   </script>
 </body>
