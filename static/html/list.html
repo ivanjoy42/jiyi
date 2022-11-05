@@ -1,9 +1,9 @@
 <el-container>
   <el-header>
-    <el-icon :size="20" style="padding-left: 18px; position: fixed; left:0;" @click="$router.back()">
-      <Back />
+    <el-icon :size="20" style="padding-left:18px; position:fixed; left:0;" @click="$router.back()">
+      <ArrowLeft />
     </el-icon>
-    <div style="position: fixed; right:24px">
+    <div style="position:fixed; right:24px;">
       <el-icon :size="20">
         <Edit />
       </el-icon>
@@ -17,25 +17,10 @@
     卡片列表
   </el-header>
   <el-main style="padding:0;">
-    <router-link to="/modify?cardId=1">
+    <router-link :to="'/modify?cardId='+cardId" v-for="{ cardId, cardName } in cardList">
       <el-icon :size="20">
         <Document />
-      </el-icon>咏鹅
-    </router-link>
-    <router-link to="/modify?cardId=2">
-      <el-icon :size="20">
-        <Document />
-      </el-icon>山行
-    </router-link>
-    <router-link to="/modify?cardId=3">
-      <el-icon :size="20">
-        <Document />
-      </el-icon>绝句
-    </router-link>
-    <router-link to="/modify?cardId=4">
-      <el-icon :size="20">
-        <Document />
-      </el-icon>望庐山瀑布
+      </el-icon>{{ cardName }}
     </router-link>
   </el-main>
 </el-container>
