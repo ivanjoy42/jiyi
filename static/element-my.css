@@ -47,10 +47,29 @@ body {
 
 .el-header {
     --el-header-padding: 0 24px;
-    --el-header-height: 64px;
+    --el-header-height: 56px;
+    text-align: center;
+    line-height: 56px;
+    font-size: var(--el-font-size-large);
 }
 
 .el-main {
     --el-main-padding: 0 24px;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 56px);
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+    display: block;
+    padding: 0 24px;
+    font-size: var(--el-font-size-large);
+    height: 56px;
+    line-height: 56px;
+}
+
+.el-icon {
+    height: 56px;
+    width: 32px;
+    vertical-align: top;
 }

@@ -1,4 +1,41 @@
-<router-link to="/modify?cardId=1">咏鹅</router-link><br>
-<router-link to="/modify?cardId=2">山行</router-link><br>
-<router-link to="/modify?cardId=3">绝句</router-link><br>
-<router-link to="/modify?cardId=4">望庐山瀑布</router-link><br>
+<el-container>
+  <el-header>
+    <el-icon :size="20" style="padding-left: 18px; position: fixed; left:0;" @click="$router.back()">
+      <Back />
+    </el-icon>
+    <div style="position: fixed; right:24px">
+      <el-icon :size="20">
+        <Edit />
+      </el-icon>
+      <el-icon :size="20">
+        <Search />
+      </el-icon>
+      <el-icon :size="20">
+        <DocumentAdd />
+      </el-icon>
+    </div>
+    卡片列表
+  </el-header>
+  <el-main style="padding:0;">
+    <router-link to="/modify?cardId=1">
+      <el-icon :size="20">
+        <Document />
+      </el-icon>咏鹅
+    </router-link>
+    <router-link to="/modify?cardId=2">
+      <el-icon :size="20">
+        <Document />
+      </el-icon>山行
+    </router-link>
+    <router-link to="/modify?cardId=3">
+      <el-icon :size="20">
+        <Document />
+      </el-icon>绝句
+    </router-link>
+    <router-link to="/modify?cardId=4">
+      <el-icon :size="20">
+        <Document />
+      </el-icon>望庐山瀑布
+    </router-link>
+  </el-main>
+</el-container>

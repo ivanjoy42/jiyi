@@ -1,17 +1,16 @@
 <el-container>
-  <el-header style="text-align:center; line-height: 64px; font-size:18px;">
-    <el-icon :size="20" style="height:64px; width:32px; padding-left: 18px; position: fixed; left:0;"
-      @click="$router.back()">
+  <el-header>
+    <el-icon :size="20" style="padding-left: 18px; position: fixed; left:0;" @click="$router.back()">
       <Back />
     </el-icon>
     <div style="position: fixed; right:24px">
-      <el-icon :size="20" style="height:64px; width:32px;" @click="drawer=true">
+      <el-icon :size="20" @click="drawer=true">
         <Edit />
       </el-icon>
-      <el-icon :size="20" style="height:64px; width:32px;">
+      <el-icon :size="20">
         <Search />
       </el-icon>
-      <el-icon :size="20" style="height:64px; width:32px;" @click="drawer=true">
+      <el-icon :size="20" @click="drawer=true">
         <Delete />
       </el-icon>
     </div>
