@@ -13,7 +13,7 @@ export default {
 
   methods: {
     postData() {
-      const url = "../../json/card/update"
+      const url = "/api/card/update"
       fetch(url, {
         method: 'post',
         body: JSON.stringify(this.Card),
@@ -23,7 +23,7 @@ export default {
 
     async getData() {
       const cardId = this.$route.query.cardId
-      const url = "../../json/card/modify?cardId=" + cardId
+      const url = "/api/card/modify?cardId=" + cardId
       const json = await (await fetch(url)).json()
       this.Card = json.Card
     },

@@ -19,8 +19,9 @@ var (
 
 func main() {
 	r := gin.Default()
-	r.StaticFile("/favicon.ico", "favicon.ico")
-	r.Static("/static", "static")
+	r.StaticFile("favicon.ico", "static/favicon.ico")
+	r.Static("static", "static")
+	r.Static("app", "app")
 	r.LoadHTMLGlob("tpl/**/*")
 	r.Use(setVer)
 	r.GET("/", indexRoute)
@@ -31,7 +32,7 @@ func main() {
 	practDeckGroup(r.Group("practDeck"))
 	settingGroup(r.Group("setting"))
 	userGroup(r.Group("user"))
-	jsoncardGroup(r.Group("json/card"))
+	cardAPI(r.Group("api/card"))
 	r.Run(":8080")
 }
 
@@ -41,7 +42,7 @@ func indexRoute(c *gin.Context) {
 	})
 }
 
-func jsoncardGroup(r *gin.RouterGroup) {
+func cardAPI(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		dirId, _ := strconv.Atoi(c.Query("dirId"))
 		deckId, _ := strconv.Atoi(c.Query("deckId"))

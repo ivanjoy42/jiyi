@@ -12,7 +12,7 @@ export default {
 
   methods: {
     async fetchData() {
-      const url = "../../json/card/list?dirId=4&deckId=1"
+      const url = "/api/card/list?dirId=4&deckId=1"
       const json = await (await fetch(url)).json()
       this.Card = json.Card
       this.Deck = json.Deck
