@@ -1,16 +1,10 @@
 <el-container>
   <el-header>
-    <el-icon :size="20" style="padding-left: 18px; position: fixed; left:0;" @click="$router.back()">
+    <el-icon @click="$router.back()" :size="20" style="padding-left: 18px; position: fixed; left:0;">
       <ArrowLeft />
     </el-icon>
     <div style="position: fixed; right:24px">
-      <el-icon :size="20" @click="drawer=true">
-        <Edit />
-      </el-icon>
-      <el-icon :size="20">
-        <Search />
-      </el-icon>
-      <el-icon :size="20" @click="drawer=true">
+      <el-icon @click="drawer=true" :size="20">
         <Delete />
       </el-icon>
     </div>
@@ -18,22 +12,22 @@
   </el-header>
   <el-main>
     <el-space :size="24" direction="vertical" style="display: block;">
-      <el-input v-model="front" placeholder="正面" size="huge" />
-      <el-input v-model="back" resize="none" :rows="7" type="textarea" placeholder="背面" size="huge" />
-      <el-input v-model="helper" placeholder="助记" size="huge" />
-      <el-button type="primary" style="width: 100%;">保存</el-button>
+      <el-input v-model="Card.Front" size="huge" placeholder="正面" />
+      <el-input v-model="Card.Back" resize="none" :rows="7" type="textarea" size="huge" placeholder="背面" />
+      <el-input v-model="Card.Helper" size="huge" placeholder="助记" />
+      <el-button @click="postData" type="primary" style="width: 100%;">保存</el-button>
     </el-space>
   </el-main>
 </el-container>
 
 <el-drawer v-model="drawer" size="auto" direction="btt" :with-header="false">
-  <div style="text-align:center; padding-bottom:24px; font-size:large;">删除全部卡片？</div>
+  <div style="text-align:center; padding-bottom:24px; font-size:large;">删除卡片？</div>
   <el-row :gutter="16">
     <el-col :span="12">
-      <el-button style="width:100%;" type="info">{{ cancel }}</el-button>
+      <el-button style="width:100%;" type="info">取消</el-button>
     </el-col>
     <el-col :span="12">
-      <el-button style="width:100%;" type="primary">{{ confirm }}</el-button>
+      <el-button style="width:100%;" type="primary">确定</el-button>
     </el-col>
   </el-row>
 </el-drawer>

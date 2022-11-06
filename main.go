@@ -51,6 +51,19 @@ func jsoncardGroup(r *gin.RouterGroup) {
 			"Deck": deck.get(deckId),
 		})
 	})
+
+	r.GET("modify", func(c *gin.Context) {
+		cardId, _ := strconv.Atoi(c.Query("cardId"))
+		c.JSON(200, gin.H{
+			"Card": card.get(cardId),
+			"Dir":  dir.get(card.DirId),
+		})
+	})
+
+	r.POST("update", func(c *gin.Context) {
+		c.BindJSON(&card)
+		card.update()
+	})
 }
 
 // 卡片操作
