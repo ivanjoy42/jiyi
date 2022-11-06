@@ -14,13 +14,13 @@
         <DocumentAdd />
       </el-icon>
     </div>
-    卡片列表
+    {{ Deck.DeckName }}
   </el-header>
   <el-main style="padding:0;">
-    <router-link :to="'/modify?cardId='+cardId" v-for="{ cardId, cardName } in cardList">
+    <router-link :to="'/modify?cardId='+CardId" v-for="{ CardId, Front } in Card">
       <el-icon :size="20">
         <Document />
-      </el-icon>{{ cardName }}
+      </el-icon>{{ Front }}
     </router-link>
   </el-main>
 </el-container>

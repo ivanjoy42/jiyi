@@ -31,12 +31,25 @@ func main() {
 	practDeckGroup(r.Group("practDeck"))
 	settingGroup(r.Group("setting"))
 	userGroup(r.Group("user"))
+	jsoncardGroup(r.Group("json/card"))
 	r.Run(":8080")
 }
 
 func indexRoute(c *gin.Context) {
 	c.HTML(200, "public/index.html", gin.H{
 		"Ver": ver,
+	})
+}
+
+func jsoncardGroup(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
+		deckId, _ := strconv.Atoi(c.Query("deckId"))
+		c.JSON(200, gin.H{
+			"Card": card.list(dirId, deckId),
+			"Dir":  dir.get(dirId),
+			"Deck": deck.get(deckId),
+		})
 	})
 }
 

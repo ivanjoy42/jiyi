@@ -2,7 +2,8 @@ export default {
   template: await tpl('list'),
 
   data: () => ({
-    cardList: null,
+    Card: [],
+    Deck: [],
   }),
 
   created() {
@@ -11,8 +12,10 @@ export default {
 
   methods: {
     async fetchData() {
-      const url = "list.json"
-      this.cardList = await (await fetch(url)).json()
+      const url = "../../json/card/list?dirId=4&deckId=1"
+      const json = await (await fetch(url)).json()
+      this.Card = json.Card
+      this.Deck = json.Deck
     },
   },
 }
