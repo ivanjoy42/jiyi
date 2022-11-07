@@ -62,11 +62,14 @@ body {
 a {
     color: #000000;
     text-decoration: none;
-    display: block;
-    padding: 0 24px;
     font-size: var(--el-font-size-large);
     height: 56px;
     line-height: 56px;
+}
+
+.list {
+    display: block;
+    padding: 0 24px;
 }
 
 .el-icon {

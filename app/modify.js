@@ -1,5 +1,6 @@
 export default {
   template: await tpl('modify'),
+
   data() {
     return {
       Card: [],

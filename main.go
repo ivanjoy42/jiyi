@@ -65,6 +65,12 @@ func cardAPI(r *gin.RouterGroup) {
 		c.BindJSON(&card)
 		card.update()
 	})
+
+	r.POST("insert", func(c *gin.Context) {
+		c.BindJSON(&card)
+		deckId, _ := strconv.Atoi(c.Query("deckId"))
+		card.insertTx(deckId)
+	})
 }
 
 // 卡片操作
