@@ -14,8 +14,29 @@
 </head>
 
 <body>
+  <style>
+    .slide-left-enter-from {
+      transform: translateX(100%);
+    }
+
+    .slide-left-enter-active {
+      transition: all 0.5s ease-out;
+    }
+
+    .slide-right-enter-from {
+      transform: translateX(-100%);
+    }
+
+    .slide-right-enter-active {
+      transition: all 0.5s ease;
+    }
+  </style>
   <div id="app">
-    <router-view></router-view>
+    <router-view v-slot="{ Component, route }">
+      <transition :name="route.meta.transition">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
   <script>
     async function tpl(file) {
@@ -29,15 +50,25 @@
     }
 
     const routes = [
-      { path: '/', component: () => import('./home.js') },
-      { path: '/list', component: () => import('./list.js') },
-      { path: '/modify', component: () => import('./modify.js') },
-      { path: '/create', component: () => import('./create.js') },
+      { meta: { depth: 0 }, path: '/', component: () => import('./home.js') },
+      { meta: { depth: 1 }, path: '/list', component: () => import('./list.js') },
+      { meta: { depth: 2 }, path: '/modify', component: () => import('./modify.js') },
+      { meta: { depth: 2 }, path: '/create', component: () => import('./create.js') },
     ]
 
     const router = VueRouter.createRouter({
       history: VueRouter.createWebHashHistory(),
       routes,
+    })
+
+    router.afterEach((to, from) => {
+      console.log(to, from)
+      console.log(to.meta.depth, from.meta.depth)
+      if (to.meta.depth < from.meta.depth) {
+        to.meta.transition = 'slide-right'
+      } else {
+        to.meta.transition = 'slide-left'
+      }
     })
 
     const app = Vue.createApp(App)
