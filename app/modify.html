@@ -22,10 +22,10 @@
     <div style="text-align:center; padding-bottom:24px; font-size:large;">删除卡片？</div>
     <el-row :gutter="16">
       <el-col :span="12">
-        <el-button style="width:100%;" type="info">取消</el-button>
+        <el-button @click="drawer=false" style="width:100%;" type="info">取消</el-button>
       </el-col>
       <el-col :span="12">
-        <el-button style="width:100%;" type="primary">确定</el-button>
+        <el-button @click="delData" style="width:100%;" type="primary">确定</el-button>
       </el-col>
     </el-row>
   </el-drawer>

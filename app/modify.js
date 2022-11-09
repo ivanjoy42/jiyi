@@ -12,6 +12,13 @@ export default {
     this.getData()
   },
 
+  beforeRouteLeave() {
+    if (this.drawer) {
+      this.drawer = false
+      return false
+    }
+  },
+
   methods: {
     postData() {
       const url = "/api/card/update"
@@ -28,12 +35,15 @@ export default {
       const json = await (await fetch(url)).json()
       this.Card = json.Card
     },
-  },
 
-  beforeRouteLeave() {
-    if (this.drawer) {
+    async delData() {
+      const cardId = this.$route.query.cardId
+      const url = "/api/card/delete?cardId=" + cardId
+      await fetch(url, {
+        method: 'post',
+      })
       this.drawer = false
-      return false
+      router.back()
     }
   },
 }

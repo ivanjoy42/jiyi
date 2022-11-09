@@ -71,6 +71,11 @@ func cardAPI(r *gin.RouterGroup) {
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		card.insertTx(deckId)
 	})
+
+	r.POST("delete", func(c *gin.Context) {
+		cardId, _ := strconv.Atoi(c.Query("cardId"))
+		card.deleteTx(cardId)
+	})
 }
 
 // 卡片操作

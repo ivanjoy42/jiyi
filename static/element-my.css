@@ -102,7 +102,7 @@ a {
 
 .slide-left-leave-active,
 .slide-left-enter-active {
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     background: #ffffff;
     width: 100%;
     position: absolute;
