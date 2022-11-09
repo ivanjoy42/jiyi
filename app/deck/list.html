@@ -4,13 +4,12 @@
       <ArrowLeft />
     </el-icon>
     <div style="position:fixed; right:24px;">
-      <el-icon :size="20">
-        <Edit />
-      </el-icon>
-      <el-icon :size="20">
-        <Search />
-      </el-icon>
-      <router-link to="/create?dirId=4&deckId=1">
+      <router-link to="../dir/modify?dirId=4">
+        <el-icon :size="20">
+          <Edit />
+        </el-icon>
+      </router-link>
+      <router-link to="create?dirId=4">
         <el-icon :size="20">
           <CirclePlus />
         </el-icon>
@@ -19,10 +18,10 @@
     {{ Deck.DeckName }}
   </el-header>
   <el-main style="padding:0;">
-    <router-link :to="'/modify?cardId='+CardId" v-for="{ CardId, Front } in Card" class="list">
+    <router-link :to="'/card/list?dirId=4&deckId='+DeckId" v-for="{ DeckId, DeckName } in Deck" class="list">
       <el-icon :size="20">
-        <Document />
-      </el-icon>{{ Front }}
+        <PriceTag />
+      </el-icon>{{ DeckName }}
     </router-link>
   </el-main>
 </el-container>

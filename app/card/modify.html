@@ -1,9 +1,9 @@
 <el-container>
   <el-header>
-    <el-icon @click="$router.back()" :size="20" style="padding-left: 18px; position: fixed; left:0;">
+    <el-icon @click="$router.back()" :size="20" style="padding-left:18px; position:fixed; left:0;">
       <ArrowLeft />
     </el-icon>
-    <div style="position: fixed; right:24px">
+    <div style="position:fixed; right:24px">
       <el-icon @click="drawer=true" :size="20">
         <Delete />
       </el-icon>
@@ -11,11 +11,11 @@
     修改卡片
   </el-header>
   <el-main>
-    <el-space :size="24" direction="vertical" style="display: block;">
+    <el-space :size="24" direction="vertical" style="display:block;">
       <el-input v-model="Card.Front" size="huge" placeholder="正面" />
       <el-input v-model="Card.Back" resize="none" :rows="7" type="textarea" size="huge" placeholder="背面" />
       <el-input v-model="Card.Helper" size="huge" placeholder="助记" />
-      <el-button @click="postData" type="primary" style="width: 100%;">保存</el-button>
+      <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
     </el-space>
   </el-main>
   <el-drawer v-model="drawer" size="auto" direction="btt" :with-header="false">

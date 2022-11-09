@@ -1,5 +1,5 @@
 export default {
-  template: await tpl('modify'),
+  template: await tpl('card/modify'),
 
   data() {
     return {

@@ -1,8 +1,7 @@
 export default {
-  template: await tpl('list'),
+  template: await tpl('deck/list'),
 
   data: () => ({
-    Card: [],
     Deck: [],
   }),
 
@@ -12,9 +11,8 @@ export default {
 
   methods: {
     async fetchData() {
-      const url = "/api/card/list?dirId=4&deckId=1"
+      const url = "/api/deck/list?dirId=4"
       const json = await (await fetch(url)).json()
-      this.Card = json.Card
       this.Deck = json.Deck
     },
   },

@@ -33,6 +33,7 @@ func main() {
 	settingGroup(r.Group("setting"))
 	userGroup(r.Group("user"))
 	cardAPI(r.Group("api/card"))
+	deckAPI(r.Group("api/deck"))
 	r.Run(":8080")
 }
 
@@ -75,6 +76,41 @@ func cardAPI(r *gin.RouterGroup) {
 	r.POST("delete", func(c *gin.Context) {
 		cardId, _ := strconv.Atoi(c.Query("cardId"))
 		card.deleteTx(cardId)
+	})
+}
+
+func deckAPI(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
+		c.JSON(200, gin.H{
+			"Deck": deck.list(dirId),
+			"Dir":  dir.get(dirId),
+		})
+	})
+
+	r.GET("modify", func(c *gin.Context) {
+		deckId, _ := strconv.Atoi(c.Query("deckId"))
+		c.JSON(200, gin.H{
+			"Deck":   deck.get(deckId),
+			"Fronts": deck.getFronts(deckId),
+		})
+	})
+
+	r.POST("update", func(c *gin.Context) {
+		c.BindJSON(&deck)
+		fronts := c.Query("fronts")
+		deck.updateTx(fronts)
+	})
+
+	r.POST("insert", func(c *gin.Context) {
+		c.BindJSON(&deck)
+		fronts := c.Query("fronts")
+		deck.insertTx(fronts)
+	})
+
+	r.POST("delete", func(c *gin.Context) {
+		deckId, _ := strconv.Atoi(c.Query("deckId"))
+		deck.deleteTx(deckId)
 	})
 }
 

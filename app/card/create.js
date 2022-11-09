@@ -1,5 +1,5 @@
 export default {
-  template: await tpl('create'),
+  template: await tpl('card/create'),
 
   data() {
     return {
