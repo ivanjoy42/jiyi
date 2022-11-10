@@ -34,12 +34,12 @@
 
     const routes = [
       { meta: { depth: 0 }, path: '/', component: () => import('./home.js') },
+      { meta: { depth: 1 }, path: '/deck/list', component: () => import('./deck/list.js') },
       { meta: { depth: 2 }, path: '/card/list', component: () => import('./card/list.js') },
+      { meta: { depth: 2 }, path: '/deck/create', component: () => import('./deck/create.js') },
+      { meta: { depth: 3 }, path: '/deck/modify', component: () => import('./deck/modify.js') },
       { meta: { depth: 3 }, path: '/card/modify', component: () => import('./card/modify.js') },
       { meta: { depth: 3 }, path: '/card/create', component: () => import('./card/create.js') },
-      { meta: { depth: 1 }, path: '/deck/list', component: () => import('./deck/list.js') },
-      { meta: { depth: 2 }, path: '/deck/modify', component: () => import('./deck/modify.js') },
-      { meta: { depth: 2 }, path: '/deck/create', component: () => import('./deck/create.js') },
     ]
 
     const router = VueRouter.createRouter({
@@ -50,8 +50,10 @@
     router.afterEach((to, from) => {
       if (to.meta.depth < from.meta.depth) {
         to.meta.transition = 'slide-right'
-      } else {
+      } else if (to.meta.depth > from.meta.depth) {
         to.meta.transition = 'slide-left'
+      } else {
+        to.meta.transition = ''
       }
     })
 
