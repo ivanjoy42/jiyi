@@ -9,16 +9,16 @@ export default {
         Back: "",
         Helper: "",
       },
+      DeckId: parseInt(this.$route.query.deckId),
     }
   },
 
   methods: {
     async postData() {
-      const deckId = this.$route.query.deckId
-      const url = "/api/card/insert?deckId=" + deckId
+      const url = "/api/card/insert"
       await fetch(url, {
         method: 'post',
-        body: JSON.stringify(this.Card),
+        body: JSON.stringify({ Card: this.Card, DeckId: this.DeckId }),
       })
       router.back()
     },

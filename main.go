@@ -68,9 +68,13 @@ func cardAPI(r *gin.RouterGroup) {
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		c.BindJSON(&card)
-		deckId, _ := strconv.Atoi(c.Query("deckId"))
-		card.insertTx(deckId)
+		json := struct {
+			Card   Card
+			DeckId int
+		}{}
+		c.BindJSON(&json)
+		card = json.Card
+		card.insertTx(json.DeckId)
 	})
 
 	r.POST("delete", func(c *gin.Context) {
