@@ -12,9 +12,9 @@
   </el-header>
   <el-main>
     <el-space :size="24" direction="vertical" style="display:block;">
-      <el-input v-model="Card.Front" size="huge" placeholder="正面" />
-      <el-input v-model="Card.Back" resize="none" :rows="7" type="textarea" size="huge" placeholder="背面" />
-      <el-input v-model="Card.Helper" size="huge" placeholder="助记" />
+      <el-input v-model="Card.Front" placeholder="正面" />
+      <el-input v-model="Card.Back" resize="none" :rows="7" type="textarea" placeholder="背面" />
+      <el-input v-model="Card.Helper" placeholder="助记" />
       <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
     </el-space>
   </el-main>

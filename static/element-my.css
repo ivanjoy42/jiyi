@@ -115,3 +115,13 @@ a {
 .slide-left-leave-to {
     transform: translateX(-25%);
 }
+
+.el-radio.el-radio--huge {
+    height: 48px;
+    width: 100%;
+    margin: 0;
+}
+
+.el-radio {
+    --el-radio-font-size: var(--el-font-size-large);
+}

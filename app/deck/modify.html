@@ -12,8 +12,8 @@
   </el-header>
   <el-main>
     <el-space :size="24" direction="vertical" style="display:block;">
-      <el-input v-model="Deck.DeckName" size="huge" placeholder="卡组名" />
-      <el-input v-model="Fronts" resize="none" :rows="7" type="textarea" size="huge" placeholder="卡片名：输入已有的卡片名，一行一个" />
+      <el-input v-model="Deck.DeckName" placeholder="卡组名" />
+      <el-input v-model="Fronts" resize="none" :rows="7" type="textarea" placeholder="卡片名：输入已有的卡片名，一行一个" />
       <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
     </el-space>
   </el-main>

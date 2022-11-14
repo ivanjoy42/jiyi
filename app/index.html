@@ -61,7 +61,6 @@
     })
 
     const app = Vue.createApp(App)
-    app.use(ElementPlus, { size: 'huge' })
     app.use(router)
     app.use(ElementPlus, { size: 'huge' })
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
