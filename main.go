@@ -34,6 +34,7 @@ func main() {
 	userGroup(r.Group("user"))
 	cardAPI(r.Group("api/card"))
 	deckAPI(r.Group("api/deck"))
+	dirAPI(r.Group("api/dir"))
 	r.Run(":8080")
 }
 
@@ -62,11 +63,6 @@ func cardAPI(r *gin.RouterGroup) {
 		})
 	})
 
-	r.POST("update", func(c *gin.Context) {
-		c.BindJSON(&card)
-		card.update()
-	})
-
 	r.POST("insert", func(c *gin.Context) {
 		json := struct {
 			Card   Card
@@ -75,6 +71,11 @@ func cardAPI(r *gin.RouterGroup) {
 		c.BindJSON(&json)
 		card = json.Card
 		card.insertTx(json.DeckId)
+	})
+
+	r.POST("update", func(c *gin.Context) {
+		c.BindJSON(&card)
+		card.update()
 	})
 
 	r.POST("delete", func(c *gin.Context) {
@@ -100,16 +101,6 @@ func deckAPI(r *gin.RouterGroup) {
 		})
 	})
 
-	r.POST("update", func(c *gin.Context) {
-		json := struct {
-			Deck   Deck
-			Fronts string
-		}{}
-		c.BindJSON(&json)
-		deck = json.Deck
-		deck.updateTx(json.Fronts)
-	})
-
 	r.POST("insert", func(c *gin.Context) {
 		json := struct {
 			Deck   Deck
@@ -120,9 +111,49 @@ func deckAPI(r *gin.RouterGroup) {
 		deck.insertTx(json.Fronts)
 	})
 
+	r.POST("update", func(c *gin.Context) {
+		json := struct {
+			Deck   Deck
+			Fronts string
+		}{}
+		c.BindJSON(&json)
+		deck = json.Deck
+		deck.updateTx(json.Fronts)
+	})
+
 	r.POST("delete", func(c *gin.Context) {
 		deckId, _ := strconv.Atoi(c.Query("deckId"))
 		deck.deleteTx(deckId)
+	})
+}
+
+func dirAPI(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"Dir": dir.list(),
+		})
+	})
+
+	r.GET("modify", func(c *gin.Context) {
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
+		c.JSON(200, gin.H{
+			"Dir": dir.get(dirId),
+		})
+	})
+
+	r.POST("insert", func(c *gin.Context) {
+		c.BindJSON(&dir)
+		dir.insert(dir.KindId)
+	})
+
+	r.POST("update", func(c *gin.Context) {
+		c.BindJSON(&dir)
+		dir.update()
+	})
+
+	r.POST("delete", func(c *gin.Context) {
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
+		dir.delete(dirId)
 	})
 }
 

@@ -1,0 +1,30 @@
+<el-container>
+  <el-header>
+    <el-icon @click="$router.back()" :size="20" style="padding-left:18px; position:fixed; left:0;">
+      <ArrowLeft />
+    </el-icon>
+    <div style="position:fixed; right:24px">
+      <el-icon @click="drawer=true" :size="20">
+        <Delete />
+      </el-icon>
+    </div>
+    修改文件夹
+  </el-header>
+  <el-main>
+    <el-space :size="24" direction="vertical" style="display:block;">
+      <el-input v-model="Dir.DirName" size="huge" placeholder="文件夹名" />
+      <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
+    </el-space>
+  </el-main>
+  <el-drawer v-model="drawer" size="auto" direction="btt" :with-header="false">
+    <div style="text-align:center; padding-bottom:24px; font-size:large;">删除文件夹？</div>
+    <el-row :gutter="16">
+      <el-col :span="12">
+        <el-button @click="drawer=false" style="width:100%;" type="info">取消</el-button>
+      </el-col>
+      <el-col :span="12">
+        <el-button @click="delData" style="width:100%;" type="primary">确定</el-button>
+      </el-col>
+    </el-row>
+  </el-drawer>
+</el-container>

@@ -4,25 +4,19 @@
       <ArrowLeft />
     </el-icon>
     <div style="position:fixed; right:24px;">
-      <router-link :to="'../dir/modify?dirId='+Dir.DirId">
-        <el-icon :size="20">
-          <Edit />
-        </el-icon>
-      </router-link>
-      <router-link :to="'create?dirId='+Dir.DirId">
+      <router-link to="create">
         <el-icon :size="20">
           <CirclePlus />
         </el-icon>
       </router-link>
     </div>
-    {{ Dir.DirName }}
+    文件夹
   </el-header>
   <el-main style="padding:0;">
-    <router-link :to="'/card/list?dirId='+Dir.DirId+'&deckId='+DeckId" v-for="{ DeckId, DeckName } in Deck"
-      class="list">
+    <router-link :to="'/deck/list?dirId='+DirId" v-for="{ DirId, DirName } in Dir" class="list">
       <el-icon :size="20">
-        <PriceTag />
-      </el-icon>{{ DeckName }}
+        <Folder />
+      </el-icon>{{ DirName }}
     </router-link>
   </el-main>
 </el-container>

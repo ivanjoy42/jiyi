@@ -1,8 +1,7 @@
 export default {
-  template: await tpl('deck/list'),
+  template: await tpl('dir/list'),
 
   data: () => ({
-    Deck: [],
     Dir: [],
   }),
 
@@ -12,10 +11,8 @@ export default {
 
   methods: {
     async fetchData() {
-      const dirId = this.$route.query.dirId
-      const url = "/api/deck/list?dirId=" + dirId
+      const url = "/api/dir/list"
       const json = await (await fetch(url)).json()
-      this.Deck = json.Deck
       this.Dir = json.Dir
     },
   },

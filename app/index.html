@@ -33,13 +33,16 @@
     }
 
     const routes = [
-      { meta: { depth: 0 }, path: '/', component: () => import('./home.js') },
+      { meta: { depth: -1 }, path: '/', component: () => import('./home.js') },
+      { meta: { depth: 0 }, path: '/dir/list', component: () => import('./dir/list.js') },
+      { meta: { depth: 1 }, path: '/dir/create', component: () => import('./dir/create.js') },
+      { meta: { depth: 2 }, path: '/dir/modify', component: () => import('./dir/modify.js') },
       { meta: { depth: 1 }, path: '/deck/list', component: () => import('./deck/list.js') },
-      { meta: { depth: 2 }, path: '/card/list', component: () => import('./card/list.js') },
       { meta: { depth: 2 }, path: '/deck/create', component: () => import('./deck/create.js') },
       { meta: { depth: 3 }, path: '/deck/modify', component: () => import('./deck/modify.js') },
-      { meta: { depth: 3 }, path: '/card/modify', component: () => import('./card/modify.js') },
+      { meta: { depth: 2 }, path: '/card/list', component: () => import('./card/list.js') },
       { meta: { depth: 3 }, path: '/card/create', component: () => import('./card/create.js') },
+      { meta: { depth: 3 }, path: '/card/modify', component: () => import('./card/modify.js') },
     ]
 
     const router = VueRouter.createRouter({
