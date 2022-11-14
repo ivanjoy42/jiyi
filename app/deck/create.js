@@ -13,10 +13,10 @@ export default {
 
   methods: {
     async postData() {
-      const url = "/api/deck/insert?fronts=" + this.Fronts
+      const url = "/api/deck/insert"
       await fetch(url, {
         method: 'post',
-        body: JSON.stringify(this.Deck),
+        body: JSON.stringify({ Deck: this.Deck, Fronts: this.Fronts }),
       })
       router.back()
     },

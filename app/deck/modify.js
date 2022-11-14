@@ -21,11 +21,11 @@ export default {
   },
 
   methods: {
-    postData() {
-      const url = "/api/deck/update?fronts=" + this.Fronts
-      fetch(url, {
+    async postData() {
+      const url = "/api/deck/update"
+      await fetch(url, {
         method: 'post',
-        body: JSON.stringify(this.Deck),
+        body: JSON.stringify({ Deck: this.Deck, Fronts: this.Fronts }),
       })
       router.back()
     },

@@ -20,9 +20,9 @@ export default {
   },
 
   methods: {
-    postData() {
+    async postData() {
       const url = "/api/card/update"
-      fetch(url, {
+      await fetch(url, {
         method: 'post',
         body: JSON.stringify(this.Card),
       })

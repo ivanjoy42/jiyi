@@ -101,15 +101,23 @@ func deckAPI(r *gin.RouterGroup) {
 	})
 
 	r.POST("update", func(c *gin.Context) {
-		c.BindJSON(&deck)
-		fronts := c.Query("fronts")
-		deck.updateTx(fronts)
+		json := struct {
+			Deck   Deck
+			Fronts string
+		}{}
+		c.BindJSON(&json)
+		deck = json.Deck
+		deck.updateTx(json.Fronts)
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		c.BindJSON(&deck)
-		fronts := c.Query("fronts")
-		deck.insertTx(fronts)
+		json := struct {
+			Deck   Deck
+			Fronts string
+		}{}
+		c.BindJSON(&json)
+		deck = json.Deck
+		deck.insertTx(json.Fronts)
 	})
 
 	r.POST("delete", func(c *gin.Context) {
