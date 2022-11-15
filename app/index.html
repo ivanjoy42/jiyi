@@ -26,12 +26,6 @@
       return await fetch(file + '.html').then(res => res.text())
     }
 
-    const App = {
-      data() {
-        return {}
-      }
-    }
-
     const routes = [
       { path: '/', redirect: '/pract/list' },
 
@@ -68,7 +62,7 @@
       }
     })
 
-    const app = Vue.createApp(App)
+    const app = Vue.createApp()
     app.use(router)
     app.use(ElementPlus, { size: 'huge' })
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

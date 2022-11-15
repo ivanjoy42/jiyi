@@ -16,36 +16,5 @@
       </el-icon>{{ DirName }}
     </router-link>
   </el-main>
-  <el-footer>
-    <el-row>
-      <el-col :span="6">
-        <router-link to="/pract/list" replace style="display:block">
-          <el-icon :size="20">
-            <House />
-          </el-icon>
-        </router-link>
-      </el-col>
-      <el-col :span="6">
-        <router-link to="/dir/list" replace style="display:block">
-          <el-icon :size="20">
-            <Folder />
-          </el-icon>
-        </router-link>
-      </el-col>
-      <el-col :span="6">
-        <router-link to="/setting/list" replace style="display:block">
-          <el-icon :size="20">
-            <Setting />
-          </el-icon>
-        </router-link>
-      </el-col>
-      <el-col :span="6">
-        <router-link to="/user/list" replace style="display:block">
-          <el-icon :size="20">
-            <User />
-          </el-icon>
-        </router-link>
-      </el-col>
-    </el-row>
-  </el-footer>
+  <PublicFooter></PublicFooter>
 </el-container>
