@@ -1,5 +1,6 @@
 export default {
-  template: await tpl('home'),
+  template: await tpl('user/list'),
+
   data() {
     return {}
   },

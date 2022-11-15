@@ -1,20 +1,9 @@
 <el-container>
   <el-header>
-    <div style="position:fixed; right:24px;">
-      <router-link to="create">
-        <el-icon :size="20">
-          <CirclePlus />
-        </el-icon>
-      </router-link>
-    </div>
-    文件夹
+    设置
   </el-header>
   <el-main style="padding:0; height:calc(100vh - 112px);">
-    <router-link :to="'/deck/list?dirId='+DirId" v-for="{ DirId, DirName } in Dir" class="list">
-      <el-icon :size="20">
-        <Folder />
-      </el-icon>{{ DirName }}
-    </router-link>
+    设置
   </el-main>
   <el-footer>
     <el-row>
