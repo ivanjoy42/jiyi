@@ -64,13 +64,13 @@ func cardAPI(r *gin.RouterGroup) {
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		json := struct {
+		data := struct {
 			Card   Card
 			DeckId int
 		}{}
-		c.BindJSON(&json)
-		card = json.Card
-		card.insertTx(json.DeckId)
+		c.BindJSON(&data)
+		card = data.Card
+		card.insertTx(data.DeckId)
 	})
 
 	r.POST("update", func(c *gin.Context) {
@@ -102,23 +102,23 @@ func deckAPI(r *gin.RouterGroup) {
 	})
 
 	r.POST("insert", func(c *gin.Context) {
-		json := struct {
+		data := struct {
 			Deck   Deck
 			Fronts string
 		}{}
-		c.BindJSON(&json)
-		deck = json.Deck
-		deck.insertTx(json.Fronts)
+		c.BindJSON(&data)
+		deck = data.Deck
+		deck.insertTx(data.Fronts)
 	})
 
 	r.POST("update", func(c *gin.Context) {
-		json := struct {
+		data := struct {
 			Deck   Deck
 			Fronts string
 		}{}
-		c.BindJSON(&json)
-		deck = json.Deck
-		deck.updateTx(json.Fronts)
+		c.BindJSON(&data)
+		deck = data.Deck
+		deck.updateTx(data.Fronts)
 	})
 
 	r.POST("delete", func(c *gin.Context) {
