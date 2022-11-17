@@ -13,7 +13,8 @@ export default {
   methods: {
     async fetchData() {
       const deckId = this.$route.query.deckId
-      const url = "/api/card/list?dirId=4&deckId=" + deckId
+      const dirId = this.$route.query.dirId
+      const url = "/api/card/list?dirId=" + dirId + "&deckId=" + deckId
       const json = await (await fetch(url)).json()
       this.Card = json.Card
       this.Deck = json.Deck
