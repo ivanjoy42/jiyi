@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       Card: [],
+      Dir: [],
       drawer: false,
     }
   },
@@ -20,6 +21,14 @@ export default {
   },
 
   methods: {
+    async getData() {
+      const cardId = this.$route.query.cardId
+      const url = "/api/card/modify?cardId=" + cardId
+      const json = await (await fetch(url)).json()
+      this.Card = json.Card
+      this.Dir = json.Dir
+    },
+
     async postData() {
       const url = "/api/card/update"
       await fetch(url, {
@@ -27,13 +36,6 @@ export default {
         body: JSON.stringify(this.Card),
       })
       router.back()
-    },
-
-    async getData() {
-      const cardId = this.$route.query.cardId
-      const url = "/api/card/modify?cardId=" + cardId
-      const json = await (await fetch(url)).json()
-      this.Card = json.Card
     },
 
     async delData() {

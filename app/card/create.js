@@ -10,10 +10,22 @@ export default {
         Helper: "",
       },
       DeckId: parseInt(this.$route.query.deckId),
+      Dir: [],
     }
   },
 
+  created() {
+    this.getData()
+  },
+
   methods: {
+    async getData() {
+      const dirId = this.Card.DirId
+      const url = "/api/dir/modify?dirId=" + dirId
+      const json = await (await fetch(url)).json()
+      this.Dir = json.Dir
+    },
+
     async postData() {
       const url = "/api/card/insert"
       await fetch(url, {
