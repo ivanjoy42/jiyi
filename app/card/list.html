@@ -9,9 +9,11 @@
           <Edit />
         </el-icon>
       </router-link>
-      <el-icon :size="20">
-        <Search />
-      </el-icon>
+      <router-link :to="'search?dirId='+Deck.DirId+'&query='">
+        <el-icon :size="20">
+          <Search />
+        </el-icon>
+      </router-link>
       <router-link :to="'create?dirId='+Deck.DirId+'&deckId='+Deck.DeckId">
         <el-icon :size="20">
           <CirclePlus />

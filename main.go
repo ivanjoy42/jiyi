@@ -63,6 +63,16 @@ func cardAPI(r *gin.RouterGroup) {
 		})
 	})
 
+	r.GET("search", func(c *gin.Context) {
+		dirId, _ := strconv.Atoi(c.Query("dirId"))
+		query := c.Query("query")
+		c.JSON(200, gin.H{
+			"Card":  card.search(dirId, query),
+			"DirId": dirId,
+			"Query": query,
+		})
+	})
+
 	r.POST("insert", func(c *gin.Context) {
 		data := struct {
 			Card   *Card
