@@ -4,6 +4,20 @@ export default {
   components: { PublicFooter: { template: await tpl('public/footer') } },
 
   data() {
-    return {}
+    return {
+      Pract: [],
+    }
+  },
+
+  created() {
+    this.fetchData()
+  },
+
+  methods: {
+    async fetchData() {
+      const url = "/api/pract/list"
+      const json = await (await fetch(url)).json()
+      this.Pract = json.Pract
+    },
   },
 }

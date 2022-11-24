@@ -35,6 +35,7 @@ func main() {
 	cardAPI(r.Group("api/card"))
 	deckAPI(r.Group("api/deck"))
 	dirAPI(r.Group("api/dir"))
+	practAPI(r.Group("api/pract"))
 	r.Run(":8080")
 }
 
@@ -162,6 +163,22 @@ func dirAPI(r *gin.RouterGroup) {
 		dirId, _ := strconv.Atoi(c.Query("dirId"))
 		dir.delete(dirId)
 	})
+}
+
+func practAPI(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"Pract": pract.list(),
+		})
+	})
+
+	r.GET("create", func(c *gin.Context) {
+		c.HTML(200, "pract/create.html", gin.H{
+			"Dir":  dir.list(),
+			"Mode": mode.list(),
+		})
+	})
+
 }
 
 // 卡片操作

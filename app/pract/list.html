@@ -1,9 +1,20 @@
 <el-container>
   <el-header>
+    <div style="position:fixed; right:24px;">
+      <router-link to="create">
+        <el-icon :size="20">
+          <CirclePlus />
+        </el-icon>
+      </router-link>
+    </div>
     练习
   </el-header>
   <el-main style="padding:0; height:calc(100vh - 112px);">
-    练习
+    <router-link :to="'/pract/list?PractId='+PractId" v-for="{ PractId, PractName } in Pract" class="list">
+      <el-icon :size="20">
+        <Paperclip />
+      </el-icon>{{ PractName }}
+    </router-link>
   </el-main>
   <PublicFooter></PublicFooter>
 </el-container>
