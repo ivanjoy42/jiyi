@@ -1,0 +1,22 @@
+<el-container>
+  <el-header>
+    <el-icon @click="$router.back()" :size="20" style="padding-left:18px; position:fixed; left:0;">
+      <ArrowLeft />
+    </el-icon>
+    新建练习
+  </el-header>
+  <el-main>
+    <el-space :size=24 direction="vertical" style="display:block;">
+      <el-input v-model="Pract.PractName" placeholder="练习名" />
+      <div>练习方式</div>
+      <el-radio-group v-model="Pract.ModeId">
+        <el-radio :label="ModeId" v-for="{ ModeId, ModeName } in Mode">{{ModeName}}</el-radio>
+      </el-radio-group>
+      <span>练习内容</span>
+      <el-radio-group v-model="Pract.DirId">
+        <el-radio :label="DirId" v-for="{ DirId, DirName } in Dir">{{DirName}}</el-radio>
+      </el-radio-group>
+      <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
+    </el-space>
+  </el-main>
+</el-container>

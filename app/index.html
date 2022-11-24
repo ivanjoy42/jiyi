@@ -30,6 +30,7 @@
       { path: '/', redirect: '/pract/list' },
 
       { meta: { depth: 0 }, path: '/pract/list', component: () => import('./pract/list.js') },
+      { meta: { depth: 1 }, path: '/pract/create', component: () => import('./pract/create.js') },
 
       { meta: { depth: 0 }, path: '/dir/list', component: () => import('./dir/list.js') },
       { meta: { depth: 1 }, path: '/dir/create', component: () => import('./dir/create.js') },

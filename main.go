@@ -36,6 +36,7 @@ func main() {
 	deckAPI(r.Group("api/deck"))
 	dirAPI(r.Group("api/dir"))
 	practAPI(r.Group("api/pract"))
+	modeAPI(r.Group("api/mode"))
 	r.Run(":8080")
 }
 
@@ -172,13 +173,18 @@ func practAPI(r *gin.RouterGroup) {
 		})
 	})
 
-	r.GET("create", func(c *gin.Context) {
-		c.HTML(200, "pract/create.html", gin.H{
-			"Dir":  dir.list(),
+	r.POST("insert", func(c *gin.Context) {
+		c.BindJSON(&pract)
+		pract.insert()
+	})
+}
+
+func modeAPI(r *gin.RouterGroup) {
+	r.GET("list", func(c *gin.Context) {
+		c.JSON(200, gin.H{
 			"Mode": mode.list(),
 		})
 	})
-
 }
 
 // 卡片操作
