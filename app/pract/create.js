@@ -8,8 +8,24 @@ export default {
         ModeId: 1,
         DirId: 2,
       },
-      Dir: [],
       Mode: [],
+      Dir: [],
+      ModeName: "",
+      DirName: "",
+      modeDrawer: false,
+      dirDrawer: false,
+    }
+  },
+
+  beforeRouteLeave() {
+    if (this.modeDrawer) {
+      this.modeDrawer = false
+      return false
+    }
+
+    if (this.dirDrawer) {
+      this.dirDrawer = false
+      return false
     }
   },
 
@@ -19,6 +35,18 @@ export default {
   },
 
   methods: {
+    setMode(ModeName) {
+      this.ModeName = ModeName
+      this.modeDrawer = false
+      this.Pract.PractName = this.ModeName + this.DirName
+    },
+
+    setDir(DirName) {
+      this.DirName = DirName
+      this.dirDrawer = false
+      this.Pract.PractName = this.ModeName + this.DirName
+    },
+
     async getDir() {
       const url = "/api/dir/list"
       const json = await (await fetch(url)).json()

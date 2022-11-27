@@ -18,7 +18,7 @@
   </el-main>
   <el-drawer v-model="drawer" size="auto" direction="btt" :with-header="false">
     <div style="text-align:center; padding-bottom:24px; font-size:large;">删除文件夹？</div>
-    <el-row :gutter="16">
+    <el-row :gutter="16" style="margin: 0 16px;">
       <el-col :span="12">
         <el-button @click="drawer=false" style="width:100%;" type="info">取消</el-button>
       </el-col>

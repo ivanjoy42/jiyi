@@ -8,15 +8,25 @@
   <el-main>
     <el-space :size=24 direction="vertical" style="display:block;">
       <el-input v-model="Pract.PractName" placeholder="练习名" />
-      <div>练习方式</div>
-      <el-radio-group v-model="Pract.ModeId">
-        <el-radio :label="ModeId" v-for="{ ModeId, ModeName } in Mode">{{ModeName}}</el-radio>
-      </el-radio-group>
-      <span>练习内容</span>
-      <el-radio-group v-model="Pract.DirId">
-        <el-radio :label="DirId" v-for="{ DirId, DirName } in Dir">{{DirName}}</el-radio>
-      </el-radio-group>
+      <div>
+        <router-link to="" @click="modeDrawer=true" class="list">练习方式
+          <div style="float:right">{{ModeName}}</div>
+        </router-link>
+        <a @click="dirDrawer=true" class="list">练习内容
+          <span style="float:right">{{DirName}}</span>
+        </a>
+      </div>
       <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
     </el-space>
   </el-main>
+  <el-drawer v-model="modeDrawer" size="auto" direction="btt" :with-header="false">
+    <el-radio-group v-model="Pract.ModeId">
+      <el-radio @click="setMode(ModeName)" :label="ModeId" v-for="{ ModeId, ModeName } in Mode">{{ModeName}}</el-radio>
+    </el-radio-group>
+  </el-drawer>
+  <el-drawer v-model="dirDrawer" size="60%" direction="btt" :with-header="false">
+    <el-radio-group v-model="Pract.DirId">
+      <el-radio @click="setDir(DirName)" :label="DirId" v-for="{ DirId, DirName } in Dir">{{DirName}}</el-radio>
+    </el-radio-group>
+  </el-drawer>
 </el-container>
