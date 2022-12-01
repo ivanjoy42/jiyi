@@ -1,0 +1,19 @@
+<q-layout view="hHh lpR fFf" style="font-size:1.125rem;" class="text-weight-medium">
+  <q-header class="bg-white text-black">
+    <q-toolbar class="justify-center">练习</q-toolbar>
+    <q-toolbar class="justify-end" style="position: absolute; top:0; ">
+      <q-btn to="create" flat round icon="o_add_circle_outline" />
+    </q-toolbar>
+  </q-header>
+  <q-page-container>
+    <q-list>
+      <q-item v-ripple :to="'/pract/list?PractId='+PractId" v-for="{ PractId, PractName } in Pract">
+        <q-item-section class="text-black q-pa-sm" avatar>
+          <q-icon name="o_play_circle" />
+        </q-item-section>
+        <q-item-section class="text-black">{{ PractName }}</q-item-section>
+      </q-item>
+    </q-list>
+  </q-page-container>
+  <PublicFooter></PublicFooter>
+</q-layout>

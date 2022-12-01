@@ -1,0 +1,28 @@
+<el-container>
+  <el-header>
+    <el-icon @click="$router.back()" :size="20" style="padding-left:18px; position:fixed; left:0;">
+      <ArrowLeft />
+    </el-icon>
+    <div style="position:fixed; right:24px;">
+      <router-link :to="'../dir/modify?dirId='+Dir.DirId">
+        <el-icon :size="20">
+          <Edit />
+        </el-icon>
+      </router-link>
+      <router-link :to="'create?dirId='+Dir.DirId">
+        <el-icon :size="20">
+          <CirclePlus />
+        </el-icon>
+      </router-link>
+    </div>
+    {{ Dir.DirName }}
+  </el-header>
+  <el-main style="padding:0;">
+    <router-link :to="'/card/list?dirId='+Dir.DirId+'&deckId='+DeckId" v-for="{ DeckId, DeckName } in Deck"
+      class="list">
+      <el-icon :size="20">
+        <PriceTag />
+      </el-icon>{{ DeckName }}
+    </router-link>
+  </el-main>
+</el-container>

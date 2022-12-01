@@ -1,0 +1,18 @@
+<el-container>
+  <el-header>
+    <el-icon @click="$router.back()" :size="20" style="padding-left:18px; position:fixed; left:0;">
+      <ArrowLeft />
+    </el-icon>
+    新建文件夹
+  </el-header>
+  <el-main>
+    <el-space :size=24 direction="vertical" style="display:block;">
+      <el-input v-model="Dir.DirName" placeholder="文件夹名" />
+      <el-radio-group v-model="Dir.KindId">
+        <el-radio :label=1>基本类型</el-radio>
+        <el-radio :label=2>字词类型</el-radio>
+      </el-radio-group>
+      <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
+    </el-space>
+  </el-main>
+</el-container>

@@ -22,6 +22,8 @@ func main() {
 	r.StaticFile("favicon.ico", "static/favicon.ico")
 	r.Static("static", "static")
 	r.Static("app", "app")
+	r.Static("static2", "static2")
+	r.Static("app2", "app2")
 	r.LoadHTMLGlob("tpl/**/*")
 	r.Use(setVer)
 	r.GET("/", indexRoute)
@@ -321,7 +323,7 @@ func deckGroup(r *gin.RouterGroup) {
 	})
 }
 
-//文件夹
+// 文件夹
 func dirGroup(r *gin.RouterGroup) {
 	r.GET("list", func(c *gin.Context) {
 		c.HTML(200, "dir/list.html", gin.H{
