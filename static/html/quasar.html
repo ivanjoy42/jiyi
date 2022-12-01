@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <link href="../quasar.css" rel="stylesheet" type="text/css">
+  <link href="../material-icons.css" rel="stylesheet" type="text/css">
+  <script src="../vue.js"></script>
   <title>quasar</title>
 </head>
 
@@ -13,6 +15,17 @@
     <q-layout view="hHh LpR fFf">
       <q-header class="bg-white text-black">头</q-header>
       <q-page-container>
+        <div class="q-pa-md">
+          <div class="q-mt-md q-gutter-md">
+            <q-icon name="font_download" color="primary" size="32px"></q-icon>
+            <q-icon name="warning" color="warning" size="4rem"></q-icon>
+            <q-icon name="format_size" style="color: #ccc; font-size: 1.4em;"></q-icon>
+            <q-icon name="print" color="teal" size="4.4em"></q-icon>
+            <q-icon name="today" class="text-orange" size="2em"></q-icon>
+            <q-icon name="style" size="3em"></q-icon>
+          </div>
+        </div>
+
         <q-card class="q-ma-md xbg-primary">
           <q-card-section>
             卡片
@@ -30,31 +43,31 @@
         </div>
 
         <div class="q-px-sm q-mt-sm">
-          Your selection is: <strong>{{ color }}</strong>
+          Your selection is: <strong>{{ myradio }}</strong>
         </div>
         <q-list class="text-body1">
-          <q-item tag="label" v-ripple>
+          <q-item tag="label">
             <q-item-section avatar>
-              <q-radio v-model="color" val="red" color="red" />
+              <q-radio v-model="myradio" val="1"></q-radio>
             </q-item-section>
             <q-item-section>
-              <q-item-label>红色</q-item-label>
+              <q-item-label>单选1</q-item-label>
             </q-item-section>
           </q-item>
           <q-item tag="label" v-ripple>
             <q-item-section avatar>
-              <q-radio v-model="color" val="orange" color="orange" />
+              <q-radio v-model="myradio" val="2"></q-radio>
             </q-item-section>
             <q-item-section>
-              <q-item-label>黄色</q-item-label>
+              <q-item-label>单选2</q-item-label>
             </q-item-section>
           </q-item>
           <q-item tag="label" v-ripple>
             <q-item-section avatar>
-              <q-radio v-model="color" val="blue" color="blue" />
+              <q-radio v-model="myradio" val="3"></q-radio>
             </q-item-section>
             <q-item-section>
-              <q-item-label>蓝色</q-item-label>
+              <q-item-label>单选3</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -149,7 +162,6 @@
         </div>
     </q-dialog>
   </div>
-  <script src="../vue.js"></script>
   <script src="../quasar.js"></script>
   <script>
     const app = Vue.createApp({
@@ -158,7 +170,8 @@
           check1: true,
           check2: false,
           color: 'red',
-          dialog: true,
+          dialog: false,
+          myradio: 0,
         }
       },
     })

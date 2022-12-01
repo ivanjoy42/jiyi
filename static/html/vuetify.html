@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <link rel="stylesheet" href="../vuetify.css" />
+  <link href="../vuetify.css" rel="stylesheet" />
+  <link href="../mdi.css" rel="stylesheet" />
   <script src="../vue.js"></script>
   <script src="../vuetify.js"></script>
   <title>vuetify</title>
@@ -12,72 +13,122 @@
 
 <body>
   <div id="app">
-    <v-card class="ma-4 rounded-xl text-body-1">
-      <v-card-item>你好1<br>你好2</v-card-item>
-    </v-card>
+    <p>{{ radios || 'null' }}</p>
+    <v-icon icon="mdi-home"></v-icon>mdi-home<br>
+
+    <v-radio-group v-model="radios" mandatory >
+      <v-radio label="单选 1" value="radio-1"></v-radio>
+      <v-radio label="单选 2" value="radio-2"></v-radio>
+      <v-radio label="单选 3" value="radio-3"></v-radio>
+    </v-radio-group>
+
+    <v-radio-group v-model="radios">
+      <v-radio value="radio-4">
+        <template v-slot:label>
+          单选 4
+        </template>
+      </v-radio>
+      <v-radio value="radio-5">
+        <template v-slot:label>
+          单选 5
+        </template>
+      </v-radio>
+    </v-radio-group>
+
+    <v-list mandatory>
+      <v-list-item v-for="(item, i) in items" :value="item">
+        <template v-slot:prepend="{ isActive }">
+          <v-radio :model-value="isActive"></v-radio>
+        </template>
+        <v-list-item-title v-text="item.text"></v-list-item-title>
+        <template v-slot:append="{ isActive }">
+          <v-icon v-if="isActive" icon="mdi-check" class="justify-right"></v-icon>
+        </template>
+      </v-list-item>
+    </v-list>
+
+    <v-radio-group>
+      <v-radio label="Radio 1" value="1"></v-radio>
+      <v-radio label="Radio 2" value="2"></v-radio>
+      <v-radio label="Radio 3" value="3"></v-radio>
+    </v-radio-group>
 
     <div class="ma-4">
-      <v-btn color="primary" variant="flat" rounded="pill" size="large" block>确定</v-btn>
+      <v-btn @click="dialog=true" color="blue" variant="flat" rounded="pill" size="large" block>确定</v-btn>
     </div>
-
     <v-row class="ma-4" no-gutters>
       <v-col class="mr-2">
-        <v-btn color="secondary" variant="flat" rounded="pill" size="large" block>取消</v-btn>
+        <v-btn color="grey" variant="flat" rounded="pill" size="large" block>取消</v-btn>
       </v-col>
       <v-col class="ml-2">
-        <v-btn color="primary" variant="flat" rounded="pill" size="large" block>确定</v-btn>
+        <v-btn color="blue" variant="flat" rounded="pill" size="large" block>确定</v-btn>
       </v-col>
     </v-row>
 
-    <v-list :items="items"></v-list>
-
-    <v-list>
-      <v-list-item>
-        <v-list-item-title>你好按钮1rem</v-list-item-title>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title style="font-size:1.125rem;">你好按钮1.125rem</v-list-item-title>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title class="text-h6">你好按钮1.25rem</v-list-item-title>
+    <v-list select-strategy="multiple" class="pa-0">
+      <v-list-item v-for="i in 3" :value="i">
+        <v-list-item-title>{{i}}. 多选</v-list-item-title>
+        <template v-slot:prepend="{ isActive }">
+          <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
+        </template>
       </v-list-item>
     </v-list>
+
+    <v-list class="pa-0">
+      <v-list-item v-for="i in 3" :value="i">{{i}}. 列表</v-list-item>
+    </v-list>
+
+    <v-card class="ma-4 rounded-xl">
+      <v-card-item v-for="i in 3">{{i}}. 卡片</v-card-item>
+    </v-card>
+
+    <v-dialog v-model="dialog" class="align-end justify-center ma-0" max-height="70vh">
+      <v-list class="ma-n6 pa-0 rounded-t-xl">
+        <v-list-item class="text-center text-h6">选项</v-list-item>
+
+        <v-list-item v-for="card in cards" :title="card.cardName" :value="card.cardId"></v-list-item>
+
+        <v-list-item v-for="i in 15" :value="i">{{i}}. 列表</v-list-item>
+        <v-textarea rows="1" class="pa-4" variant="solo"></v-textarea>
+        <v-row class="pa-4" no-gutters>
+          <v-col class="mr-2">
+            <v-btn color="grey" variant="flat" rounded="pill" size="large" block>取消</v-btn>
+          </v-col>
+          <v-col class="ml-2">
+            <v-btn color="blue" variant="flat" rounded="pill" size="large" block>确定</v-btn>
+          </v-col>
+        </v-row>
+      </v-list>
+    </v-dialog>
   </div>
 
   <script>
     const App = {
       data() {
         return {
-          items: [{
-            title: '测试 Item #1',
-            value: 1,
-          }, {
-            title: '测试 Item #2',
-            value: 2,
-          }, {
-            title: '测试 Item #3',
-            value: 3,
-          }],
+          dialog: false,
+          items: [
+            { text: '单选1', icon: 'mdi-clock' },
+            { text: '单选2', icon: 'mdi-account' },
+            { text: '单选3', icon: 'mdi-flag' },
+          ],
+          cards: [
+            { cardId: 1, cardName: '卡片1' },
+            { cardId: 2, cardName: '卡片2' },
+            { cardId: 3, cardName: '卡片3' },
+            { cardId: 4, cardName: '卡片4' },
+            { cardId: 5, cardName: '卡片5' },
+          ],
+          radios: null,
         };
       },
     };
 
     const app = Vue.createApp(App)
     const vuetify = Vuetify.createVuetify({
-      theme: {
-        themes: {
-          light: {
-            dark: false,
-            colors: {
-              primary: '#2196f3',
-              secondary: '#9e9e9e',
-              accent: '#82B1FF',
-              error: '#FF5252',
-              info: '#2196F3',
-              success: '#4CAF50',
-              warning: '#FFC107',
-            }
-          },
+      defaults: {
+        global: {
+          activeColor: "blue",
         },
       },
     })
