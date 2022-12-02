@@ -1,28 +1,25 @@
-<q-layout view="hHh lpR fFf" style="font-size:1.125rem;" class="text-weight-medium">
-  <q-header class="bg-white text-black">
-    <q-toolbar>
-      <div class="col text-left">
-        <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios" />
-      </div>
-      <div class="col text-center">
-        {{ Deck.DeckName }}
-      </div>
-      <div class="col text-right">
-        <q-btn :to="'search?dirId='+Deck.DirId+'&query='" padding="xs" flat round icon="o_search" />
-        <q-btn :to="'../deck/modify?deckId='+Deck.DeckId" padding="sm" flat round icon="o_edit" />
-        <q-btn :to="'create?dirId='+Deck.DirId+'&deckId='+Deck.DeckId" flat round icon="o_add_circle_outline" />
-      </div>
-    </q-toolbar>
-  </q-header>
-  <q-page-container>
-    <q-list>
-      <q-item v-ripple :to="'modify?cardId='+CardId" v-for="{ CardId, Front } in Card">
-        <q-item-section class="text-black q-pa-sm" avatar>
-          <q-icon name="o_insert_drive_file" />
-        </q-item-section>
-        <q-item-section class="text-black">{{ Front }}</q-item-section>
-      </q-item>
-    </q-list>
-  </q-page-container>
-  <PublicFooter></PublicFooter>
-</q-layout>
+<q-header class="bg-white text-black">
+  <q-toolbar>
+    <div class="col text-left">
+      <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios" />
+    </div>
+    <div class="col text-center">
+      {{ Deck.DeckName }}
+    </div>
+    <div class="col text-right">
+      <q-btn :to="'search?dirId='+Deck.DirId+'&query='" padding="xs" flat round icon="o_search" />
+      <q-btn :to="'../deck/modify?deckId='+Deck.DeckId" padding="sm" flat round icon="o_edit" />
+      <q-btn :to="'create?dirId='+Deck.DirId+'&deckId='+Deck.DeckId" flat round icon="o_add_circle_outline" />
+    </div>
+  </q-toolbar>
+</q-header>
+<q-page-container>
+  <q-list>
+    <q-item v-ripple :to="'modify?cardId='+CardId" v-for="{ CardId, Front } in Card">
+      <q-item-section class="text-black q-pa-sm" avatar>
+        <q-icon name="o_insert_drive_file" />
+      </q-item-section>
+      <q-item-section class="text-black">{{ Front }}</q-item-section>
+    </q-item>
+  </q-list>
+</q-page-container>

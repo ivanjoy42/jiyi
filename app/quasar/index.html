@@ -13,11 +13,13 @@
 
 <body>
   <div id="app">
-    <router-view v-slot="{ Component, route }">
-      <transition :name="route.meta.transition">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <q-layout view="hHh lpR fFf" style="font-size:1.125rem;" class="text-weight-medium">
+      <router-view v-slot="{ Component, route }">
+        <transition :name="route.meta.transition">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </q-layout>
   </div>
   <script src="/static/quasar/quasar.js"></script>
   <script>

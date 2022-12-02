@@ -1,27 +1,24 @@
-<q-layout view="hHh lpR fFf" style="font-size:1.125rem;" class="text-weight-medium">
-  <q-header class="bg-white text-black">
-    <q-toolbar>
-      <div class="col text-left">
-        <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios" />
-      </div>
-      <div class="col text-center">
-        {{ Dir.DirName }}
-      </div>
-      <div class="col text-right">
-        <q-btn :to="'../dir/modify?dirId='+Dir.DirId" flat round icon="o_edit" />
-        <q-btn :to="'create?dirId='+Dir.DirId" flat round icon="o_add_circle_outline" />
-      </div>
-    </q-toolbar>
-  </q-header>
-  <q-page-container>
-    <q-list>
-      <q-item v-ripple :to="'/card/list?dirId='+Dir.DirId+'&deckId='+DeckId" v-for="{ DeckId, DeckName } in Deck">
-        <q-item-section class="text-black q-pa-sm" avatar>
-          <q-icon name="o_label" />
-        </q-item-section>
-        <q-item-section class="text-black">{{ DeckName }}</q-item-section>
-      </q-item>
-    </q-list>
-  </q-page-container>
-  <PublicFooter></PublicFooter>
-</q-layout>
+<q-header class="bg-white text-black">
+  <q-toolbar>
+    <div class="col text-left">
+      <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios" />
+    </div>
+    <div class="col text-center">
+      {{ Dir.DirName }}
+    </div>
+    <div class="col text-right">
+      <q-btn :to="'../dir/modify?dirId='+Dir.DirId" flat round icon="o_edit" />
+      <q-btn :to="'create?dirId='+Dir.DirId" flat round icon="o_add_circle_outline" />
+    </div>
+  </q-toolbar>
+</q-header>
+<q-page-container>
+  <q-list>
+    <q-item v-ripple :to="'/card/list?dirId='+Dir.DirId+'&deckId='+DeckId" v-for="{ DeckId, DeckName } in Deck">
+      <q-item-section class="text-black q-pa-sm" avatar>
+        <q-icon name="o_label" />
+      </q-item-section>
+      <q-item-section class="text-black">{{ DeckName }}</q-item-section>
+    </q-item>
+  </q-list>
+</q-page-container>
