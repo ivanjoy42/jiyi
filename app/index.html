@@ -4,74 +4,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <link href="../static/element.css" rel="stylesheet" />
-  <link href="../static/element-my.css" rel="stylesheet" />
-  <script src="../static/vue.js"></script>
-  <script src="../static/vue-router.js"></script>
-  <script src="../static/element.js"></script>
-  <script src="../static/element-iife.js"></script>
-  <title>记忆犹新</title>
+  <title>app</title>
 </head>
 
-<body>
-  <div id="app">
-    <router-view v-slot="{ Component, route }">
-      <transition :name="route.meta.transition">
-        <component :is="Component" />
-      </transition>
-    </router-view>
-  </div>
-  <script>
-    async function tpl(file) {
-      return await fetch(file + '.html').then(res => res.text())
-    }
-
-    const routes = [
-      { path: '/', redirect: '/pract/list' },
-
-      { meta: { depth: 0 }, path: '/pract/list', component: () => import('./pract/list.js') },
-      { meta: { depth: 1 }, path: '/pract/create', component: () => import('./pract/create.js') },
-
-      { meta: { depth: 0 }, path: '/dir/list', component: () => import('./dir/list.js') },
-      { meta: { depth: 1 }, path: '/dir/create', component: () => import('./dir/create.js') },
-      { meta: { depth: 2 }, path: '/dir/modify', component: () => import('./dir/modify.js') },
-
-      { meta: { depth: 1 }, path: '/deck/list', component: () => import('./deck/list.js') },
-      { meta: { depth: 2 }, path: '/deck/create', component: () => import('./deck/create.js') },
-      { meta: { depth: 3 }, path: '/deck/modify', component: () => import('./deck/modify.js') },
-
-      { meta: { depth: 2 }, path: '/card/list', component: () => import('./card/list.js') },
-      { meta: { depth: 3 }, path: '/card/create', component: () => import('./card/create.js') },
-      { meta: { depth: 3 }, path: '/card/search', component: () => import('./card/search.js') },
-      { meta: { depth: 4 }, path: '/card/modify', component: () => import('./card/modify.js') },
-
-      { meta: { depth: 0 }, path: '/user/list', component: () => import('./user/list.js') },
-      { meta: { depth: 0 }, path: '/setting/list', component: () => import('./setting/list.js') },
-    ]
-
-    const router = VueRouter.createRouter({
-      history: VueRouter.createWebHashHistory(),
-      routes,
-    })
-
-    router.afterEach((to, from) => {
-      if (to.meta.depth < from.meta.depth) {
-        to.meta.transition = 'slide-right'
-      } else if (to.meta.depth > from.meta.depth) {
-        to.meta.transition = 'slide-left'
-      } else {
-        to.meta.transition = ''
-      }
-    })
-
-    const app = Vue.createApp()
-    app.use(router)
-    app.use(ElementPlus, { size: 'huge' })
-    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-      app.component(key, component)
-    }
-    app.mount("#app")
-  </script>
+<body style="font-size: 3rem;">
+  <dl>
+    <a href="/">
+      <dt>original</dt>
+    </a>
+    <a href="/app/element/">
+      <dt>element</dt>
+    </a>
+    <a href="/app/quasar/">
+      <dt>quasar</dt>
+    </a>
+    <a href="/app/vuetify/">
+      <dt>vuetify</dt>
+    </a>
+    <a href="/app/quasar.html">
+      <dt>quasar-tmp</dt>
+    </a>
+  </dl>
 </body>
 
 </html>

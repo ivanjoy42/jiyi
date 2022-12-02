@@ -22,8 +22,6 @@ func main() {
 	r.StaticFile("favicon.ico", "static/favicon.ico")
 	r.Static("static", "static")
 	r.Static("app", "app")
-	r.Static("static2", "static2")
-	r.Static("app2", "app2")
 	r.LoadHTMLGlob("tpl/**/*")
 	r.Use(setVer)
 	r.GET("/", indexRoute)

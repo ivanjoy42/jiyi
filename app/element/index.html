@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <link href="/static2/quasar.css" rel="stylesheet" />
-  <link href="/static2/material-icons.css" rel="stylesheet" />
-  <script src="/static2/vue.js"></script>
-  <script src="/static2/vue-router.js"></script>
+  <link href="/static/element/element.css" rel="stylesheet" />
+  <link href="/static/element/element-my.css" rel="stylesheet" />
+  <script src="/static/vue.js"></script>
+  <script src="/static/vue-router.js"></script>
+  <script src="/static/element/element.js"></script>
+  <script src="/static/element/element-iife.js"></script>
   <title>记忆犹新</title>
 </head>
 
@@ -19,7 +21,6 @@
       </transition>
     </router-view>
   </div>
-  <script src="/static2/quasar.js"></script>
   <script>
     async function tpl(file) {
       return await fetch(file + '.html').then(res => res.text())
@@ -65,15 +66,10 @@
 
     const app = Vue.createApp()
     app.use(router)
-    app.use(Quasar, {
-      config: {
-        brand: {
-          primary: '#2196f3',
-          secondary: '#9e9e9e',
-          white: '#ffffff'
-        }
-      }
-    })
+    app.use(ElementPlus, { size: 'huge' })
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+      app.component(key, component)
+    }
     app.mount("#app")
   </script>
 </body>

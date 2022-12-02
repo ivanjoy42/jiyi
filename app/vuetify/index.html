@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <link href="../vuetify.css" rel="stylesheet" />
-  <link href="../mdi.css" rel="stylesheet" />
-  <script src="../vue.js"></script>
-  <script src="../vuetify.js"></script>
+  <link href="/static/vuetify/vuetify.css" rel="stylesheet" />
+  <link href="/static/vuetify/mdi.css" rel="stylesheet" />
+  <script src="/static/vue.js"></script>
+  <script src="/static/vuetify/vuetify.js"></script>
   <title>vuetify</title>
 </head>
 
@@ -16,7 +16,7 @@
     <p>{{ radios || 'null' }}</p>
     <v-icon icon="mdi-home"></v-icon>mdi-home<br>
 
-    <v-radio-group v-model="radios" mandatory >
+    <v-radio-group v-model="radios" mandatory>
       <v-radio label="单选 1" value="radio-1"></v-radio>
       <v-radio label="单选 2" value="radio-2"></v-radio>
       <v-radio label="单选 3" value="radio-3"></v-radio>

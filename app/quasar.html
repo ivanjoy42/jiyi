@@ -4,28 +4,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <link href="/static2/quasar.css" rel="stylesheet" type="text/css">
-  <link href="/static2/material-icons.css" rel="stylesheet" type="text/css">
-  <script src="/static2/vue.js"></script>
-  <title>quasar</title>
+  <link href="/static/quasar/quasar.css" rel="stylesheet" type="text/css">
+  <link href="/static/quasar/material-icons.css" rel="stylesheet" type="text/css">
+  <script src="/static/vue.js"></script>
+  <title>quasar-tmp</title>
 </head>
 
 <body>
   <div id="q-app">
     <q-layout view="hHh LpR fFf">
-      <q-header class="bg-white text-black">头</q-header>
       <q-page-container>
-        <div class="q-pa-md">
-          <div class="q-mt-md q-gutter-md">
-            <q-icon name="font_download" color="primary" size="32px"></q-icon>
-            <q-icon name="warning" color="warning" size="4rem"></q-icon>
-            <q-icon name="format_size" style="color: #ccc; font-size: 1.4em;"></q-icon>
-            <q-icon name="print" color="teal" size="4.4em"></q-icon>
-            <q-icon name="today" class="text-orange" size="2em"></q-icon>
-            <q-icon name="style" size="3em"></q-icon>
-          </div>
-        </div>
-
         <q-card class="q-ma-md xbg-primary">
           <q-card-section>
             卡片
@@ -83,31 +71,8 @@
             </q-item-section>
             <q-item-section>多选2</q-item-section>
           </q-item>
-
-          <q-item clickable v-ripple class="text-h6" v-for="i in 5" :key="i">
-            <q-item-section>{{i}} 取消 确认 text-h6</q-item-section>
-          </q-item>
-
-          <q-item clickable v-ripple style="font-size:1.125rem;" v-for="i in 5" :key="i">
-            <q-item-section>{{i}} 取消 确认 1.125rem</q-item-section>
-          </q-item>
-          <q-item clickable v-ripple v-for="i in 5" :key="i">
-            <q-item-section>{{i}} 取消 确认</q-item-section>
-          </q-item>
         </q-list>
       </q-page-container>
-      <q-footer class="bg-white">
-        <div class="q-pa-md">
-          <div class="row q-col-gutter-x-md">
-            <div class="col-6">
-              <q-btn rounded color="green" class="full-width" size="large" label="取消"></q-btn>
-            </div>
-            <div class="col-6">
-              <q-btn rounded color="primary" class="full-width" size="large" label="确认"></q-btn>
-            </div>
-          </div>
-        </div>
-      </q-footer>
     </q-layout>
 
     <q-dialog v-model="dialog" position="bottom" full-width class="rounded-xl">
@@ -162,7 +127,7 @@
         </div>
     </q-dialog>
   </div>
-  <script src="/static2/quasar.js"></script>
+  <script src="/static/quasar/quasar.js"></script>
   <script>
     const app = Vue.createApp({
       data() {
