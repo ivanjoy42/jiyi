@@ -9,11 +9,63 @@
   <script src="/static/vue.js"></script>
   <script src="/static/vue-router.js"></script>
   <title>记忆犹新</title>
+  <style>
+    .text-large {
+      font-size: large;
+    }
+
+    .q-field__control {
+      height: 3rem;
+      font-size: large;
+    }
+
+    .q-field--outlined .q-field__control {
+      border-radius: 1rem;
+    }
+
+    .slide-right-leave-active,
+    .slide-right-enter-active {
+      transition: all 0.2s ease;
+      width: 100%;
+      position: absolute;
+    }
+
+    .slide-right-enter-from {
+      transform: translateX(-25%);
+    }
+
+    .slide-right-leave-from {
+      background: #ffffff;
+      z-index: 1;
+    }
+
+    .slide-right-leave-to {
+      transform: translateX(100%);
+      background: #ffffff;
+      z-index: 1;
+    }
+
+    .slide-left-leave-active,
+    .slide-left-enter-active {
+      transition: all 0.2s ease;
+      background: #ffffff;
+      width: 100%;
+      position: absolute;
+    }
+
+    .slide-left-enter-from {
+      transform: translateX(100%);
+    }
+
+    .slide-left-leave-to {
+      transform: translateX(-25%);
+    }
+  </style>
 </head>
 
 <body>
   <div id="app">
-    <q-layout view="hHh lpR fFf" style="font-size:1.125rem;" class="text-weight-medium">
+    <q-layout view="hHh lpR fFf" class="text-weight-medium text-large">
       <router-view v-slot="{ Component, route }">
         <transition :name="route.meta.transition">
           <component :is="Component" />
@@ -56,26 +108,21 @@
     })
 
     router.afterEach((to, from) => {
-      if (to.meta.depth < from.meta.depth) {
-        to.meta.transition = 'slide-right'
-      } else if (to.meta.depth > from.meta.depth) {
-        to.meta.transition = 'slide-left'
+      if (to.meta.depth > from.meta.depth) {
+        // to.meta.transition = 'slide-left'
+        console.log("前进", from, to)
+      } else if (to.meta.depth < from.meta.depth) {
+        // to.meta.transition = 'slide-right'
+        console.log("后退", from, to)
       } else {
-        to.meta.transition = ''
+        // to.meta.transition = ''
+        console.log("平级", from, to)
       }
     })
 
     const app = Vue.createApp()
     app.use(router)
-    app.use(Quasar, {
-      config: {
-        brand: {
-          primary: '#2196f3',
-          secondary: '#9e9e9e',
-          white: '#ffffff'
-        }
-      }
-    })
+    app.use(Quasar)
     app.mount("#app")
   </script>
 </body>
