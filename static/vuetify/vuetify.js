@@ -1,5 +1,5 @@
 /*!
-* Vuetify v3.0.2
+* Vuetify v3.0.3
 * Forged by John Leider
 * Released under the MIT License.
 */
@@ -295,7 +295,7 @@ let s=l.left+l.width/2
 "left"===r||"left"===i?s-=l.width/2:"right"!==r&&"right"!==i||(s+=l.width/2)
 let u=l.top+l.height/2
 "top"===r||"top"===i?u-=l.height/2:"bottom"!==r&&"bottom"!==i||(u+=l.height/2)
-const c=l.width/a.width,d=l.height/a.height,v=Math.max(1,c,d),p=c/v,f=d/v,m=a.width*a.height/(window.innerWidth*window.innerHeight),g=m>.12?Math.min(1.5,10*(m-.12)+1):1
+const c=l.width/a.width,d=l.height/a.height,v=Math.max(1,c,d),p=c/v||0,f=d/v||0,m=a.width*a.height/(window.innerWidth*window.innerHeight),g=m>.12?Math.min(1.5,10*(m-.12)+1):1
 return{x:s-(o+a.left),y:u-(n+a.top),sx:p,sy:f,speed:g}}const Ht=Ot("fab-transition","center center","out-in"),Wt=Ot("dialog-bottom-transition"),Ut=Ot("dialog-top-transition"),Yt=Ot("fade-transition"),Xt=Ot("scale-transition"),Gt=Ot("scroll-x-transition"),qt=Ot("scroll-x-reverse-transition"),Kt=Ot("scroll-y-transition"),Zt=Ot("scroll-y-reverse-transition"),Jt=Ot("slide-x-transition"),Qt=Ot("slide-x-reverse-transition"),el=Ot("slide-y-transition"),tl=Ot("slide-y-reverse-transition"),ll=Ft("expand-transition",Mt()),al=Ft("expand-x-transition",Mt("",!0)),ol=De({height:[Number,String],maxHeight:[Number,String],maxWidth:[Number,String],minHeight:[Number,String],minWidth:[Number,String],width:[Number,String]},"dimension")
 function nl(e){return{dimensionStyles:t.computed((()=>({height:g(e.height),maxHeight:g(e.maxHeight),maxWidth:g(e.maxWidth),minHeight:g(e.minHeight),minWidth:g(e.minWidth),width:g(e.width)})))}}const rl=He({name:"VResponsive",props:{aspectRatio:[String,Number],contentClass:String,...ol()},setup(e,l){let{slots:a}=l
 const{aspectStyles:o}=function(e){return{aspectStyles:t.computed((()=>{const t=Number(e.aspectRatio)
@@ -356,7 +356,7 @@ const{backgroundColorClasses:n,backgroundColorStyles:r}=wl(t.toRef(e,"color")),{
 return Me({VBtn:{variant:"text"}}),Ze((()=>{var l,a,f,m,h
 const y=!(!e.title&&!o.title),b=!(!o.image&&!e.image),V=null==(l=o.extension)?void 0:l.call(o)
 return d.value=!(!e.extended&&!V),t.createVNode(e.tag,{class:["v-toolbar",{"v-toolbar--absolute":e.absolute,"v-toolbar--collapse":e.collapse,"v-toolbar--flat":e.flat,"v-toolbar--floating":e.floating,[`v-toolbar--density-${e.density}`]:!0},n.value,i.value,s.value,u.value,c.value],style:[r.value]},{default:()=>[b&&t.createVNode("div",{key:"image",class:"v-toolbar__image"},[t.createVNode(Pt,{defaults:{VImg:{cover:!0,src:e.image}}},{default:()=>[o.image?null==(a=o.image)?void 0:a.call(o):t.createVNode(dl,null,null)]})]),t.createVNode("div",{class:"v-toolbar__content",style:{height:g(v.value)}},[o.prepend&&t.createVNode("div",{class:"v-toolbar__prepend"},[null==(f=o.prepend)?void 0:f.call(o)]),y&&t.createVNode(pl,{key:"title",text:e.title},{text:o.title}),null==(m=o.default)?void 0:m.call(o),o.append&&t.createVNode("div",{class:"v-toolbar__append"},[null==(h=o.append)?void 0:h.call(o)])]),t.createVNode(ll,null,{default:()=>[d.value&&t.createVNode("div",{class:"v-toolbar__extension",style:{height:g(p.value)}},[V])]})]})})),{contentHeight:v,extensionHeight:p}}})
-const Nl=He({name:"VAppBar",props:{modelValue:{type:Boolean,default:!0},location:{type:String,default:"top",validator:e=>["top","bottom"].includes(e)},...xl(),...tt(),height:{type:[Number,String],default:64}},emits:{"update:modelValue":e=>!0},setup(e,l){let{slots:a}=l
+const Nl=We()({name:"VAppBar",props:{modelValue:{type:Boolean,default:!0},location:{type:String,default:"top",validator:e=>["top","bottom"].includes(e)},...xl(),...tt(),height:{type:[Number,String],default:64}},emits:{"update:modelValue":e=>!0},setup(e,l){let{slots:a}=l
 const o=t.ref(),n=St(e,"modelValue"),r=t.computed((()=>{var e,t
 return((null==(e=o.value)?void 0:e.contentHeight)??0)+((null==(t=o.value)?void 0:t.extensionHeight)??0)})),{layoutItemStyles:i}=at({id:e.name,order:t.computed((()=>parseInt(e.order,10))),position:t.toRef(e,"location"),layoutSize:r,elementSize:r,active:n,absolute:t.toRef(e,"absolute")})
 return Ze((()=>{const[l]=function(e){return S(e,Object.keys((null==Cl?void 0:Cl.props)??{}))}(e)
@@ -890,7 +890,7 @@ const _=t.ref(),B=t.ref(),{contentStyles:I,updateLocation:$}=function(e,a){const
 let r
 function i(e){var t
 null==(t=n.value)||t.call(n,e)}return t.watchEffect((async()=>{var i
-null==(i=r)||i.stop(),n.value=void 0,l&&a.isActive.value&&e.locationStrategy&&(r=t.effectScope(),await t.nextTick(),r.run((()=>{var t,l
+null==(i=r)||i.stop(),n.value=void 0,l&&a.isActive.value&&e.locationStrategy&&(r=t.effectScope(),"connected"!==e.locationStrategy&&await t.nextTick(),r.run((()=>{var t,l
 "function"==typeof e.locationStrategy?n.value=null==(t=e.locationStrategy(a,e,o))?void 0:t.updateLocation:n.value=null==(l=bn[e.locationStrategy](a,e,o))?void 0:l.updateLocation})))})),l&&window.addEventListener("resize",i,{passive:!0}),t.onScopeDispose((()=>{var e
 l&&window.removeEventListener("resize",i),n.value=void 0,null==(e=r)||e.stop()})),{contentStyles:o,updateLocation:n}}(e,{isRtl:v,contentEl:B,activatorEl:V,isActive:s})
 function A(t){r("click:outside",t),e.persistent?P():s.value=!1}function E(){return s.value&&h.value}function R(t){"Escape"===t.key&&h.value&&(e.persistent?P():s.value=!1)}!function(e,a){if(!l)return
@@ -1226,7 +1226,7 @@ const t=e.target
 i.value=[...t.files??[]]},onFocus:y,onBlur:()=>m.value=!1},v,s),null),t.createVNode("div",{class:o},[i.value.length>0&&(n.selection?n.selection({fileNames:d.value,totalBytes:u.value,totalBytesReadable:c.value}):e.chips?d.value.map((l=>t.createVNode($o,{key:l,size:"small",color:e.color},{default:()=>[l]}))):d.value.join(", "))])])}})},details:o?e=>{var a
 return t.createVNode(t.Fragment,null,[null==(a=n.details)?void 0:a.call(n,e),l&&t.createVNode(t.Fragment,null,[t.createVNode("span",null,null),t.createVNode(uo,{active:!!i.value.length,value:v.value},n.counter)])])}:void 0})})),vo({},p,f,g)}}),Bi=He({name:"VFooter",props:{app:Boolean,color:String,height:{type:[Number,String],default:"auto"},...fl(),...gl(),...tt(),...yl(),...vl({tag:"footer"}),...ft()},setup(e,l){let{slots:a}=l
 const{themeClasses:o}=ht(e),{backgroundColorClasses:n,backgroundColorStyles:i}=wl(t.toRef(e,"color")),{borderClasses:s}=ml(e),{elevationClasses:u}=hl(e),{roundedClasses:c}=bl(e),d=t.ref(32),{resizeRef:v}=r((e=>{e.length&&(d.value=e[0].target.clientHeight)})),p=t.computed((()=>"auto"===e.height?d.value:parseInt(e.height,10))),{layoutItemStyles:f}=at({id:e.name,order:t.computed((()=>parseInt(e.order,10))),position:t.computed((()=>"bottom")),layoutSize:p,elementSize:t.computed((()=>"auto"===e.height?void 0:p.value)),active:t.computed((()=>e.app)),absolute:t.toRef(e,"absolute")})
-return Ze((()=>t.createVNode(e.tag,{ref:v,class:["v-footer",o.value,n.value,s.value,u.value,c.value],style:[i,e.app?f.value:void 0]},a))),{}}}),Ii=He({name:"VForm",props:{...lo()},emits:{"update:modelValue":e=>!0,submit:e=>!0},setup(e,l){let{slots:a,emit:o}=l
+return Ze((()=>t.createVNode(e.tag,{ref:v,class:["v-footer",o.value,n.value,s.value,u.value,c.value],style:[i.value,e.app?f.value:void 0]},a))),{}}}),Ii=He({name:"VForm",props:{...lo()},emits:{"update:modelValue":e=>!0,submit:e=>!0},setup(e,l){let{slots:a,emit:o}=l
 const n=function(e){const l=St(e,"modelValue"),a=t.computed((()=>e.disabled)),o=t.computed((()=>e.readonly)),n=t.ref(!1),r=t.ref([]),i=t.ref([])
 return t.watch(r,(()=>{let e=0,t=0
 const a=[]
@@ -1281,7 +1281,7 @@ return()=>{var e
 return t.createVNode("div",{class:["v-layout-item"],style:o.value},[null==(e=a.default)?void 0:e.call(a)])}}}),cs=He({name:"VLazy",directives:{intersect:sl},props:{modelValue:Boolean,options:{type:Object,default:()=>({root:void 0,rootMargin:void 0,threshold:void 0})},...ol(),...vl(),...ul({transition:"fade-transition"})},emits:{"update:modelValue":e=>!0},setup(e,l){let{slots:a}=l
 const{dimensionStyles:o}=nl(e),n=St(e,"modelValue")
 function r(e){n.value||(n.value=e)}return Ze((()=>{var l
-return t.withDirectives(t.createVNode(e.tag,{class:"v-lazy",style:o.value},{default:()=>[n.value&&t.createVNode(cl,{transition:e.transition},{default:()=>[null==(l=a.default)?void 0:l.call(a)]})]}),[[t.resolveDirective("intersect"),r,e.options]])})),{}}}),ds=He({name:"VLocaleProvider",props:{locale:String,fallbackLocale:String,messages:Object,rtl:{type:Boolean,default:void 0}},setup(e,l){let{slots:a}=l
+return t.withDirectives(t.createVNode(e.tag,{class:"v-lazy",style:o.value},{default:()=>[n.value&&t.createVNode(cl,{transition:e.transition,appear:!0},{default:()=>[null==(l=a.default)?void 0:l.call(a)]})]}),[[t.resolveDirective("intersect"),r,e.options]])})),{}}}),ds=He({name:"VLocaleProvider",props:{locale:String,fallbackLocale:String,messages:Object,rtl:{type:Boolean,default:void 0}},setup(e,l){let{slots:a}=l
 const{rtlClasses:o}=Rt(e)
 return Ze((()=>{var e
 return t.createVNode("div",{class:["v-locale-provider",o.value]},[null==(e=a.default)?void 0:e.call(a)])})),{}}}),vs=He({name:"VMain",props:{scrollable:Boolean,...vl({tag:"main"})},setup(e,l){let{slots:a}=l
@@ -1302,7 +1302,7 @@ for(const e of a){if(o[0]-e[0]>100)break
 n.push({t:e[0],d:e[1].clientX}),r.push({t:e[0],d:e[1].clientY})}return{x:fs(n),y:fs(r),get direction(){const{x:e,y:t}=this,[l,a]=[Math.abs(e),Math.abs(t)]
 return l>a&&e>=0?"right":l>a&&e<=0?"left":a>l&&t>=0?"down":a>l&&t<=0?"up":function(){throw new Error}()}}}}}function gs(){throw new Error}const hs=["start","end","left","right","bottom"],ys=He({name:"VNavigationDrawer",props:{color:String,disableResizeWatcher:Boolean,disableRouteWatcher:Boolean,expandOnHover:Boolean,floating:Boolean,modelValue:{type:Boolean,default:null},permanent:Boolean,rail:Boolean,railWidth:{type:[Number,String],default:56},scrim:{type:[String,Boolean],default:!0},image:String,temporary:Boolean,touchless:Boolean,width:{type:[Number,String],default:256},location:{type:String,default:"start",validator:e=>hs.includes(e)},sticky:Boolean,...fl(),...gl(),...tt(),...yl(),...vl({tag:"nav"}),...ft()},emits:{"update:modelValue":e=>!0},setup(e,l){let{attrs:a,slots:o}=l
 const{isRtl:n}=Tt(),{themeClasses:r}=ht(e),{borderClasses:i}=ml(e),{backgroundColorClasses:s,backgroundColorStyles:u}=wl(t.toRef(e,"color")),{elevationClasses:c}=hl(e),{mobile:d}=nr(),{roundedClasses:v}=bl(e),p=Ta(),f=St(e,"modelValue",null,(e=>!!e)),{ssrBootStyles:m}=xr(),h=t.ref(),y=t.ref(!1),b=t.computed((()=>e.rail&&e.expandOnHover&&y.value?Number(e.width):Number(e.rail?e.railWidth:e.width))),V=t.computed((()=>U(e.location,n.value))),S=t.computed((()=>!e.permanent&&(d.value||e.temporary))),w=t.computed((()=>e.sticky&&!S.value&&"bottom"!==V.value))
-e.disableResizeWatcher||t.watch(S,(t=>!e.permanent&&(f.value=!t))),!e.disableRouteWatcher&&p&&t.watch(p.currentRoute,(()=>S.value&&(f.value=!1))),t.watch((()=>e.permanent),(e=>{e&&(f.value=!0)})),t.onBeforeMount((()=>{null!=e.modelValue||S.value||(f.value=e.permanent||!d.value)}))
+e.disableResizeWatcher||t.watch(S,(l=>!e.permanent&&t.nextTick((()=>f.value=!l)))),!e.disableRouteWatcher&&p&&t.watch(p.currentRoute,(()=>S.value&&(f.value=!1))),t.watch((()=>e.permanent),(e=>{e&&(f.value=!0)})),t.onBeforeMount((()=>{null!=e.modelValue||S.value||(f.value=e.permanent||!d.value)}))
 const{isDragging:k,dragProgress:x,dragStyles:C}=function(e){let{isActive:l,isTemporary:a,width:o,touchless:n,position:r}=e
 t.onMounted((()=>{window.addEventListener("touchstart",y,{passive:!0}),window.addEventListener("touchmove",b,{passive:!1}),window.addEventListener("touchend",V,{passive:!0})})),t.onBeforeUnmount((()=>{window.removeEventListener("touchstart",y),window.removeEventListener("touchmove",b),window.removeEventListener("touchend",V)}))
 const i=t.computed((()=>"bottom"!==r.value)),{addMovement:s,endTouch:u,getVelocity:c}=ms()
@@ -1547,8 +1547,8 @@ e.mount=function(){const a=l(...arguments)
 return t.nextTick((()=>c.update())),e.mount=l,a}}Le.reset(),e.mixin({computed:{$vuetify(){return t.reactive({defaults:eu.call(this,Pe),display:eu.call(this,er),theme:eu.call(this,pt),icons:eu.call(this,Ul),locale:eu.call(this,$t)})}}})}
 return{install:f,defaults:u,display:c,theme:d,icons:v,locale:p}}function eu(e){var t,l
 const a=this.$,o=(null==(t=a.parent)?void 0:t.provides)??(null==(l=a.vnode.appContext)?void 0:l.provides)
-if(o&&e in o)return o[e]}Qs.version="3.0.2"
+if(o&&e in o)return o[e]}Qs.version="3.0.3"
 const tu=function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{}
-return Qs({components:Us,directives:Js,...e})},lu="3.0.2"
+return Qs({components:Us,directives:Js,...e})},lu="3.0.3"
 tu.version=lu,e.components=Us,e.createVuetify=tu,e.directives=Js,e.useDisplay=nr,e.useLayout=lt,e.useLocale=Et,e.useRtl=Tt,e.useTheme=yt,e.version=lu,Object.defineProperty(e,"__esModule",{value:!0})}))
 //# sourceMappingURL=vuetify.min.js.map

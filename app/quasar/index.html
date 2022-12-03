@@ -11,12 +11,17 @@
   <title>记忆犹新</title>
   <style>
     .text-large {
-      font-size: large;
+      font-size: 1.125rem;
+      font-weight: 500;
+    }
+
+    .q-dialog__inner>div {
+      border-radius: 1.5rem 1.5rem 0 0;
     }
 
     .q-field__control {
+      font-size: 1.125rem;
       height: 3rem;
-      font-size: large;
     }
 
     .q-field--outlined .q-field__control {
@@ -65,7 +70,7 @@
 
 <body>
   <div id="app">
-    <q-layout view="hHh lpR fFf" class="text-weight-medium text-large">
+    <q-layout view="hHh lpR fFf" class="text-large">
       <router-view v-slot="{ Component, route }">
         <transition :name="route.meta.transition">
           <component :is="Component" />

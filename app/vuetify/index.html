@@ -9,10 +9,41 @@
   <script src="/static/vue.js"></script>
   <script src="/static/vuetify/vuetify.js"></script>
   <title>vuetify</title>
+  <style>
+    .v-field {
+      border-radius: 1rem;
+    }
+  </style>
 </head>
 
 <body>
   <div id="app">
+    <div class="pa-2 d-flex justify-space-around">
+      <v-card class="rounded-lg" text="大按钮"></v-card>
+      <v-card class="rounded-pill" text="大按钮"></v-card>
+    </div>
+
+    <div class="pa-2 d-flex justify-space-around">
+      <v-text-field density="compact" variant="solo"></v-text-field>
+      <v-text-field density="compact" variant="outlined"></v-text-field>
+      <v-text-field density="compact"></v-text-field>
+    </div>
+
+    <div class="pa-2 d-flex justify-space-around">
+      <v-sheet class="rounded-lg" elevation="3" height="48" width="100">大按钮</v-sheet>
+      <v-sheet class="rounded-pill" elevation="3" height="48" width="100">大按钮</v-sheet>
+    </div>
+
+    <div class="pa-2 d-flex justify-space-around">
+      <div class="pa-3 bg-blue rounded-lg">大按钮</div>
+      <div class="pa-3 bg-blue rounded-pill">大按钮</div>
+    </div>
+
+    <div class="pa-2 d-flex justify-space-around">
+      <v-btn color="blue" variant="flat" class="rounded-lg" size="large">大按钮</v-btn>
+      <v-btn color="blue" variant="flat" class="rounded-pill" size="large">大按钮</v-btn>
+    </div>
+
     <p>{{ radios || 'null' }}</p>
     <v-icon icon="mdi-home"></v-icon>mdi-home<br>
 

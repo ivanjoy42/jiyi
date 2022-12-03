@@ -1,32 +1,54 @@
-<el-container>
-  <el-header>
-    <el-icon @click="$router.back()" :size="20" style="padding-left:18px; position:fixed; left:0;">
-      <ArrowLeft />
-    </el-icon>
-    新建练习
-  </el-header>
-  <el-main>
-    <el-space :size=24 direction="vertical" style="display:block;">
-      <el-input v-model="Pract.PractName" placeholder="练习名" />
-      <div>
-        <router-link to="" @click="modeDrawer=true" class="list">练习方式
-          <div style="float:right">{{ModeName}}</div>
-        </router-link>
-        <a @click="dirDrawer=true" class="list">练习内容
-          <span style="float:right">{{DirName}}</span>
-        </a>
-      </div>
-      <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
-    </el-space>
-  </el-main>
-  <el-drawer v-model="modeDrawer" size="auto" direction="btt" :with-header="false">
-    <el-radio-group v-model="Pract.ModeId">
-      <el-radio @click="setMode(ModeName)" :label="ModeId" v-for="{ ModeId, ModeName } in Mode">{{ModeName}}</el-radio>
-    </el-radio-group>
-  </el-drawer>
-  <el-drawer v-model="dirDrawer" size="60%" direction="btt" :with-header="false">
-    <el-radio-group v-model="Pract.DirId">
-      <el-radio @click="setDir(DirName)" :label="DirId" v-for="{ DirId, DirName } in Dir">{{DirName}}</el-radio>
-    </el-radio-group>
-  </el-drawer>
-</el-container>
+<q-header class="bg-white text-black">
+  <q-toolbar>
+    <div class="col text-left">
+      <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios" />
+    </div>
+    <div class="col text-center">新建练习</div>
+    <div class="col text-right"></div>
+  </q-toolbar>
+</q-header>
+<q-page-container class="q-pa-lg q-gutter-lg">
+  <q-input v-model="Pract.PractName" placeholder="练习名" outlined />
+  <q-list>
+    <q-item @click="modeDrawer=true" clickable v-ripple>
+      <q-item-section>练习方式</q-item-section>
+      <q-item-section side>{{ModeName}}</q-item-section>
+    </q-item>
+    <q-item @click="dirDrawer=true" clickable v-ripple>
+      <q-item-section>练习内容</q-item-section>
+      <q-item-section side>{{DirName}}</q-item-section>
+    </q-item>
+  </q-list>
+  <div>
+    <q-btn @click="postData" color="blue" class="full-width" size="large" label="保存" rounded unelevated></q-btn>
+  </div>
+</q-page-container>
+<PublicFooter></PublicFooter>
+
+<q-dialog v-model="modeDrawer" position="bottom" full-width class="text-large">
+  <q-list class="bg-white">
+    <q-item class="text-center q-pa-lg">
+      <q-item-section>练习方式</q-item-section>
+    </q-item>
+    <q-item class="q-px-lg" v-for="{ ModeId, ModeName } in Mode" tag="label" v-ripple>
+      <q-item-section>{{ModeName}}</q-item-section>
+      <q-item-section side>
+        <q-radio @click="setMode(ModeName)" v-model="Pract.ModeId" :val="ModeId" />
+      </q-item-section>
+    </q-item>
+  </q-list>
+</q-dialog>
+
+<q-dialog v-model="dirDrawer" position="bottom" full-width class="text-large">
+  <q-list class="bg-white">
+    <q-item class="text-center q-pa-lg">
+      <q-item-section>练习内容</q-item-section>
+    </q-item>
+    <q-item class="q-px-lg" v-for="{ DirId, DirName } in Dir" tag="label" v-ripple>
+      <q-item-section>{{DirName}}</q-item-section>
+      <q-item-section side>
+        <q-radio @click="setDir(DirName)" v-model="Pract.DirId" :val="DirId" />
+      </q-item-section>
+    </q-item>
+  </q-list>
+</q-dialog>
