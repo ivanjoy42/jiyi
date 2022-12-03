@@ -1,14 +1,14 @@
 <q-header class="bg-white text-black">
   <q-toolbar>
     <div class="col text-left">
-      <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios" />
+      <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
     </div>
     <div class="col text-center">
       {{ Dir.DirName }}
     </div>
     <div class="col text-right">
-      <q-btn :to="'../dir/modify?dirId='+Dir.DirId" flat round icon="o_edit" />
-      <q-btn :to="'create?dirId='+Dir.DirId" flat round icon="o_add_circle_outline" />
+      <q-btn :to="'../dir/modify?dirId='+Dir.DirId" flat round icon="o_edit"></q-btn>
+      <q-btn :to="'create?dirId='+Dir.DirId" flat round icon="o_add_circle_outline"></q-btn>
     </div>
   </q-toolbar>
 </q-header>
@@ -16,7 +16,7 @@
   <q-list>
     <q-item v-ripple :to="'/card/list?dirId='+Dir.DirId+'&deckId='+DeckId" v-for="{ DeckId, DeckName } in Deck">
       <q-item-section class="text-black q-pa-sm" avatar>
-        <q-icon name="o_label" />
+        <q-icon name="o_label"></q-icon>
       </q-item-section>
       <q-item-section class="text-black">{{ DeckName }}</q-item-section>
     </q-item>

@@ -1,17 +1,17 @@
 <q-header class="bg-white text-black">
   <q-toolbar>
     <div class="col text-left">
-      <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios" />
+      <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
     </div>
     <div class="col text-center">新建卡片</div>
     <div class="col text-right"></div>
   </q-toolbar>
 </q-header>
 <q-page-container class="q-pa-lg q-gutter-lg">
-  <q-input v-model="Card.Front" placeholder="正面" outlined />
-  <q-input v-if="Dir.KindId==2" v-model="Card.Pinyin" placeholder="拼音" outlined />
-  <q-input v-model="Card.Back" placeholder="背面" type="textarea" outlined />
-  <q-input v-model="Card.Helper" placeholder="助记" outlined />
+  <q-input v-model="Card.Front" placeholder="正面" outlined></q-input>
+  <q-input v-if="Dir.KindId==2" v-model="Card.Pinyin" placeholder="拼音" outlined></q-input>
+  <q-input v-model="Card.Back" placeholder="背面" type="textarea" outlined></q-input>
+  <q-input v-model="Card.Helper" placeholder="助记" outlined></q-input>
   <div>
     <q-btn @click="postData" color="blue" class="full-width" size="large" label="保存" rounded unelevated></q-btn>
   </div>

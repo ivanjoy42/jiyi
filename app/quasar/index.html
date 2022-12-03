@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <link href="/static/quasar/quasar.css" rel="stylesheet" />
   <link href="/static/quasar/material-icons.css" rel="stylesheet" />
   <script src="/static/vue.js"></script>
@@ -12,7 +12,6 @@
   <style>
     .text-large {
       font-size: 1.125rem;
-      font-weight: 500;
     }
 
     .q-dialog__inner>div {
@@ -73,7 +72,7 @@
     <q-layout view="hHh lpR fFf" class="text-large">
       <router-view v-slot="{ Component, route }">
         <transition :name="route.meta.transition">
-          <component :is="Component" />
+          <component :is="Component"></component>
         </transition>
       </router-view>
     </q-layout>

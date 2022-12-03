@@ -33,7 +33,7 @@
     <q-item class="q-px-lg" v-for="{ ModeId, ModeName } in Mode" tag="label" v-ripple>
       <q-item-section>{{ModeName}}</q-item-section>
       <q-item-section side>
-        <q-radio @click="setMode(ModeName)" v-model="Pract.ModeId" :val="ModeId" />
+        <q-radio @click="setMode(ModeName)" v-model="Pract.ModeId" :val="ModeId"></q-radio>
       </q-item-section>
     </q-item>
   </q-list>
@@ -47,7 +47,7 @@
     <q-item class="q-px-lg" v-for="{ DirId, DirName } in Dir" tag="label" v-ripple>
       <q-item-section>{{DirName}}</q-item-section>
       <q-item-section side>
-        <q-radio @click="setDir(DirName)" v-model="Pract.DirId" :val="DirId" />
+        <q-radio @click="setDir(DirName)" v-model="Pract.DirId" :val="DirId"></q-radio>
       </q-item-section>
     </q-item>
   </q-list>
