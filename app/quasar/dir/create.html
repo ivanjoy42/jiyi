@@ -8,23 +8,24 @@
       <div class="col text-right"></div>
     </q-toolbar>
   </q-header>
-  <q-page-container class="q-pa-lg q-gutter-lg">
-    <q-input v-model="Dir.DirName" placeholder="文件夹名" outlined></q-input>
-    <q-list class="bg-white">
-      <q-item class="q-px-lg" tag="label" v-ripple>
-        <q-item-section>基本类型</q-item-section>
+
+  <q-page-container class="q-pa-x-lg">
+    <q-input class="q-pa-lg" v-model="Dir.DirName" placeholder="文件夹名" outlined></q-input>
+    <q-list>
+      <q-item tag="label" v-ripple:blue.early>
         <q-item-section side>
           <q-radio v-model="Dir.KindId" :val="1"></q-radio>
         </q-item-section>
+        <q-item-section>基本类型</q-item-section>
       </q-item>
-      <q-item class="q-px-lg" tag="label" v-ripple>
-        <q-item-section>字词类型</q-item-section>
+      <q-item tag="label" v-ripple:blue.early>
         <q-item-section side>
           <q-radio v-model="Dir.KindId" :val="2"></q-radio>
         </q-item-section>
+        <q-item-section>字词类型</q-item-section>
       </q-item>
     </q-list>
-    <div>
+    <div class="q-pa-lg">
       <q-btn @click="postData" color="blue" class="full-width" size="large" label="保存" rounded unelevated></q-btn>
     </div>
   </q-page-container>

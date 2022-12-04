@@ -7,7 +7,7 @@
   </q-header>
   <q-page-container>
     <q-list>
-      <q-item v-ripple :to="'/pract/list?PractId='+PractId" v-for="{ PractId, PractName } in Pract">
+      <q-item v-ripple:blue.early :to="'/pract/list?PractId='+PractId" v-for="{ PractId, PractName } in Pract">
         <q-item-section class="text-black q-pa-sm" avatar>
           <q-icon name="o_play_circle"></q-icon>
         </q-item-section>

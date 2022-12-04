@@ -7,7 +7,7 @@
   </q-header>
   <q-page-container>
     <q-list>
-      <q-item v-ripple :to="'/deck/list?dirId='+DirId" v-for="{ DirId, DirName } in Dir">
+      <q-item v-ripple:blue.early :to="'/deck/list?dirId='+DirId" v-for="{ DirId, DirName } in Dir">
         <q-item-section class="text-black q-pa-sm" avatar>
           <q-icon name="o_folder"></q-icon>
         </q-item-section>

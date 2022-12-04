@@ -15,7 +15,7 @@
   </q-header>
   <q-page-container>
     <q-list>
-      <q-item v-ripple :to="'/card/list?dirId='+Dir.DirId+'&deckId='+DeckId" v-for="{ DeckId, DeckName } in Deck">
+      <q-item v-ripple:blue.early :to="'/card/list?dirId='+Dir.DirId+'&deckId='+DeckId" v-for="{ DeckId, DeckName } in Deck">
         <q-item-section class="text-black q-pa-sm" avatar>
           <q-icon name="o_label"></q-icon>
         </q-item-section>
