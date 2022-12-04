@@ -1,18 +1,31 @@
-<el-container>
-  <el-header>
-    <el-icon @click="$router.back()" :size="20" style="padding-left:18px; position:fixed; left:0;">
-      <ArrowLeft />
-    </el-icon>
-    新建文件夹
-  </el-header>
-  <el-main>
-    <el-space :size=24 direction="vertical" style="display:block;">
-      <el-input v-model="Dir.DirName" placeholder="文件夹名" />
-      <el-radio-group v-model="Dir.KindId">
-        <el-radio :label=1>基本类型</el-radio>
-        <el-radio :label=2>字词类型</el-radio>
-      </el-radio-group>
-      <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
-    </el-space>
-  </el-main>
-</el-container>
+<q-layout view="hHh lpR fFf" class="text-large">
+  <q-header class="bg-white text-black">
+    <q-toolbar>
+      <div class="col text-left">
+        <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
+      </div>
+      <div class="col text-center">新建文件夹</div>
+      <div class="col text-right"></div>
+    </q-toolbar>
+  </q-header>
+  <q-page-container class="q-pa-lg q-gutter-lg">
+    <q-input v-model="Dir.DirName" placeholder="文件夹名" outlined></q-input>
+    <q-list class="bg-white">
+      <q-item class="q-px-lg" tag="label" v-ripple>
+        <q-item-section>基本类型</q-item-section>
+        <q-item-section side>
+          <q-radio v-model="Dir.KindId" :val="1"></q-radio>
+        </q-item-section>
+      </q-item>
+      <q-item class="q-px-lg" tag="label" v-ripple>
+        <q-item-section>字词类型</q-item-section>
+        <q-item-section side>
+          <q-radio v-model="Dir.KindId" :val="2"></q-radio>
+        </q-item-section>
+      </q-item>
+    </q-list>
+    <div>
+      <q-btn @click="postData" color="blue" class="full-width" size="large" label="保存" rounded unelevated></q-btn>
+    </div>
+  </q-page-container>
+</q-layout>

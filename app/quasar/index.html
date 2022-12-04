@@ -29,7 +29,7 @@
 
     .slide-right-leave-active,
     .slide-right-enter-active {
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
       width: 100%;
       position: absolute;
     }
@@ -51,7 +51,7 @@
 
     .slide-left-leave-active,
     .slide-left-enter-active {
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
       background: #ffffff;
       width: 100%;
       position: absolute;
@@ -69,13 +69,11 @@
 
 <body>
   <div id="app">
-    <q-layout view="hHh lpR fFf" class="text-large">
-      <router-view v-slot="{ Component, route }">
-        <transition :name="route.meta.transition">
-          <component :is="Component"></component>
-        </transition>
-      </router-view>
-    </q-layout>
+    <router-view v-slot="{ Component, route }">
+      <transition :name="route.meta.transition">
+        <component :is="Component"></component>
+      </transition>
+    </router-view>
   </div>
   <script src="/static/quasar/quasar.js"></script>
   <script>
@@ -113,14 +111,11 @@
 
     router.afterEach((to, from) => {
       if (to.meta.depth > from.meta.depth) {
-        // to.meta.transition = 'slide-left'
-        console.log("前进", from, to)
+        to.meta.transition = 'slide-left'
       } else if (to.meta.depth < from.meta.depth) {
-        // to.meta.transition = 'slide-right'
-        console.log("后退", from, to)
+        to.meta.transition = 'slide-right'
       } else {
-        // to.meta.transition = ''
-        console.log("平级", from, to)
+        to.meta.transition = ''
       }
     })
 

@@ -1,54 +1,56 @@
-<q-header class="bg-white text-black">
-  <q-toolbar>
-    <div class="col text-left">
-      <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios" />
+<q-layout view="hHh lpR fFf" class="text-large">
+  <q-header class="bg-white text-black">
+    <q-toolbar>
+      <div class="col text-left">
+        <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios" />
+      </div>
+      <div class="col text-center">新建练习</div>
+      <div class="col text-right"></div>
+    </q-toolbar>
+  </q-header>
+  <q-page-container class="q-pa-lg q-gutter-lg">
+    <q-input v-model="Pract.PractName" placeholder="练习名" outlined />
+    <q-list>
+      <q-item @click="modeDrawer=true" clickable v-ripple>
+        <q-item-section>练习方式</q-item-section>
+        <q-item-section side>{{ModeName}}</q-item-section>
+      </q-item>
+      <q-item @click="dirDrawer=true" clickable v-ripple>
+        <q-item-section>练习内容</q-item-section>
+        <q-item-section side>{{DirName}}</q-item-section>
+      </q-item>
+    </q-list>
+    <div>
+      <q-btn @click="postData" color="blue" class="full-width" size="large" label="保存" rounded unelevated></q-btn>
     </div>
-    <div class="col text-center">新建练习</div>
-    <div class="col text-right"></div>
-  </q-toolbar>
-</q-header>
-<q-page-container class="q-pa-lg q-gutter-lg">
-  <q-input v-model="Pract.PractName" placeholder="练习名" outlined />
-  <q-list>
-    <q-item @click="modeDrawer=true" clickable v-ripple>
-      <q-item-section>练习方式</q-item-section>
-      <q-item-section side>{{ModeName}}</q-item-section>
-    </q-item>
-    <q-item @click="dirDrawer=true" clickable v-ripple>
-      <q-item-section>练习内容</q-item-section>
-      <q-item-section side>{{DirName}}</q-item-section>
-    </q-item>
-  </q-list>
-  <div>
-    <q-btn @click="postData" color="blue" class="full-width" size="large" label="保存" rounded unelevated></q-btn>
-  </div>
-</q-page-container>
-<PublicFooter></PublicFooter>
+  </q-page-container>
+  <PublicFooter></PublicFooter>
 
-<q-dialog v-model="modeDrawer" position="bottom" full-width class="text-large">
-  <q-list class="bg-white">
-    <q-item class="text-center q-pa-lg">
-      <q-item-section>练习方式</q-item-section>
-    </q-item>
-    <q-item class="q-px-lg" v-for="{ ModeId, ModeName } in Mode" tag="label" v-ripple>
-      <q-item-section>{{ModeName}}</q-item-section>
-      <q-item-section side>
-        <q-radio @click="setMode(ModeName)" v-model="Pract.ModeId" :val="ModeId"></q-radio>
-      </q-item-section>
-    </q-item>
-  </q-list>
-</q-dialog>
+  <q-dialog v-model="modeDrawer" position="bottom" full-width class="text-large">
+    <q-list class="bg-white">
+      <q-item class="text-center q-pa-lg">
+        <q-item-section>练习方式</q-item-section>
+      </q-item>
+      <q-item class="q-px-lg" v-for="{ ModeId, ModeName } in Mode" tag="label" v-ripple>
+        <q-item-section>{{ModeName}}</q-item-section>
+        <q-item-section side>
+          <q-radio @click="setMode(ModeName)" v-model="Pract.ModeId" :val="ModeId"></q-radio>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </q-dialog>
 
-<q-dialog v-model="dirDrawer" position="bottom" full-width class="text-large">
-  <q-list class="bg-white">
-    <q-item class="text-center q-pa-lg">
-      <q-item-section>练习内容</q-item-section>
-    </q-item>
-    <q-item class="q-px-lg" v-for="{ DirId, DirName } in Dir" tag="label" v-ripple>
-      <q-item-section>{{DirName}}</q-item-section>
-      <q-item-section side>
-        <q-radio @click="setDir(DirName)" v-model="Pract.DirId" :val="DirId"></q-radio>
-      </q-item-section>
-    </q-item>
-  </q-list>
-</q-dialog>
+  <q-dialog v-model="dirDrawer" position="bottom" full-width class="text-large">
+    <q-list class="bg-white">
+      <q-item class="text-center q-pa-lg">
+        <q-item-section>练习内容</q-item-section>
+      </q-item>
+      <q-item class="q-px-lg" v-for="{ DirId, DirName } in Dir" tag="label" v-ripple>
+        <q-item-section>{{DirName}}</q-item-section>
+        <q-item-section side>
+          <q-radio @click="setDir(DirName)" v-model="Pract.DirId" :val="DirId"></q-radio>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </q-dialog>
+</q-layout>
