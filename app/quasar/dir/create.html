@@ -12,13 +12,13 @@
   <q-page-container class="q-pa-x-lg">
     <q-input class="q-pa-lg" v-model="Dir.DirName" placeholder="文件夹名" outlined></q-input>
     <q-list>
-      <q-item tag="label" v-ripple:blue.early>
+      <q-item tag="label">
         <q-item-section side>
           <q-radio v-model="Dir.KindId" :val="1"></q-radio>
         </q-item-section>
         <q-item-section>基本类型</q-item-section>
       </q-item>
-      <q-item tag="label" v-ripple:blue.early>
+      <q-item tag="label">
         <q-item-section side>
           <q-radio v-model="Dir.KindId" :val="2"></q-radio>
         </q-item-section>

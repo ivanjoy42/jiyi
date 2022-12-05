@@ -10,7 +10,7 @@
 
   <q-page-container>
     <q-list>
-      <q-item v-ripple:blue.early :to="'modify?cardId='+CardId" v-for="{ CardId, Front } in Card">
+      <q-item :to="'modify?cardId='+CardId" v-for="{ CardId, Front } in Card">
         <q-item-section class="text-black q-pa-sm" avatar>
           <q-icon name="o_insert_drive_file"></q-icon>
         </q-item-section>

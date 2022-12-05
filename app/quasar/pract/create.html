@@ -12,11 +12,11 @@
   <q-page-container class="q-pa-x-lg">
     <q-input class="q-pa-lg" v-model="Pract.PractName" placeholder="练习名" outlined></q-input>
     <q-list>
-      <q-item @click="modeDrawer=true" clickable v-ripple:blue.early>
+      <q-item @click="modeDrawer=true" clickable>
         <q-item-section class="q-mx-lg">练习方式</q-item-section>
         <q-item-section class="q-mx-lg" side>{{ModeName}}</q-item-section>
       </q-item>
-      <q-item @click="dirDrawer=true" clickable v-ripple:blue.early>
+      <q-item @click="dirDrawer=true" clickable>
         <q-item-section class="q-mx-lg">练习内容</q-item-section>
         <q-item-section class="q-mx-lg" side>{{DirName}}</q-item-section>
       </q-item>
@@ -31,7 +31,7 @@
   <q-dialog v-model="modeDrawer" position="bottom" full-width class="text-large">
     <q-list class="bg-white">
       <div class="text-center q-pa-md">练习方式</div>
-      <q-item v-for="{ ModeId, ModeName } in Mode" tag="label" v-ripple:blue.early>
+      <q-item v-for="{ ModeId, ModeName } in Mode" tag="label">
         <q-item-section side>
           <q-radio @click="setMode(ModeName)" v-model="Pract.ModeId" :val="ModeId"></q-radio>
         </q-item-section>
@@ -43,7 +43,7 @@
   <q-dialog v-model="dirDrawer" position="bottom" full-width class="text-large">
     <q-list class="bg-white">
       <div class="text-center q-pa-md">练习内容</div>
-      <q-item v-for="{ DirId, DirName } in Dir" tag="label" v-ripple:blue.early>
+      <q-item v-for="{ DirId, DirName } in Dir" tag="label">
         <q-item-section side>
           <q-radio @click="setDir(DirName)" v-model="Pract.DirId" :val="DirId"></q-radio>
         </q-item-section>
