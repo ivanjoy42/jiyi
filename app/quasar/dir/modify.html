@@ -1,30 +1,35 @@
-<el-container>
-  <el-header>
-    <el-icon @click="$router.back()" :size="20" style="padding-left:18px; position:fixed; left:0;">
-      <ArrowLeft />
-    </el-icon>
-    <div style="position:fixed; right:24px">
-      <el-icon @click="drawer=true" :size="20">
-        <Delete />
-      </el-icon>
+<q-layout view="hHh lpR fFf" class="text-large">
+  <q-header class="bg-white text-black">
+    <q-toolbar>
+      <div class="col text-left">
+        <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
+      </div>
+      <div class="col text-center">修改文件夹</div>
+      <div class="col text-right">
+        <q-btn @click="drawer=true" flat round icon="o_delete_outline"></q-btn>
+      </div>
+    </q-toolbar>
+  </q-header>
+
+  <q-page-container class="q-pa-lg q-gutter-lg">
+    <q-input v-model="Dir.DirName" placeholder="文件夹名" outlined></q-input>
+    <div>
+      <q-btn @click="postData" color="blue" class="full-width" size="large" label="保存" rounded unelevated></q-btn>
     </div>
-    修改文件夹
-  </el-header>
-  <el-main>
-    <el-space :size="24" direction="vertical" style="display:block;">
-      <el-input v-model="Dir.DirName" placeholder="文件夹名" />
-      <el-button @click="postData" type="primary" style="width:100%;">保存</el-button>
-    </el-space>
-  </el-main>
-  <el-drawer v-model="drawer" size="auto" direction="btt" :with-header="false">
-    <div style="text-align:center; padding-bottom:24px; font-size:large;">删除文件夹？</div>
-    <el-row :gutter="16" style="margin: 0 16px;">
-      <el-col :span="12">
-        <el-button @click="drawer=false" style="width:100%;" type="info">取消</el-button>
-      </el-col>
-      <el-col :span="12">
-        <el-button @click="delData" style="width:100%;" type="primary">确定</el-button>
-      </el-col>
-    </el-row>
-  </el-drawer>
-</el-container>
+  </q-page-container>
+
+  <q-dialog v-model="drawer" position="bottom" full-width class="text-large">
+    <q-card class="bg-white text-center q-pa-lg q-gutter-y-lg">
+      删除文件夹？
+      <div class="row q-gutter-x-lg">
+        <div class="col">
+          <q-btn @click="drawer=false" color="grey" class="full-width" size="large" label="取消" rounded unelevated>
+          </q-btn>
+        </div>
+        <div class="col">
+          <q-btn @click="delData" color="blue" class="full-width" size="large" label="确认" rounded unelevated></q-btn>
+        </div>
+      </div>
+    </q-card>
+  </q-dialog>
+</q-layout>

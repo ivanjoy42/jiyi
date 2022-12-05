@@ -5,15 +5,17 @@
       <q-btn to="create" flat round icon="o_add_circle_outline"></q-btn>
     </q-toolbar>
   </q-header>
+
   <q-page-container>
     <q-list>
       <q-item v-ripple:blue.early :to="'/deck/list?dirId='+DirId" v-for="{ DirId, DirName } in Dir">
-        <q-item-section class="text-black q-pa-sm" avatar>
+        <q-item-section class="q-pa-sm" avatar>
           <q-icon name="o_folder"></q-icon>
         </q-item-section>
-        <q-item-section class="text-black">{{ DirName }}</q-item-section>
+        <q-item-section>{{ DirName }}</q-item-section>
       </q-item>
     </q-list>
   </q-page-container>
+
   <PublicFooter></PublicFooter>
 </q-layout>

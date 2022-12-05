@@ -1,17 +1,21 @@
-<el-container>
-  <el-header>
-    <el-icon @click="$router.back()" :size="20" style="padding-left:18px; position:fixed; left:0;">
-      <ArrowLeft />
-    </el-icon>
-    <div style="position:fixed; left:64px; right:24px;">
-      <el-input v-model="Query" @keyup.enter.native="search" placeholder="搜索" clearable />
-    </div>
-  </el-header>
-  <el-main style="padding:0;">
-    <router-link :to="'modify?cardId='+CardId" v-for="{ CardId, Front } in Card" class="list">
-      <el-icon :size="20">
-        <Document />
-      </el-icon>{{ Front }}
-    </router-link>
-  </el-main>
-</el-container>
+<q-layout view="hHh lpR fFf" class="text-large">
+  <q-header class="bg-white text-black">
+    <q-toolbar>
+      <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
+      <q-input @keyup.enter.native="search" v-model="Query" class="q-px-sm full-width" placeholder="搜索" outlined
+        clearable clear-icon="o_close">
+      </q-input>
+    </q-toolbar>
+  </q-header>
+
+  <q-page-container>
+    <q-list>
+      <q-item v-ripple:blue.early :to="'modify?cardId='+CardId" v-for="{ CardId, Front } in Card">
+        <q-item-section class="text-black q-pa-sm" avatar>
+          <q-icon name="o_insert_drive_file"></q-icon>
+        </q-item-section>
+        <q-item-section class="text-black">{{ Front }}</q-item-section>
+      </q-item>
+    </q-list>
+  </q-page-container>
+</q-layout>
