@@ -20,14 +20,15 @@
 
   <q-dialog v-model="drawer" position="bottom" full-width class="text-large">
     <q-card class="bg-white text-center q-pa-lg q-gutter-y-lg">
-      删除文件夹？
+      删除文件夹？<br>
+      将删除文件夹中的全部卡片！
       <div class="row q-gutter-x-lg">
         <div class="col">
           <q-btn @click="drawer=false" color="grey" class="full-width" size="large" label="取消" rounded unelevated>
           </q-btn>
         </div>
         <div class="col">
-          <q-btn @click="delData" color="blue" class="full-width" size="large" label="确认" rounded unelevated></q-btn>
+          <q-btn @click="delData" color="red" class="full-width" size="large" label="确认" rounded unelevated></q-btn>
         </div>
       </div>
     </q-card>

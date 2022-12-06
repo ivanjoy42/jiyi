@@ -177,6 +177,16 @@ func practAPI(r *gin.RouterGroup) {
 		c.BindJSON(&pract)
 		pract.insert()
 	})
+
+	r.GET("detail", func(c *gin.Context) {
+		practId, _ := strconv.Atoi(c.Query("practId"))
+		pract = pract.get(practId)
+		deck = deck.get(pract.DeckId)
+		c.JSON(200, gin.H{
+			"Pract": pract,
+			"Deck":  deck,
+		})
+	})
 }
 
 func modeAPI(r *gin.RouterGroup) {

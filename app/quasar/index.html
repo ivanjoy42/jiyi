@@ -14,6 +14,10 @@
       font-size: 1.125rem;
     }
 
+    .q-card {
+      border-radius: 1.5rem;
+    }
+
     .q-dialog__inner>div {
       border-radius: 1.5rem 1.5rem 0 0;
     }
@@ -90,6 +94,7 @@
 
       { meta: { depth: 0 }, path: '/pract/list', component: () => import('./pract/list.js') },
       { meta: { depth: 1 }, path: '/pract/create', component: () => import('./pract/create.js') },
+      { meta: { depth: 1 }, path: '/pract/detail', component: () => import('./pract/detail.js') },
 
       { meta: { depth: 0 }, path: '/dir/list', component: () => import('./dir/list.js') },
       { meta: { depth: 1 }, path: '/dir/create', component: () => import('./dir/create.js') },

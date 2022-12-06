@@ -8,7 +8,7 @@
 
   <q-page-container>
     <q-list>
-      <q-item :to="'/pract/list?PractId='+PractId" v-for="{ PractId, PractName } in Pract">
+      <q-item :to="'/pract/detail?practId='+PractId" v-for="{ PractId, PractName } in Pract">
         <q-item-section class="text-black q-pa-sm" avatar>
           <q-icon name="o_play_circle"></q-icon>
         </q-item-section>
