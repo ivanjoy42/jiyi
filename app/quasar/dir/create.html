@@ -1,17 +1,12 @@
 <q-layout view="hHh lpR fFf" class="text-large">
-  <q-header class="bg-white text-black">
-    <q-toolbar>
-      <div class="col text-left">
-        <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
-      </div>
-      <div class="col text-center">新建文件夹</div>
-      <div class="col text-right"></div>
-    </q-toolbar>
+  <q-header class="bg-white text-black flex q-pa-sm">
+    <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
+    <div class="absolute-center">新建文件夹</div>
   </q-header>
 
   <q-page-container class="q-pa-x-lg">
-    <q-input class="q-pa-lg" v-model="Dir.DirName" placeholder="文件夹名" outlined></q-input>
-    <q-list>
+    <q-input class="q-px-lg" v-model="Dir.DirName" placeholder="文件夹名" outlined></q-input>
+    <q-list class="q-py-sm">
       <q-item tag="label">
         <q-item-section side>
           <q-radio v-model="Dir.KindId" :val="1"></q-radio>
@@ -25,7 +20,7 @@
         <q-item-section>字词类型</q-item-section>
       </q-item>
     </q-list>
-    <div class="q-pa-lg">
+    <div class="q-px-lg">
       <q-btn @click="postData" color="blue" class="full-width" size="large" label="保存" rounded unelevated></q-btn>
     </div>
   </q-page-container>

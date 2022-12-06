@@ -1,16 +1,11 @@
 <q-layout view="hHh lpR fFf" class="text-large">
-  <q-header class="bg-white text-black">
-    <q-toolbar>
-      <div class="col text-left">
-        <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
-      </div>
-      <div class="col text-center">新建练习</div>
-      <div class="col text-right"></div>
-    </q-toolbar>
+  <q-header class="bg-white text-black flex q-pa-sm">
+    <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
+    <div class="absolute-center">新建练习</div>
   </q-header>
 
-  <q-page-container class="q-pa-x-lg">
-    <q-input class="q-pa-lg" v-model="Pract.PractName" placeholder="练习名" outlined></q-input>
+  <q-page-container class="q-pa-x-lg q-gutter-sm">
+    <q-input class="q-px-lg" v-model="Pract.PractName" placeholder="练习名" outlined></q-input>
     <q-list>
       <q-item @click="modeDrawer=true" clickable>
         <q-item-section class="q-mx-lg">练习方式</q-item-section>
@@ -21,7 +16,7 @@
         <q-item-section class="q-mx-lg" side>{{DirName}}</q-item-section>
       </q-item>
     </q-list>
-    <div class="q-pa-lg">
+    <div class="q-px-lg">
       <q-btn @click="postData" color="blue" class="full-width" size="large" label="保存" rounded unelevated></q-btn>
     </div>
   </q-page-container>

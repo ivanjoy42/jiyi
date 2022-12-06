@@ -1,17 +1,9 @@
 <q-layout view="hHh lpR fFf" class="text-large">
-  <q-header class="bg-white text-black">
-    <q-toolbar>
-      <div class="col text-left">
-        <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
-      </div>
-      <div class="col text-center">
-        {{ Dir.DirName }}
-      </div>
-      <div class="col text-right">
-        <q-btn :to="'../dir/modify?dirId='+Dir.DirId" flat round icon="o_edit"></q-btn>
-        <q-btn :to="'create?dirId='+Dir.DirId" flat round icon="o_add_circle_outline"></q-btn>
-      </div>
-    </q-toolbar>
+  <q-header class="bg-white text-black flex q-pa-sm">
+    <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
+    <div class="absolute-center">{{ Dir.DirName }}</div>
+    <q-btn :to="'../dir/modify?dirId='+Dir.DirId" flat round icon="o_edit" class="q-ml-auto"></q-btn>
+    <q-btn :to="'create?dirId='+Dir.DirId" flat round icon="o_add_circle_outline"></q-btn>
   </q-header>
 
   <q-page-container>

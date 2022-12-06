@@ -1,14 +1,8 @@
 <q-layout view="hHh lpR fFf" class="text-large">
-  <q-header class="bg-white text-black">
-    <q-toolbar>
-      <div class="col text-left">
-        <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
-      </div>
-      <div class="col text-center">修改文件夹</div>
-      <div class="col text-right">
-        <q-btn @click="drawer=true" flat round icon="o_delete_outline"></q-btn>
-      </div>
-    </q-toolbar>
+  <q-header class="bg-white text-black flex q-pa-sm">
+    <q-btn @click="$router.back()" flat round icon="o_arrow_back_ios"></q-btn>
+    <div class="absolute-center">修改文件夹</div>
+    <q-btn @click="drawer=true" flat round icon="o_delete_outline" class="q-ml-auto"></q-btn>
   </q-header>
 
   <q-page-container class="q-pa-lg q-gutter-lg">
